@@ -1,25 +1,25 @@
 import "./branch.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
-import CardBranch from "../../components/cardBranch/CardBranch";
+import Sidebar from "../../../components/sidebar/Sidebar";
+import Navbar from "../../../components/navbar/Navbar";
+import CardBranch from "../../../components/cardBranch/CardBranch";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { loadBranchs } from "../../redux/actions/branchAction";
+import { loadBranchs } from "../../../redux/actions/branchAction";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { createBranch } from "../../redux/actions/branchAction";
+import { createBranch } from "../../../redux/actions/branchAction";
 
 const Branch = () => {
-  const branchFromRedux = useSelector((state) => state.branchReducer);
+  const branchFromRedux = useSelector((state) => state.branchReducer.branchs);
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(loadBranchs());
-  }, [dispatch]);
+  }, []);
 
   const [open, setOpen] = useState(false);
 
@@ -39,6 +39,7 @@ const Branch = () => {
     handleClose();
     dispatch(loadBranchs());
   };
+
   return (
     <div className="branch">
       <Sidebar />
@@ -52,7 +53,7 @@ const Branch = () => {
             </button>
           </div>
           <div className="widgets">
-            {branchFromRedux.branchs.map((item, index) => (
+            {branchFromRedux.map((item, index) => (
               <CardBranch key={index} item={item} />
             ))}
           </div>
@@ -72,7 +73,6 @@ const Branch = () => {
             onChange={(e) => setBranchName(e.target.value)}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="address"
             label="Address"

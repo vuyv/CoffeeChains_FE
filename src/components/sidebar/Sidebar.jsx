@@ -2,6 +2,7 @@ import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import DiscountIcon from "@mui/icons-material/Discount";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
 import InsertChartIcon from "@mui/icons-material/InsertChart";
@@ -12,8 +13,6 @@ import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSyst
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/actions/authAction";
 const Sidebar = () => {
@@ -43,19 +42,19 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">LISTS</p>
-          <Link to="/branch" style={{ textDecoration: "none" }}>
+          <Link to="/owner/branch" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Branch</span>
             </li>
           </Link>
-          <Link to="/employees" style={{ textDecoration: "none" }}>
+          <Link to="/owner/employees" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Employee</span>
             </li>
           </Link>
-          <Link to="/products" style={{ textDecoration: "none" }}>
+          <Link to="/owner/products" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
               <span>Products</span>
@@ -65,33 +64,21 @@ const Sidebar = () => {
             <CreditCardIcon className="icon" />
             <span>Orders</span>
           </li>
-          {/* <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li> */}
+          <li>
+            <DiscountIcon className="icon" />
+            <span>Discount</span>
+          </li>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          {/* <Link to="#" style={{ textDecoration: "none" }}> */}
           <li onClick={handleSignOut}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
-          {/* </Link> */}
         </ul>
       </div>
-      {/* <div className="bottom">
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "LIGHT" })}
-        ></div>
-        <div
-          className="colorOption"
-          onClick={() => dispatch({ type: "DARK" })}
-        ></div>
-      </div> */}
     </div>
   );
 };

@@ -23,7 +23,7 @@ const Datatable = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadEmployees());
-  }, [dispatch]);
+  });
 
   const [open, setOpen] = useState(false);
 
@@ -43,10 +43,7 @@ const Datatable = () => {
     handleClose();
   };
 
-  const [status, setStatus] = useState(true);
-  const onChangeStatus = () => {
-    setStatus(!status);
-  };
+  
   const actionColumn = [
     {
       field: "action",

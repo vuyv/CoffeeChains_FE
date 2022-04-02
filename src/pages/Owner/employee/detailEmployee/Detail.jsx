@@ -1,26 +1,26 @@
 import "./style.scss";
 import "./styleCSS.css";
 import "./single.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../../../components/sidebar/Sidebar";
+import Navbar from "../../../../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { uploadImage } from "../../redux/actions/imageAction";
+import { uploadImage } from "../../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadEmployeeById,
   updateEmployee,
-} from "../../redux/actions/employeeAction";
+} from "../../../../redux/actions/employeeAction";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { loadRoles } from "../../redux/actions/roleAction";
-import { loadBranchs } from "../../redux/actions/branchAction";
+import { loadRoles } from "../../../../redux/actions/roleAction";
+import { loadBranchs } from "../../../../redux/actions/branchAction";
 
-const Single = () => {
+const Detail = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   const { employeeId } = useParams();
@@ -71,7 +71,7 @@ const Single = () => {
   });
 
   useEffect(() => {
-    if (Object.keys(roles).length) {
+    if (Object.keys(roles).length && employee) {
       setRoleOption(getElementByValue(roleList, employee.role.id));
     }
   }, [roles]);
@@ -84,7 +84,7 @@ const Single = () => {
     };
   });
   useEffect(() => {
-    if (Object.keys(branchs).length) {
+    if (Object.keys(branchs).length && employee) {
       setBranchOption(getElementByValue(branchList, employee.branch.id));
     }
   }, [branchs]);
@@ -384,4 +384,4 @@ const Single = () => {
   );
 };
 
-export default Single;
+export default Detail;

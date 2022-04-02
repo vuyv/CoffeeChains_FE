@@ -25,7 +25,7 @@ export const createBranch = (name, address) => {
     const headers = setAuthHeaders();
     axios
       .post(
-        `${process.env.REACT_APP_HOST}/branch/`,
+        `${process.env.REACT_APP_HOST}/branch/new`,
         {
           name,
           address,

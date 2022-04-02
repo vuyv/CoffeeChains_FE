@@ -10,7 +10,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import { useDispatch, useSelector } from "react-redux";
-import { updateBranch } from "../../redux/actions/branchAction";
+import { updateBranch, loadBranchs } from "../../redux/actions/branchAction";
 import { useNavigate } from "react-router-dom";
 
 const CardBranch = (props) => {
@@ -56,7 +56,7 @@ const CardBranch = (props) => {
   const handleUpdate = () => {
     dispatch(updateBranch(name, address, branchStatus, item.id));
     handleClose();
-    // navigate("/");
+    dispatch(loadBranchs());
   };
   return (
     <div className="widget col-3" onClick={handleClickOpen}>

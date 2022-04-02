@@ -38,7 +38,7 @@ function Login() {
         .length(8, "Must be 8 characters"),
     }),
     onSubmit: () => {
-      navigate("/");
+      navigate("/owner");
     },
   });
 

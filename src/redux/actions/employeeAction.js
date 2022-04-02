@@ -48,7 +48,7 @@ export const createEmployee = (
   return function (dispatch) {
     axios
       .post(
-        `${process.env.REACT_APP_HOST}/employee`,
+        `${process.env.REACT_APP_HOST}/employee/new`,
         {
           username,
           name,
@@ -116,7 +116,7 @@ export const updateEmployee = (
 export const disableEmployees = (id) => {
   return function (dispatch) {
     axios
-      .post(
+      .put(
         `${process.env.REACT_APP_HOST}/employee/disable/` + id,
         setAuthHeaders()
       )

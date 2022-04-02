@@ -1,19 +1,19 @@
 import "./new.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
+import Sidebar from "../../../../components/sidebar/Sidebar";
+import Navbar from "../../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState, useEffect } from "react";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
-import { loadRoles } from "../../redux/actions/roleAction";
-import { loadBranchs } from "../../redux/actions/branchAction";
-import { createEmployee } from "../../redux/actions/employeeAction";
-import { uploadImage } from "../../redux/actions/imageAction";
+import { loadRoles } from "../../../../redux/actions/roleAction";
+import { loadBranchs } from "../../../../redux/actions/branchAction";
+import { createEmployee } from "../../../../redux/actions/employeeAction";
+import { uploadImage } from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 
-const New = () => {
+const CreateEmployee = () => {
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState();
 
@@ -40,6 +40,7 @@ const New = () => {
         avatar
       )
     );
+    // dispatch(loadEmployees());
     navigate("/employees");
   };
 
@@ -189,4 +190,4 @@ const New = () => {
   );
 };
 
-export default New;
+export default CreateEmployee;
