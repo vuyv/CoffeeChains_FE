@@ -56,7 +56,6 @@ const CardBranch = (props) => {
   const handleUpdate = () => {
     dispatch(updateBranch(name, address, branchStatus, item.id));
     handleClose();
-    dispatch(loadBranchs());
   };
   return (
     <div className="widget col-3" onClick={handleClickOpen}>

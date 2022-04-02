@@ -14,21 +14,24 @@ function App() {
     <div className="app">
       <BrowserRouter>
         <Routes>
-          <Route path="/owner">
-            <Route index element={<OwnerHome />} />
+          <Route path="/">
             <Route path="login" element={<Login />} />
-            <Route path="employees">
-              <Route index element={<TableEmployee />} />
-              <Route path=":employeeId" element={<DetailEmployee />} />
-              <Route path="new" element={<CreateEmployee />} />
-            </Route>
-            <Route path="branch">
-              <Route index element={<Branch />} />
-            </Route>
-            <Route path="products">
-              <Route index element={<TableProduct />} />
-              <Route path=":productId" element={<DetailProduct />} />
-              <Route path="new" element={<CreateProduct />} />
+
+            <Route path="owner">
+              <Route index element={<OwnerHome />} />
+              <Route path="employees">
+                <Route index element={<TableEmployee />} />
+                <Route path=":employeeId" element={<DetailEmployee />} />
+                <Route path="new" element={<CreateEmployee />} />
+              </Route>
+              <Route path="branch">
+                <Route index element={<Branch />} />
+              </Route>
+              <Route path="products">
+                <Route index element={<TableProduct />} />
+                <Route path=":productId" element={<DetailProduct />} />
+                <Route path="new" element={<CreateProduct />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

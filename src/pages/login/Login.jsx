@@ -56,7 +56,7 @@ function Login() {
     // })
     // .catch(() => toast.errors("Invalid username or password"));
   };
-  if (auth.token) navigate("/");
+  if (auth.token) navigate("/owner");
 
   return (
     <ThemeProvider theme={theme}>

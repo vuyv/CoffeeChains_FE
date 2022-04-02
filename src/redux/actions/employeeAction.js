@@ -68,6 +68,7 @@ export const createEmployee = (
           type: "CREATE_EMPLOYEE",
           payload: res.data,
         });
+        dispatch(loadEmployees());
       })
       .catch((error) => toast.error(error));
   };
@@ -108,6 +109,7 @@ export const updateEmployee = (
           type: "UPDATE_EMPLOYEE",
           payload: res.data,
         });
+        dispatch(loadEmployees());
       })
       .catch((error) => toast.error(error));
   };
@@ -125,6 +127,7 @@ export const disableEmployees = (id) => {
           type: "DISABLE_EMPLOYEES",
           payload: res.data,
         });
+        dispatch(loadEmployees());
       })
       .catch((error) => toast.error(error));
   };

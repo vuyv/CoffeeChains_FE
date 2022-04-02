@@ -8,7 +8,7 @@ import {
   loadEmployees,
   disableEmployees,
 } from "../../redux/actions/employeeAction";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -18,12 +18,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 const Datatable = () => {
   const navigate = useNavigate();
-  const { employees } = useSelector((state) => state.employeeReducer);
+  const employees = useSelector((state) => state.employeeReducer.employees);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(loadEmployees());
-  });
+  }, []);
 
   const [open, setOpen] = useState(false);
 
@@ -39,11 +40,9 @@ const Datatable = () => {
 
   const handleAgree = () => {
     dispatch(disableEmployees(id));
-    dispatch(loadEmployees());
     handleClose();
   };
 
-  
   const actionColumn = [
     {
       field: "action",
@@ -54,7 +53,7 @@ const Datatable = () => {
           <div className="cellAction">
             <div
               className="viewButton"
-              onClick={() => navigate(`/employees/${params.row.id}`)}
+              onClick={() => navigate(`/owner/employees/${params.row.id}`)}
             >
               View
             </div>
@@ -73,7 +72,7 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         Employee Manage
-        <Link to="/employees/new" className="link">
+        <Link to="/owner/employees/new" className="link">
           Add New
         </Link>
       </div>

@@ -38,6 +38,7 @@ export const createBranch = (name, address) => {
           type: "CREATE_BRANCH",
           payload: res.data,
         });
+        dispatch(loadBranchs());
       })
       .catch((error) => toast.error(error));
   };
@@ -62,6 +63,7 @@ export const updateBranch = (name, address, status, id) => {
           type: "UPDATE_BRANCH",
           payload: res.data,
         });
+        dispatch(loadBranchs());
       })
       .catch((error) => toast.error(error));
   };

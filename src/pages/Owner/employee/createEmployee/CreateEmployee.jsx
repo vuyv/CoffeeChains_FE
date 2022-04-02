@@ -9,7 +9,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRoles } from "../../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../../redux/actions/branchAction";
-import { createEmployee } from "../../../../redux/actions/employeeAction";
+import {
+  createEmployee,
+  loadEmployees,
+} from "../../../../redux/actions/employeeAction";
 import { uploadImage } from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 
@@ -40,8 +43,8 @@ const CreateEmployee = () => {
         avatar
       )
     );
-    // dispatch(loadEmployees());
-    navigate("/employees");
+    dispatch(loadEmployees());
+    navigate("/owner/employees");
   };
 
   const [role, setRole] = useState();
