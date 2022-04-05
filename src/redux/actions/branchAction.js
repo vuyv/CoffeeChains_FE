@@ -68,3 +68,17 @@ export const updateBranch = (name, address, status, id) => {
       .catch((error) => toast.error(error));
   };
 };
+
+export const loadBranchById = (id) => {
+  return function (dispatch) {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/branch/` + id, setAuthHeaders())
+      .then((res) => {
+        dispatch({
+          type: "GET_BRANCH_BY_ID",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};

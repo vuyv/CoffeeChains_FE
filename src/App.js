@@ -9,6 +9,14 @@ import CreateProduct from "./pages/Owner/product/createProduct/CreateProduct";
 import Branch from "./pages/Owner/branch/Branch";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import ManagerHome from "./pages/Manager/home/Home";
+import EmployeeTable from "./pages/Manager/employee/tableEmployee/EmployeeTable"
+import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/CreateEmployeeInBranch";
+import EmployeeDetail from "./pages/Manager/employee/detailEmployee/EmployeeDetail"
+import Profile from "./pages/Seller/profile/Profile";
+
+import Order from "./pages/Seller/order/Order";
+
 function App() {
   return (
     <div className="app">
@@ -16,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />
+            <Route path="profile" element={<Profile />}/>
 
             <Route path="owner">
               <Route index element={<OwnerHome />} />
@@ -33,6 +42,21 @@ function App() {
                 <Route path="new" element={<CreateProduct />} />
               </Route>
             </Route>
+
+            <Route path="manager">
+              <Route index element={<ManagerHome />} />
+              <Route path="employees">
+                <Route index element={<EmployeeTable />} />
+                <Route path=":employeeId" element={<EmployeeDetail />} />
+                <Route path="new" element={<CreateEmployeeInBranch />} />
+              </Route>
+            </Route>
+
+            <Route path="seller">
+                <Route index element={<Order/>} />
+                <Route path="orders" element={<Order/>} />
+            </Route>
+
           </Route>
         </Routes>
       </BrowserRouter>
