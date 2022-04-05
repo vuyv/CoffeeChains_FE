@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../redux/actions/authAction";
 import { useNavigate } from "react-router-dom";
@@ -17,6 +17,8 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { toast } from "react-toastify";
+import { loadCurrentUser } from "../../redux/actions/employeeAction"
+
 const theme = createTheme();
 
 function Login() {
@@ -51,12 +53,16 @@ function Login() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(logIn(username, password));
-    // .then((res) => {
-    //   navigate("/");
-    // })
-    // .catch(() => toast.errors("Invalid username or password"));
   };
-  if (auth.token) navigate("/owner");
+  const currentUser = useSelector((state) => state.userReducer.currentUser);
+
+  if (auth.token) {
+    dispatch(loadCurrentUser())
+    // if(currentUser){
+      navigate("/seller");
+    // }
+  }
+
 
   return (
     <ThemeProvider theme={theme}>

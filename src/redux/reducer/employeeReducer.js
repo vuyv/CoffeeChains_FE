@@ -2,6 +2,7 @@ const initialState = {
   employees: [],
   employee: {},
   disable: false,
+  currentUser: {},
 };
 
 const employeeReducer = (state = initialState, action) => {
@@ -30,6 +31,26 @@ const employeeReducer = (state = initialState, action) => {
       return {
         ...state,
         employee: action.payload,
+      };
+    case "GET_EMPLOYEES_BY_BRANCH":
+      return {
+        ...state,
+        employees: action.payload,
+      };
+    case "GET_CURRENT_USER":
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case "CHANGE_PASSWORD":
+      return {
+        ...state,
+        currentUser: action.payload,
+      };
+    case "REMOVE_CURRENT_USER":
+      return {
+        ...state,
+        currentUser: null,
       };
     default:
       return state;
