@@ -8,7 +8,7 @@ import DetailProduct from "./pages/Owner/product/detailProduct/DetailProduct";
 import CreateProduct from "./pages/Owner/product/createProduct/CreateProduct";
 import Branch from "./pages/Owner/branch/Branch";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import DiscountHome from "./pages/Owner/discount/home/DiscountHome";
 function App() {
   return (
     <div className="app">
@@ -19,18 +19,25 @@ function App() {
 
             <Route path="owner">
               <Route index element={<OwnerHome />} />
+
               <Route path="employees">
                 <Route index element={<TableEmployee />} />
                 <Route path=":employeeId" element={<DetailEmployee />} />
                 <Route path="new" element={<CreateEmployee />} />
               </Route>
+
               <Route path="branch">
                 <Route index element={<Branch />} />
               </Route>
+
               <Route path="products">
                 <Route index element={<TableProduct />} />
                 <Route path=":productId" element={<DetailProduct />} />
                 <Route path="new" element={<CreateProduct />} />
+              </Route>
+
+              <Route path="discounts">
+                <Route index element={<DiscountHome />} />
               </Route>
             </Route>
           </Route>

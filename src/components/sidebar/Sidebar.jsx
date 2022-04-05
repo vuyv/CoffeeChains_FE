@@ -64,10 +64,12 @@ const Sidebar = () => {
             <CreditCardIcon className="icon" />
             <span>Orders</span>
           </li>
-          <li>
-            <DiscountIcon className="icon" />
-            <span>Discount</span>
-          </li>
+          <Link to="/owner/discounts" style={{ textDecoration: "none" }}>
+            <li>
+              <DiscountIcon className="icon" />
+              <span>Discount</span>
+            </li>
+          </Link>
           <p className="title">USER</p>
           <li>
             <AccountCircleOutlinedIcon className="icon" />

@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export const userColumns = [
   { field: "id", headerName: "ID", width: 70 },
   {
@@ -8,7 +10,7 @@ export const userColumns = [
       return (
         <div className="cellWithImg">
           <img className="cellImg" src={params.row.avatar} alt="avatar" />
-          {params.row.username}
+          {params.row.name}
         </div>
       );
     },
@@ -20,9 +22,20 @@ export const userColumns = [
   },
 
   {
-    field: "address",
-    headerName: "Address",
+    field: "branch",
+    headerName: "Branch",
     width: 280,
+    renderCell: (params) => {
+      return <div>{params.row.branch.name}</div>;
+    },
+  },
+  {
+    field: "role",
+    headerName: "Role",
+    width: 280,
+    renderCell: (params) => {
+      return <div>{params.row.role.name}</div>;
+    },
   },
   {
     field: "status",
@@ -38,96 +51,92 @@ export const userColumns = [
   },
 ];
 
-//temporary data
-export const userRows = [
+export const productColumns = [
+  { field: "id", headerName: "ID", width: 70 },
   {
-    id: 1,
-    username: "Snow",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    status: "active",
-    email: "1snow@gmail.com",
-    age: 35,
+    field: "name",
+    headerName: "Name",
+    width: 230,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params.row.image} alt="avatar" />
+          {params.row.name}
+        </div>
+      );
+    },
   },
   {
-    id: 2,
-    username: "Jamie Lannister",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "2snow@gmail.com",
-    status: "passive",
-    age: 42,
+    field: "category",
+    headerName: "Category",
+    width: 150,
+    renderCell: (params) => {
+      return <div>{params.row.category.name}</div>;
+    },
   },
   {
-    id: 3,
-    username: "Lannister",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "3snow@gmail.com",
-    status: "pending",
-    age: 45,
+    field: "price",
+    headerName: "Price",
+    width: 150,
+  },
+
+  {
+    field: "status",
+    headerName: "Status",
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.status}`}>
+          {params.row.status}
+        </div>
+      );
+    },
+  },
+];
+
+export const discountColumns = [
+  { field: "code", headerName: "Code", width: 170 },
+  {
+    field: "title",
+    headerName: "Title",
+    width: 230,
   },
   {
-    id: 4,
-    username: "Stark",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "4snow@gmail.com",
-    status: "active",
-    age: 16,
+    field: "percent",
+    headerName: "Percent",
+    width: 120,
   },
   {
-    id: 5,
-    username: "Targaryen",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "5snow@gmail.com",
-    status: "passive",
-    age: 22,
+    field: "startedAt",
+    headerName: "From",
+    width: 180,
+    renderCell: (params) => {
+      const date = new Date(params.row.startedAt);
+      const afterFormat = format(date, "yyyy-MM-dd");
+      return <div>{afterFormat}</div>;
+    },
   },
   {
-    id: 6,
-    username: "Melisandre",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "6snow@gmail.com",
-    status: "active",
-    age: 15,
+    field: "endedAt",
+    headerName: "To",
+    width: 180,
+    renderCell: (params) => {
+      const date = new Date(params.row.endedAt);
+      const afterFormat = format(date, "yyyy-MM-dd");
+      return <div>{afterFormat}</div>;
+    },
   },
+
   {
-    id: 7,
-    username: "Clifford",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "7snow@gmail.com",
-    status: "passive",
-    age: 44,
-  },
-  {
-    id: 8,
-    username: "Frances",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "8snow@gmail.com",
-    status: "active",
-    age: 36,
-  },
-  {
-    id: 9,
-    username: "Roxie",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "pending",
-    age: 65,
-  },
-  {
-    id: 10,
-    username: "Roxie",
-    img:
-      "https://images.pexels.com/photos/1820770/pexels-photo-1820770.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500",
-    email: "snow@gmail.com",
-    status: "active",
-    age: 65,
+    field: "status",
+    headerName: "Status",
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <div className={`cellWithStatus ${params.row.status}`}>
+          {params.row.status}
+        </div>
+      );
+    },
   },
 ];

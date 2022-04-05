@@ -4,14 +4,12 @@ import Navbar from "../../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState, useEffect } from "react";
 import Select from "react-select";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
-import { loadRoles } from "../../../../redux/actions/roleAction";
-import { loadBranchs } from "../../../../redux/actions/branchAction";
-import { createEmployee } from "../../../../redux/actions/employeeAction";
 import { uploadImage } from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
+import { loadCategories } from "../../../../redux/actions/categoryAction";
+import { createProduct } from "../../../../redux/actions/productAction";
 
 const CreateProduct = () => {
   const [file, setFile] = useState(null);
@@ -27,64 +25,29 @@ const CreateProduct = () => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    dispatch(
-      createEmployee(
-        username,
-        name,
-        gender,
-        birth,
-        phone,
-        address,
-        branch,
-        role,
-        avatar
-      )
-    );
-    // dispatch(loadEmployees());
-    navigate("/employees");
+    dispatch(createProduct(productName, price, category, avatar));
+    navigate("/owner/products");
   };
-
-  const [role, setRole] = useState();
-  const { roles } = useSelector((state) => state.roleReducer);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadRoles());
-    dispatch(loadBranchs());
+    dispatch(loadCategories());
   }, [dispatch]);
 
-  const roleList = roles.map((item) => {
+  const [category, setCategory] = useState();
+  const { categories } = useSelector((state) => state.categoryReducer);
+
+  const categoryList = categories.map((item) => {
     return {
       label: item.name,
       value: item.id,
     };
   });
 
-  const [branch, setBranch] = useState();
-  const { branchs } = useSelector((state) => state.branchReducer);
-
-  const branchList = branchs.map((item) => {
-    return {
-      label: item.name,
-      value: item.id,
-    };
-  });
-
-  const genders = [
-    { value: "MALE", label: "Male" },
-    { value: "FEMALE", label: "Female" },
-    { value: "ANOTHER", label: "Another" },
-  ];
-
-  const [gender, setGender] = useState();
-
-  const [username, setUsername] = useState("");
-  const [name, setName] = useState("");
-  const [birth, setBirth] = useState(new Date());
-  const [phone, setPhone] = useState("");
-  const [address, setAddress] = useState("");
+  const [productName, setProductName] = useState("");
+  const [price, setPrice] = useState("");
 
   return (
     <div className="new">
@@ -94,70 +57,30 @@ const CreateProduct = () => {
         <div className="top">
           <h1>Add New Product</h1>
         </div>
-        <div className="bottom">
+        <div className="bottom" style={{ width: "900px", margin: "auto" }}>
           <div className="right">
             <form>
               <div className="formInput">
-                <label>Username</label>
+                <label>Product Name</label>
                 <input
                   type="text"
-                  placeholder="Input username"
-                  onChange={(e) => setUsername(e.target.value)}
-                  value={username}
+                  placeholder="Input product name"
+                  onChange={(e) => setProductName(e.target.value)}
                 />
               </div>
               <div className="formInput">
-                <label>Full Name</label>
+                <label>Price</label>
                 <input
                   type="text"
-                  placeholder="Input fullname"
-                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Input price"
+                  onChange={(e) => setPrice(e.target.value)}
                 />
               </div>
               <div className="formInput">
-                <label>Gender</label>
+                <label>Category</label>
                 <Select
-                  options={genders}
-                  onChange={(value) => setGender(value.value)}
-                />
-              </div>
-              <div className="formInput">
-                <label>Birthday</label>
-                <DatePicker
-                  className="formInput"
-                  selected={birth}
-                  onChange={(date) => setBirth(date)}
-                  dateFormat="dd/MM/yyyy"
-                />
-              </div>
-              <div className="formInput">
-                <label>Phone</label>
-                <input
-                  type="text"
-                  placeholder="Input phone number"
-                  onChange={(e) => setPhone(e.target.value)}
-                />
-              </div>
-              <div className="formInput">
-                <label>Address</label>
-                <input
-                  type="text"
-                  placeholder="Input address"
-                  onChange={(e) => setAddress(e.target.value)}
-                />
-              </div>
-              <div className="formInput">
-                <label>Branch</label>
-                <Select
-                  options={branchList}
-                  onChange={(value) => setBranch(value.value)}
-                />{" "}
-              </div>
-              <div className="formInput">
-                <label>Role</label>
-                <Select
-                  options={roleList}
-                  onChange={(value) => setRole(value.value)}
+                  options={categoryList}
+                  onChange={(value) => setCategory(value.value)}
                 />{" "}
               </div>
               <div className="formInput">

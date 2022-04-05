@@ -27,12 +27,18 @@ const Detail = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [birth, setBirth] = useState(new Date());
-  const [username, setUsername] = useState();
-  const [name, setName] = useState(null);
-  const [phone, setPhone] = useState(null);
-  const [address, setAddress] = useState(null);
-  const [avatar, setAvatar] = useState(null);
+  const employee = useSelector((state) =>
+    state.employeeReducer.employees.find((employee) => {
+      return employee.id == employeeId;
+    })
+  );
+
+  const [birth, setBirth] = useState(new Date(employee.birth));
+  const [username, setUsername] = useState(employee.username);
+  const [name, setName] = useState(employee.name);
+  const [phone, setPhone] = useState(employee.phone);
+  const [address, setAddress] = useState(employee.address);
+  const [avatar, setAvatar] = useState(employee.avatar);
   const [genderOption, setGenderOption] = useState(null);
   const [branchOption, setBranchOption] = useState(null);
   const [roleOption, setRoleOption] = useState(null);
@@ -44,23 +50,9 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    dispatch(loadEmployeeById(employeeId));
     dispatch(loadRoles());
     dispatch(loadBranchs());
   }, [dispatch]);
-
-  const { employee } = useSelector((state) => state.employeeReducer);
-  useEffect(() => {
-    if (Object.keys(employee).length) {
-      setBirth(new Date(employee.birth));
-      setUsername(employee.username);
-      setName(employee.name);
-      setPhone(employee.phone);
-      setAddress(employee.address);
-      setGenderOption(getElementByValue(genders, employee.gender));
-      setAvatar(employee.avatar);
-    }
-  }, [employee]);
 
   const { roles } = useSelector((state) => state.roleReducer);
   const roleList = roles.map((item) => {
@@ -70,12 +62,6 @@ const Detail = () => {
     };
   });
 
-  useEffect(() => {
-    if (Object.keys(roles).length && employee) {
-      setRoleOption(getElementByValue(roleList, employee.role.id));
-    }
-  }, [roles]);
-
   const { branchs } = useSelector((state) => state.branchReducer);
   const branchList = branchs.map((item) => {
     return {
@@ -83,11 +69,6 @@ const Detail = () => {
       value: item.id,
     };
   });
-  useEffect(() => {
-    if (Object.keys(branchs).length && employee) {
-      setBranchOption(getElementByValue(branchList, employee.branch.id));
-    }
-  }, [branchs]);
 
   const genders = [
     { value: "MALE", label: "Male" },
@@ -95,10 +76,15 @@ const Detail = () => {
     { value: "ANOTHER", label: "Another" },
   ];
 
+  useEffect(() => {
+    setRoleOption(getElementByValue(roleList, employee.role.id));
+    setBranchOption(getElementByValue(branchList, employee.branch.id));
+    setGenderOption(getElementByValue(genders, employee.gender));
+  }, [roles, branchs]);
+
   const image = useSelector((state) => state.imageReducer);
 
   const handleUploadImage = (file) => {
-    // setFile(file);
     dispatch(uploadImage(file));
     setAvatar(image.url);
   };
