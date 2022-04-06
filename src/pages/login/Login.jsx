@@ -54,7 +54,7 @@ function Login() {
     e.preventDefault();
     dispatch(logIn(username, password));
   };
-  const currentUser = useSelector((state) => state.userReducer.currentUser);
+  // const currentUser = useSelector((state) => state.userReducer.currentUser);
 
   if (auth.token) {
     dispatch(loadCurrentUser())

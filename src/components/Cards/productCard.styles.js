@@ -1,15 +1,26 @@
+import { TextareaAutosize } from "@material-ui/core";
+import { fontSize, textTransform } from "@mui/system";
+
 export const productCardStyles = theme => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 350,
     backgroundColor: theme.palette.background.card,
     position: "relative"
   },
   media: {
-    height: 180
+    height: 250
+  },
+  productName: {
+    height: 70,
+    textTransform: "uppercase"
   },
   actions: {
+    height: 70,
     display: "flex",
     justifyContent: "space-between"
+  },
+  quantity: {
+   size: 100
   },
   ribbon: {
     position: "absolute",

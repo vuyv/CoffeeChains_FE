@@ -10,10 +10,12 @@ import {
   Button,
   Typography,
   Divider,
-  Tooltip
+  Tooltip,
+  Input,
 } from "@material-ui/core";
 import FreeBreakfastOutlinedIcon from "@material-ui/icons/FreeBreakfastOutlined";
-import ListAltIcon from "@material-ui/icons/ListAlt";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const useStyles = makeStyles(productCardStyles);
 
@@ -22,34 +24,34 @@ const ProductCard = ({ item, openForm, ...otherProps }) => {
 
   return (
     <Card className={classes.root}>
-      {item.sale && (
-        <div className={classes.ribbon}>
-          <span>{`${item.sale}`}</span>
-        </div>
-      )}
-      <CardActionArea onClick={openForm}>
+      <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={require(`../../assets/images/${item.photo}.jpg`)}
+          image={item.image}
           title={item.name}
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
+        <CardContent className={classes.productName}>
+          <Typography gutterBottom variant="h6" component="h2">
             {item.name}
           </Typography>
         </CardContent>
       </CardActionArea>
       <Divider />
       <CardActions className={classes.actions}>
-        <Tooltip title={"price per unit"}>
-          <Button size="small" color="primary">
-            <FreeBreakfastOutlinedIcon />
-            &nbsp; {item.price}
+        <Tooltip title={"Price per unit"}>
+          <Button size="large" color="primary">
+            {/* <FreeBreakfastOutlinedIcon /> */}
+            <Typography gutterBottom variant="h5" component="h2">
+            {item.price / 1000 + ".000"}
+            </Typography>
+            {/* &nbsp; {item.price / 1000 + ".000"} */}
           </Button>
         </Tooltip>
-        <Tooltip title={"today orders"}>
-          <Button size="small" color="primary">
-            <ListAltIcon /> {item.orders}
+        <Tooltip title={""}>
+          <Button size="large" color="primary" className={classes.quantity}>
+            <RemoveCircleOutlineIcon size="large" />
+            <span>0</span>
+            <AddCircleOutlineIcon />
           </Button>
         </Tooltip>
       </CardActions>
