@@ -8,9 +8,9 @@ import DetailProduct from "./pages/Owner/product/detailProduct/DetailProduct";
 import CreateProduct from "./pages/Owner/product/createProduct/CreateProduct";
 import Branch from "./pages/Owner/branch/Branch";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import DetailDiscount from "./pages/Owner/discount/detail/DetailDiscount";
 import DiscountHome from "./pages/Owner/discount/home/DiscountHome";
-
+import CreateDiscount from "./pages/Owner/discount/create/CreateDiscount";
 import ManagerHome from "./pages/Manager/home/Home";
 import EmployeeTable from "./pages/Manager/employee/tableEmployee/EmployeeTable";
 import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/CreateEmployeeInBranch";
@@ -49,6 +49,8 @@ function App() {
 
               <Route path="discounts">
                 <Route index element={<DiscountHome />} />
+                <Route path=":discountCode" element={<DetailDiscount />} />
+                <Route path="new" element={<CreateDiscount />} />
               </Route>
             </Route>
 

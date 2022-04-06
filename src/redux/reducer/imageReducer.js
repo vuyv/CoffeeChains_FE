@@ -11,6 +11,12 @@ const imageReducer = (state = initialState, action) => {
         url: action.payload,
         loading: false,
       };
+    case "REMOVE_TEMP_IMAGE":
+      return {
+        ...state,
+        url: {},
+        loading: false,
+      };
     default:
       return state;
   }

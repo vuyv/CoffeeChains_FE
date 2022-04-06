@@ -5,6 +5,7 @@ import {
   loadExpiredDiscounts,
   loadHappeningDiscounts,
   loadUpcomingDiscounts,
+  deleteDiscount,
 } from "../../../../redux/actions/discountAction";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
@@ -15,13 +16,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { DataGrid } from "@mui/x-data-grid";
-import { productColumns } from "../../../../datatablesource";
 import { Link } from "react-router-dom";
 import { discountColumns } from "../../../../datatablesource";
-import { Tabs, Tab, AppBar } from "@material-ui/core";
+import { Tabs, Tab } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 function DiscountHome(props) {
-  const allDiscounts = useSelector((state) => state.discountReducer.discounts);
+  const navigate = useNavigate();
   const upcomingDiscounts = useSelector(
     (state) => state.discountReducer.upcomingDiscounts
   );
@@ -40,16 +41,17 @@ function DiscountHome(props) {
     dispatch(loadHappeningDiscounts());
     dispatch(loadExpiredDiscounts());
   }, []);
-  // console.log(object);
+
   const [value, setValue] = useState(0);
+  const [code, setCode] = useState();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleClickOpen = (id) => {
+  const handleClickOpen = (code) => {
     setOpen(true);
-    setId(id);
+    setCode(code);
   };
 
   const handleClose = () => {
@@ -57,13 +59,11 @@ function DiscountHome(props) {
   };
 
   const handleAgree = () => {
-    // dispatch(disableProduct(id));
+    dispatch(deleteDiscount(code));
     handleClose();
   };
 
   const [open, setOpen] = useState(false);
-
-  const [id, setId] = useState();
 
   const actionColumn = [
     {
@@ -76,8 +76,7 @@ function DiscountHome(props) {
             <div
               className="viewButton"
               onClick={() => {
-                // handleViewDetail(params.row.id);
-                // navigate(`/owner/products/${params.row.id}`);
+                navigate(`/owner/discounts/${params.row.code}`);
               }}
             >
               Edit
@@ -85,7 +84,7 @@ function DiscountHome(props) {
             <div
               className="deleteButton"
               onClick={() => {
-                handleClickOpen(params.row.id);
+                handleClickOpen(params.row.code);
               }}
             >
               Delete
@@ -111,9 +110,9 @@ function DiscountHome(props) {
         <div className="datatable">
           <div className="datatableTitle">
             Discount Management
-            <button className="link" onClick={handleClickOpenAdd}>
+            <Link to="/owner/discounts/new" className="link">
               Add New
-            </button>
+            </Link>
           </div>
 
           <Tabs value={selectedTab} onChange={handleChangeTab}>

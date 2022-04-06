@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
 import { uploadImage } from "../../../../redux/actions/imageAction";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { updateProduct } from "../../../../redux/actions/productAction";
 import { loadCategories } from "../../../../redux/actions/categoryAction";
 import Select from "react-select";
@@ -13,6 +13,7 @@ const DetailProduct = () => {
   const { productId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) =>
     state.productReducer.products.find((product) => {
@@ -49,9 +50,11 @@ const DetailProduct = () => {
     }
   }, [categories]);
 
+  const imageRedux = useSelector((state) => state.imageReducer);
+
   const handleUploadImage = (file) => {
     dispatch(uploadImage(file));
-    setImage(image.url);
+    setImage(imageRedux.url);
   };
 
   const handleUpdate = () => {
@@ -62,7 +65,7 @@ const DetailProduct = () => {
   };
 
   const handleCancelForm = () => {
-    window.location.reload();
+    navigate("/owner/products");
   };
   return (
     <div className="single">

@@ -24,7 +24,7 @@ export const userColumns = [
   {
     field: "branch",
     headerName: "Branch",
-    width: 280,
+    width: 220,
     renderCell: (params) => {
       return <div>{params.row.branch.name}</div>;
     },
@@ -32,7 +32,7 @@ export const userColumns = [
   {
     field: "role",
     headerName: "Role",
-    width: 280,
+    width: 180,
     renderCell: (params) => {
       return <div>{params.row.role.name}</div>;
     },
@@ -105,6 +105,9 @@ export const discountColumns = [
     field: "percent",
     headerName: "Percent",
     width: 120,
+    renderCell: (params) => {
+      return <div>{params.row.percent} %</div>;
+    },
   },
   {
     field: "startedAt",

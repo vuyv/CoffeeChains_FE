@@ -8,6 +8,7 @@ const initialState = {
   happeningDiscounts: [],
   expiredDiscounts: [],
   discount: {},
+  deleteSuccess: false,
 };
 
 const discountReducer = (state = initialState, action) => {
@@ -32,17 +33,20 @@ const discountReducer = (state = initialState, action) => {
         ...state,
         expiredDiscounts: action.payload,
       };
-    case "CREATE_BRANCHS":
+    case "UPDATE_DISCOUNT":
       return {
         ...state,
-        branch: action.payload,
+        discount: action.payload,
       };
-    case "UPDATE_BRANCHS":
-      toast.success("Update Successfully");
-
+    case "CREATE_DISCOUNT":
       return {
         ...state,
-        branch: action.payload,
+        discount: action.payload,
+      };
+    case "DELETE_DISCOUNT":
+      return {
+        ...state,
+        deleteSuccess: true,
       };
     default:
       return state;

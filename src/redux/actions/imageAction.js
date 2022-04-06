@@ -17,3 +17,11 @@ export const uploadImage = (file) => {
       .catch((error) => console.log(error));
   };
 };
+
+export const removeTempImage = () => {
+  return function (dispatch) {
+    dispatch({
+      type: "REMOVE_TEMP_IMAGE",
+    });
+  };
+};

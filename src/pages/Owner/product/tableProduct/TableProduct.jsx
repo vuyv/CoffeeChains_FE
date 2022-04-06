@@ -90,7 +90,7 @@ const TableProduct = () => {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">
-            Product Manage
+            Product Management
             <Link to="/owner/products/new" className="link">
               Add New
             </Link>

@@ -5,7 +5,10 @@ import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
 import { useNavigate } from "react-router-dom";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadEmployeeById,
@@ -104,11 +107,12 @@ const Detail = () => {
         avatar
       )
     );
+    dispatch(removeTempImage());
     setIsEdit(!isEdit);
   };
 
   const handleCancelForm = () => {
-    window.location.reload();
+    navigate("/owner/employees");
   };
   return (
     <div className="single">

@@ -71,16 +71,17 @@ export const loadExpiredDiscounts = () => {
   };
 };
 
-export const createDiscount = (started_at, ended_at, percent, title) => {
+export const createDiscount = (code, percent, startedAt, endedAt, title) => {
   return function (dispatch) {
     const headers = setAuthHeaders();
     axios
       .post(
         `${process.env.REACT_APP_HOST}/discount/new`,
         {
-          started_at,
-          ended_at,
+          code,
           percent,
+          startedAt,
+          endedAt,
           title,
         },
         headers
@@ -97,26 +98,47 @@ export const createDiscount = (started_at, ended_at, percent, title) => {
   };
 };
 
-export const updateDiscount = (name, address, status, id) => {
+export const updateDiscount = (percent, startedAt, endedAt, title, id) => {
   return function (dispatch) {
     const headers = setAuthHeaders();
     axios
       .put(
-        `${process.env.REACT_APP_HOST}/branch/` + id,
+        `${process.env.REACT_APP_HOST}/discount/` + id,
         {
-          name,
-          address,
-          status,
+          percent,
+          startedAt,
+          endedAt,
+          title,
         },
         headers
       )
       .then((res) => {
-        toast.success("Update Successfully");
+        toast.success("Update Discount Successfully");
         dispatch({
-          type: "UPDATE_BRANCH",
+          type: "UPDATE_DISCOUNT",
           payload: res.data,
         });
-        // dispatch(loadBranchs());
+        dispatch(loadUpcomingDiscounts());
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const deleteDiscount = (code) => {
+  return function (dispatch) {
+    axios
+      .delete(
+        `${process.env.REACT_APP_HOST}/discount/` + code,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        toast.success("Delete Discount Successfully");
+
+        dispatch({
+          type: "DELETE_DISCOUNT",
+          payload: res.data,
+        });
+        dispatch(loadUpcomingDiscounts());
       })
       .catch((error) => toast.error(error));
   };
