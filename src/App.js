@@ -65,7 +65,9 @@ function App() {
 
             <Route path="seller">
               <Route index element={<Order />} />
-              <Route path="orders" element={<Order />} />
+              <Route path="orders" element={<Order />}>
+                {/* <Route path=":categoryId" element={<Order />} /> */}
+              </Route>
             </Route>
           </Route>
         </Routes>

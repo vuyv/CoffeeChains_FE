@@ -1,100 +1,47 @@
-import React, {useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
 import {
   Grid,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  ExpansionPanelDetails,
-  Typography,
-  Box
+  Box,
 } from "@material-ui/core";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ProductCard from "../../../components/Cards/productCard.component"
-import AddNew from "../../../components/Cards/addNewCard.component";
-import RightForm from "../../../components/Forms/rightForm.component";
-import EmojiFoodBeverageIcon from "@material-ui/icons/EmojiFoodBeverage";
+import ProductCard from "../../../components/Cards/productCard.component";
 import { makeStyles } from "@material-ui/core/styles";
-import CakeIcon from "@material-ui/icons/Cake";
 import { productPageStyles } from "./productPage.styles";
-import { rightDrawerWidth } from "../../../style/theme";
-import { PRODUCTS } from "../../../data/products";
+import {
+  loadProductByCategory,
+} from "../../../redux/actions/productAction";
+
 
 const useStyles = makeStyles(productPageStyles);
 
 const Order = () => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
-  const [data, setData] = useState({
-    name: "",
-    price: ""
-  });
+  const dispatch = useDispatch();
+
+  const productList = useSelector((state)=> state.productReducer.products)
+
+  useEffect(()=>{
+    dispatch(loadProductByCategory(1));
+  },[dispatch])
+
   return (
     <div className="single">
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
         <Box className={classes.container}>
-          <div
-            style={{ marginRight: `${open ? `${rightDrawerWidth}px` : "0"}` }}
-          >
-              <ExpansionPanelSummary >
-                <EmojiFoodBeverageIcon fontSize="large" color="primary" />
-                <Typography variant="h5">&nbsp; Hot Drinks</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-
-                <Grid container spacing={3}>
-                  {PRODUCTS.drinks.map((item, id) => (
-                    <Grid item xs={12} sm={6} md={3} key={id}>
-                      <ProductCard
-                        item={item}
-                        openForm={() => {
-                          setOpen(true);
-                          setData({
-                            ...data,
-                            name: item.name,
-                            price: item.price,
-                          });
-                        }}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-              </ExpansionPanelDetails>
-            
-              <ExpansionPanelSummary>
-                <CakeIcon fontSize="large" color="primary" />
-                <Typography variant="h5">&nbsp; Cakes</Typography>
-              </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Grid container spacing={3}>
-                  {PRODUCTS.cakes.map((item, id) => (
-                    <Grid item xs={12} sm={6} md={3} key={id}>
-                      <ProductCard
-                        item={item}
-                        openForm={() => {
-                          setOpen(true);
-                          setData({
-                            ...data,
-                            name: item.name,
-                            price: item.price,
-                          });
-                        }}
-                      />
-                    </Grid>
-                  ))}
-
-                </Grid>
-                
-              </ExpansionPanelDetails>
-          </div>
-          {/* <RightForm
-            open={open}
-            handleClose={() => setOpen(false)}
-            data={data}
-          /> */}
+          <Grid container spacing={3}>
+            {productList.map((product) => (
+              <Grid item xs={12} sm={6} md={3} key={product.id}>
+                <ProductCard
+                  item={product}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </Box>
       </div>
     </div>

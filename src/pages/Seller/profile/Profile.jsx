@@ -190,7 +190,7 @@ const handleChangePassword=()=>{
                       aria-selected="false"
                     >
                       <i class="fa fa-key text-center mr-1"></i>
-                      Password
+                      Change Password
                     </a>
                   </div>
                 </div>

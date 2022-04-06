@@ -30,6 +30,11 @@ const productReducer = (state = initialState, action) => {
         ...state,
         product: action.payload,
       };
+    case "GET_PRODUCT_BY_CATEGORY":
+      return {
+        ...state,
+        products: action.payload,
+      };
     default:
       return state;
   }
