@@ -1,0 +1,35 @@
+.wrap {
+  display: flex;
+  justify-content: space-between;
+  font-family: Arial, Helvetica, sans-serif;
+  border-bottom: 1px solid silver;
+  padding-bottom: 14px;
+  div {
+    flex: 1;
+    h4 {
+      margin-top: 10px;
+    }
+  }
+  .information,
+  .buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  img {
+    margin-top: 5px;
+    max-width: 80px;
+    object-fit: cover;
+    margin-left: 40px;
+  }
+
+  .remove {
+    color: gray;
+    border: none;
+    background-color: white;
+    // height: 120px;
+    // line-height: 120px;
+    // width: 30px;
+    // margin-right: -220px;
+  }
+}

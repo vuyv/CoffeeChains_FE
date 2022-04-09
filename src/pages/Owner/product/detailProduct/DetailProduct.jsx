@@ -53,8 +53,11 @@ const DetailProduct = () => {
   const imageRedux = useSelector((state) => state.imageReducer);
 
   const handleUploadImage = (file) => {
-    dispatch(uploadImage(file));
-    setImage(imageRedux.url);
+    window.setTimeout(() => {
+      dispatch(uploadImage(file));
+      setImage(imageRedux.url);
+      console.log(imageRedux.url);
+    }, 3000);
   };
 
   const handleUpdate = () => {
@@ -62,6 +65,9 @@ const DetailProduct = () => {
       updateProduct(productId, name, price, categoryOption.value, image)
     );
     setIsEdit(!isEdit);
+    window.setTimeout(() => {
+      navigate("/owner/products");
+    }, 2000);
   };
 
   const handleCancelForm = () => {
@@ -101,7 +107,7 @@ const DetailProduct = () => {
                         <div class="form-group">
                           <label>Price</label>
                           <input
-                            type="text"
+                            type="number"
                             className="form-control"
                             value={price}
                             onChange={(e) => setPrice(e.target.value)}

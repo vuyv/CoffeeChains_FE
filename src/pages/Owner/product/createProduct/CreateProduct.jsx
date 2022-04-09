@@ -71,7 +71,7 @@ const CreateProduct = () => {
               <div className="formInput">
                 <label>Price</label>
                 <input
-                  type="text"
+                  type="number"
                   placeholder="Input price"
                   onChange={(e) => setPrice(e.target.value)}
                 />

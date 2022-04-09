@@ -1,15 +1,14 @@
 import "./navbar.scss";
+import { useDispatch, useSelector } from "react-redux";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import IconButton from "@mui/material/IconButton";
+import { getTotals } from "../../../redux/actions/cartAction";
+import { useState, useEffect, React } from "react";
 
-const Navbar = () => {
+const Navbar = (props) => {
+  const { totalQuantity } = useSelector((state) => state.cartReducer);
 
   return (
     <div className="navbar">
@@ -20,8 +19,15 @@ const Navbar = () => {
         </div>
         <div className="items">
           <div className="item">
-            <IconButton color="primary" aria-label="add to shopping cart">
+            <IconButton
+              color="primary"
+              aria-label="add to shopping cart"
+              onClick={() => props.parentCallback(true)}
+            >
               <AddShoppingCartIcon />
+              <span className="quantity">
+                <span>{totalQuantity}</span>
+              </span>
             </IconButton>
           </div>
           <div className="item">

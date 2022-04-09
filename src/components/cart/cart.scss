@@ -1,0 +1,44 @@
+.wrapCard {
+  width: 500px;
+  padding: 20px;
+  .discount {
+    .title {
+      margin-right: 80px;
+    }
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 15px;
+  }
+  .subTotal {
+    .title {
+      margin-right: 155px;
+    }
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 14px;
+  }
+
+  .total {
+    .title {
+      margin-right: 188px;
+    }
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+
+  .discountSave {
+    .title {
+      margin-right: 153px;
+    }
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 8px;
+  }
+  .buttonsCheckout {
+    margin: 10px;
+    width: 260px;
+    display: flex;
+    justify-content: space-evenly;
+  }
+}

@@ -163,18 +163,7 @@ const Detail = () => {
                       <i class="fa fa-home text-center mr-1"></i>
                       Account
                     </a>
-                    <a
-                      class="nav-link"
-                      id="password-tab"
-                      data-toggle="pill"
-                      href="#password"
-                      role="tab"
-                      aria-controls="password"
-                      aria-selected="false"
-                    >
-                      <i class="fa fa-key text-center mr-1"></i>
-                      Password
-                    </a>
+                   
                   </div>
                 </div>
                 <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
@@ -317,35 +306,7 @@ const Detail = () => {
                     id="password"
                     role="tabpanel"
                     aria-labelledby="password-tab"
-                  >
-                    <h3 class="mb-4">Password Settings</h3>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Old password</label>
-                          <input type="password" class="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>New password</label>
-                          <input type="password" class="form-control" />
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Confirm new password</label>
-                          <input type="password" class="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                    <div>
-                      <button class="btn btn-primary">Update</button>
-                      <button class="btn btn-light">Cancel</button>
-                    </div>
-                  </div>
+                  ></div>
                 </div>
               </div>
             </div>

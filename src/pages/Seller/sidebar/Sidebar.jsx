@@ -67,7 +67,6 @@ const Sidebar = () => {
             <ExpansionPanel className={classes.panel} elevation={5}>
                 <li>
                 <ExpansionPanelSummary
-                // expandIcon={<ExpandMoreIcon fontSize="small" />}
               >
                 <EmojiFoodBeverageIcon fontSize="medium" color="primary" />
                 <span>Products</span>

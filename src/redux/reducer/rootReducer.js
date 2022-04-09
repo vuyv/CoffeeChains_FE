@@ -6,7 +6,8 @@ import branchReducer from "./branchReducer";
 import imageReducer from "./imageReducer";
 import categoryReducer from "./categoryReducer";
 import productReducer from "./productReducer";
-import discountReducer from "./discountReducer"
+import discountReducer from "./discountReducer";
+import cartReducer from "./cartReducer";
 const rootReducer = combineReducers({
   authReducer,
   employeeReducer,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   imageReducer,
   categoryReducer,
   productReducer,
-  discountReducer
+  discountReducer,
+  cartReducer,
 });
 
 export default rootReducer;
