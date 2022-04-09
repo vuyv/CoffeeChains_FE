@@ -11,7 +11,7 @@ import {
   loadEmployeeById,
   updateEmployee,
 } from "../../../../redux/actions/employeeAction";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Select from "react-select";
@@ -20,11 +20,44 @@ import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../../redux/actions/branchAction";
 
+const required = (value) => {
+  if (!value) {
+    return (
+      <div className="alert alert-danger" role="alert">
+        This field is required!
+      </div>
+    );
+  }
+};
+
+const validPhone = (value) => {
+  if (typeof value !== "undefined") {
+    var pattern = new RegExp(/^[0-9\b]+$/);
+
+    if (!pattern.test(value)) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          Please enter only number.
+        </div>
+      );
+    } else if (value.length != 10) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          Please enter valid phone number
+        </div>
+      );
+    }
+  }
+};
+
 const EmployeeDetail = () => {
+  const checkBtn = useRef();
+  const form = useRef();
   const [isEdit, setIsEdit] = useState(false);
 
   const { employeeId } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const employee = useSelector((state) =>
   state.employeeReducer.employees.find((employee) => {
@@ -110,7 +143,7 @@ const EmployeeDetail = () => {
   };
 
   const handleCancelForm = () => {
-    window.location.reload();
+    navigate("/manager/employees");
   };
   return (
     <div className="single">

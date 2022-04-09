@@ -1,22 +1,61 @@
 import "./navbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
-import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import IconButton from '@mui/material/IconButton';
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import IconButton from "@mui/material/IconButton";
+import Alert from "@mui/material/Alert";
+
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+import {
+  loadOrderByIdInBranch,
+  removeOrder,
+} from "../../../redux/actions/orderAction";
+import { loadOrderInBranch } from "./../../../redux/actions/orderAction";
+import orderReducer from "./../../../redux/reducer/orderReducer";
+import { format } from "date-fns";
 
 const Navbar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [value, setValue] = useState();
+
+  // useEffect(() => {
+  //   dispatch(loadOrderInBranch());
+  // }, []);
+
+  const order = useSelector((state) =>
+    state.orderReducer.ordersInBranch.find((order) => {
+      return order.id == value;
+    })
+  );
+
+  const currentUser = useSelector((state) => state.employeeReducer.currentUser);
+
+  const handleFindOrderById = () => {
+    // if (currentUser.branch.id === order.createdBy.branch.id) {
+    // dispatch(loadOrderByIdInBranch(currentUser.branch.id, value));
+    // window.setTimeout(() => {
+      dispatch(loadOrderByIdInBranch(currentUser.branch.id, value));
+      navigate(`/seller/orders/${currentUser.branch.id}/${value}`);
+    // }, 500);
+    // }
+  };
 
   return (
     <div className="navbar">
       <div className="wrapper">
         <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
+          <input
+            type="text"
+            placeholder="Search..."
+            id="search"
+            onChange={(e) => setValue(e.target.value)}
+          />
+          <SearchOutlinedIcon onClick={handleFindOrderById} />
         </div>
         <div className="items">
           <div className="item">

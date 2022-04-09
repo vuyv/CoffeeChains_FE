@@ -47,13 +47,13 @@ const ProductCard = ({ item, openForm, ...otherProps }) => {
             {/* &nbsp; {item.price / 1000 + ".000"} */}
           </Button>
         </Tooltip>
-        <Tooltip title={""}>
+        {/* <Tooltip title={""}>
           <Button size="large" color="primary" className={classes.quantity}>
             <RemoveCircleOutlineIcon size="large" />
             <span>0</span>
             <AddCircleOutlineIcon />
           </Button>
-        </Tooltip>
+        </Tooltip> */}
       </CardActions>
     </Card>
   );

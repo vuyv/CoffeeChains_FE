@@ -63,17 +63,17 @@ const Sidebar = () => {
       <hr />
       <div className="center">
         <ul>
-          <Link to="/seller/orders" style={{ textDecoration: "none" }}>
+          <Link to="/seller" style={{ textDecoration: "none" }}>
             <ExpansionPanel className={classes.panel} elevation={5}>
-                <li>
+              <li>
                 <ExpansionPanelSummary
-                // expandIcon={<ExpandMoreIcon fontSize="small" />}
-              >
-                <EmojiFoodBeverageIcon fontSize="medium" color="primary" />
-                <span>Products</span>
+                expandIcon={<ExpandMoreIcon fontSize="small" />}
+                >
+                  <EmojiFoodBeverageIcon fontSize="medium" color="primary" />
+                  <span>Products</span>
                 </ExpansionPanelSummary>
-                </li>
-              
+              </li>
+
               <ExpansionPanelDetails>
                 <ul>
                   {categories.map((cate) => (
@@ -95,16 +95,12 @@ const Sidebar = () => {
               </ExpansionPanelDetails>
             </ExpansionPanel>
           </Link>
-          <li>
-            {/* <ExpansionPanel className={classes.panel} elevation={5}>
-               <ExpansionPanelSummary>
+          <Link to="/seller/discounts" style={{ textDecoration: "none" }}>
+            <li>
               <DiscountIcon className="icon" />
               <span>Discount</span>
-            </ExpansionPanelSummary>
-            </ExpansionPanel> */}
-            <DiscountIcon className="icon" />
-            <span>Discount</span>
-          </li>
+            </li>
+          </Link>
           <p className="title">USER</p>
           <Link to="/profile" style={{ textDecoration: "none" }}>
             <li>

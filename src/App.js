@@ -16,8 +16,12 @@ import EmployeeTable from "./pages/Manager/employee/tableEmployee/EmployeeTable"
 import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/CreateEmployeeInBranch";
 import EmployeeDetail from "./pages/Manager/employee/detailEmployee/EmployeeDetail";
 import Profile from "./pages/Seller/profile/Profile";
-
 import Order from "./pages/Seller/order/Order";
+import FindOrder from "./pages/Seller/order/FindOrder";
+import HappeningDiscount from "./pages/Seller/discount/Discount";
+import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
+import ViewOrder from "./pages/Manager/order/ViewOrder";
+import OrderDetail from "./pages/Manager/order/OrderDetail";
 
 function App() {
   return (
@@ -61,13 +65,21 @@ function App() {
                 <Route path=":employeeId" element={<EmployeeDetail />} />
                 <Route path="new" element={<CreateEmployeeInBranch />} />
               </Route>
+              <Route path="discounts" element={<ViewDiscount />} />
+              <Route path="orders">
+                <Route index element={<ViewOrder />} />
+                <Route path=":orderId" element={<OrderDetail />} />
+              </Route>
             </Route>
 
             <Route path="seller">
               <Route index element={<Order />} />
-              <Route path="orders" element={<Order />}>
-                {/* <Route path=":categoryId" element={<Order />} /> */}
+              <Route path="orders">
+                <Route path=":branchId">
+                  <Route path=":orderId" element={<FindOrder />} />
+                </Route>
               </Route>
+              <Route path="discounts" element={<HappeningDiscount />} />
             </Route>
           </Route>
         </Routes>

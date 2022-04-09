@@ -9,6 +9,7 @@ import { updateProduct } from "../../../../redux/actions/productAction";
 import { loadCategories } from "../../../../redux/actions/categoryAction";
 import Select from "react-select";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import { Button } from "@mui/material";
 const DetailProduct = () => {
   const { productId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
@@ -84,8 +85,8 @@ const DetailProduct = () => {
                     aria-labelledby="account-tab"
                   >
                     <h3 class="mb-4">Product Detail</h3>
-                    <div class="row">
-                      <div class="col-md-6">
+                    <div class="row" style={{ width: "70%" }}>
+                      <div class="col-md-8">
                         <div class="form-group">
                           <label>Product name</label>
                           <input
@@ -97,7 +98,7 @@ const DetailProduct = () => {
                           />
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <div class="form-group">
                           <label>Price</label>
                           <input
@@ -109,7 +110,7 @@ const DetailProduct = () => {
                           />
                         </div>
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-8">
                         <div class="form-group">
                           <label>Category</label>
                           <Select
@@ -125,30 +126,25 @@ const DetailProduct = () => {
                     <div>
                       <div>
                         {isEdit ? (
-                          <button
-                            class="btn btn-primary"
-                            type="button"
-                            onClick={handleUpdate}
-                          >
+                          <Button variant="contained" style={{ width: 90 }} onClick={handleUpdate}>
                             Save
-                          </button>
+                          </Button>
                         ) : (
-                          <button
-                            class="btn btn-primary"
-                            type="button"
+                          <Button
+                            variant="contained" style={{ width: 90 }}
                             onClick={() => setIsEdit(!isEdit)}
                           >
                             Edit
-                          </button>
+                          </Button>
                         )}
                         {isEdit && (
-                          <button
-                            class="btn btn-light"
-                            type="button"
+                          <Button
+                          variant="outlined"
+                          style={{ marginLeft: 50 }}
                             onClick={handleCancelForm}
                           >
                             Cancel
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </div>
@@ -160,23 +156,26 @@ const DetailProduct = () => {
                     aria-labelledby="password-tab"
                   ></div>
                 </div>
-                <div class="profile-tab-nav border-left">
+                <div
+                  class="profile-tab-nav border-left"
+                  style={{ marginLeft: -300 }}
+                >
                   <div class="p-4">
                     <div class="img-circle text-center mb-3">
-                      <img src={image} alt="Image" class="shadow" />
+                      <img src={image} alt="Image"/>
                       {isEdit && (
                         <div className="formInput">
                           <label htmlFor="file">
-                            <DriveFolderUploadOutlinedIcon className="icon" />
+                            {/* <img src={image} alt="Image" /> */}
+                            <input
+                              type="file"
+                              id="file"
+                              onChange={(e) =>
+                                handleUploadImage(e.target.files[0])
+                              }
+                              style={{ display: "none" }}
+                            />
                           </label>
-                          <input
-                            type="file"
-                            id="file"
-                            onChange={(e) =>
-                              handleUploadImage(e.target.files[0])
-                            }
-                            style={{ display: "none" }}
-                          />
                         </div>
                       )}
                     </div>
