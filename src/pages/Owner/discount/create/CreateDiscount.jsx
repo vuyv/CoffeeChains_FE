@@ -7,6 +7,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { createDiscount } from "../../../../redux/actions/discountAction";
+
+import { Button } from "@mui/material";
+
 const CreateDiscount = () => {
   const handleCreate = (e) => {
     e.preventDefault();
@@ -48,6 +51,7 @@ const CreateDiscount = () => {
                   onChange={(e) => setCode(e.target.value)}
                   style={{ width: "63%", marginRight: "10px" }}
                 />
+                {/* <Button variant="outlined" size="small" onClick={handleGenerateCode}>Generate</Button> */}
                 <button onClick={handleGenerateCode}>Generate</button>
               </div>
               <div className="formInput">

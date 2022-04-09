@@ -1,12 +1,18 @@
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import Alert from "@mui/material/Alert";
+import TextField from "@mui/material/TextField";
+import CheckButton from "react-validation/build/button";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import { useState, useRef } from "react";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createEmployeeInBranch,
-  loadEmployeesInBranch
+  loadEmployeesInBranch,
 } from "../../../../redux/actions/employeeAction";
 import { uploadImage } from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +20,31 @@ import { useNavigate } from "react-router-dom";
 import "./CreateEmployee.scss";
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
-// import { loadBranchs } from "../../../redux/actions/branchAction";
+
+const required = (value) => {
+  if (!value) {
+    return <Alert severity="error">This field is required!</Alert>;
+  }
+};
+
+const validPhone = (value) => {
+  if (typeof value !== "undefined") {
+    var pattern = new RegExp(/^[0-9\b]+$/);
+
+    if (!pattern.test(value)) {
+      return <Alert severity="error">Please enter only number.</Alert>;
+    } else if (value.length != 10) {
+      return <Alert severity="error">Please enter valid phone number</Alert>;
+    }
+  }
+};
 
 const CreateEmployeeInBranch = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const form = useRef();
+  const checkBtn = useRef();
+
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState();
   const [isEdit, setIsEdit] = useState(false);
@@ -37,25 +65,23 @@ const CreateEmployeeInBranch = () => {
 
   const handleCreate = (e) => {
     e.preventDefault();
-    dispatch(
-      createEmployeeInBranch(
-        username,
-        name,
-        gender,
-        birth,
-        phone,
-        address,
-        avatar
-      )
-    );
-    dispatch(loadEmployeesInBranch());
-    navigate("/manager/employees");
+    form.current.validateAll();
+    if (checkBtn.current.context._errors.length === 0) {
+      dispatch(
+        createEmployeeInBranch(
+          username,
+          name,
+          gender,
+          birth,
+          phone,
+          address,
+          avatar
+        )
+      );
+      dispatch(loadEmployeesInBranch());
+      navigate("/manager/employees");
+    }
   };
-
-  const { employee } = useSelector((state) => state.employeeReducer);
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const genders = [
     { value: "MALE", label: "Male" },
@@ -73,22 +99,24 @@ const CreateEmployeeInBranch = () => {
         </div>
         <div className="bottom">
           <div className="right">
-            <form>
+            <Form ref={form}>
               <div className="formInput">
                 <label>Username</label>
-                <input
+                <Input
                   type="text"
                   placeholder="Input username"
                   onChange={(e) => setUsername(e.target.value)}
                   value={username}
+                  validations={[required]}
                 />
               </div>
               <div className="formInput">
                 <label>Full Name</label>
-                <input
+                <Input
                   type="text"
                   placeholder="Input fullname"
                   onChange={(e) => setName(e.target.value)}
+                  validations={[required]}
                 />
               </div>
               <div className="formInput">
@@ -109,43 +137,49 @@ const CreateEmployeeInBranch = () => {
               </div>
               <div className="formInput">
                 <label>Phone</label>
-                <input
+                <Input
                   type="text"
                   placeholder="Input phone number"
                   onChange={(e) => setPhone(e.target.value)}
+                  validations={[required, validPhone]}
                 />
               </div>
               <div className="formInput">
                 <label>Address</label>
-                <input
+                <Input
                   type="text"
                   placeholder="Input address"
                   onChange={(e) => setAddress(e.target.value)}
+                  validations={[required]}
                 />
               </div>
               <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
+                <Input
                   type="file"
                   id="file"
                   onChange={(e) => handleUploadImage(e.target.files[0])}
                   style={{ display: "none" }}
                 />
               </div>
-              <button onClick={handleCreate}>Create</button>
-            </form>
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
+              <Button variant="outlined">Cancel</Button>
+              <Button variant="contained" onClick={handleCreate}>
+                {" "}
+                Create{" "}
+              </Button>
+            </Form>
           </div>
           <div className="left">
-            <img
-              src={
-                file
-                  ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
+            <label htmlFor="file" style={{ padding: 100 }}>
+              <img
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt=""
+              />
+            </label>
           </div>
         </div>
       </div>

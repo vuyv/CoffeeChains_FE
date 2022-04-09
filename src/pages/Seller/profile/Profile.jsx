@@ -4,6 +4,8 @@ import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import { uploadImage } from "../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,6 +13,7 @@ import {
   updateEmployee,
 } from "../../../redux/actions/employeeAction";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Helmet } from "react-helmet";
 import Select from "react-select";
@@ -18,17 +21,23 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../redux/actions/branchAction";
-import { changePassword } from './../../../redux/actions/employeeAction';
-import employeeReducer from './../../../redux/reducer/employeeReducer';
+import { changePassword } from "./../../../redux/actions/employeeAction";
+import employeeReducer from "./../../../redux/reducer/employeeReducer";
+import { makeStyles } from "@material-ui/core/styles";
+import { profileStyles } from "./profile.style";
+
+const useStyles = makeStyles(profileStyles);
 
 const Profile = () => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
+  const classes = useStyles();
+  const navigate = useNavigate();
 
   const currentUser = useSelector((state) => state.employeeReducer.currentUser);
   useEffect(() => {
     dispatch(loadCurrentUser());
-   }, [dispatch]);
+  }, [dispatch]);
 
   const getElementByValue = (array, title) => {
     return array.find((element) => {
@@ -66,15 +75,13 @@ const Profile = () => {
     };
   });
 
-
   useEffect(() => {
     dispatch(loadRoles());
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(loadBranchs());
-  }, [ dispatch]);
-
+  }, [dispatch]);
 
   const genders = [
     { value: "MALE", label: "Male" },
@@ -91,7 +98,7 @@ const Profile = () => {
     }
   }, [roles, branchs]);
 
-  console.log(currentUser)
+  console.log(currentUser);
 
   const image = useSelector((state) => state.imageReducer);
 
@@ -120,17 +127,14 @@ const Profile = () => {
   };
 
   const handleCancelForm = () => {
-    window.location.reload();
+    navigate("/profiles");
   };
-  
-const handleChangePassword=()=>{
-  dispatch(changePassword(
-    currentUser.id,
-    oldPassword,
-    newPassword,
-    confirmPassword,
-  ))
-}
+
+  const handleChangePassword = () => {
+    dispatch(
+      changePassword(currentUser.id, oldPassword, newPassword, confirmPassword)
+    );
+  };
   return (
     <div className="single">
       <Sidebar />
@@ -142,10 +146,14 @@ const handleChangePassword=()=>{
               <div class="bg-white shadow rounded-lg d-block d-sm-flex">
                 <div class="profile-tab-nav border-right">
                   <div class="p-4">
-                    <div class="img-circle text-center mb-3">
-                      <img src={avatar} alt="Image" class="shadow" />
+                    <Stack className={classes.stack}>
+                      <Avatar
+                        alt="Avatar"
+                        src={avatar}
+                        className={classes.avatar}
+                      />
                       {isEdit && (
-                        <div className="formInput">
+                          <div className="formInput">
                           <label htmlFor="file">
                             <DriveFolderUploadOutlinedIcon className="icon" />
                           </label>
@@ -159,8 +167,8 @@ const handleChangePassword=()=>{
                           />
                         </div>
                       )}
-                    </div>
-                    <h4 class="text-center">{currentUser.name}</h4>
+                      <h4>{currentUser.name}</h4>
+                    </Stack>
                   </div>
                   <div
                     class="nav flex-column nav-pills"
@@ -374,7 +382,12 @@ const handleChangePassword=()=>{
                       </div>
                     </div>
                     <div>
-                      <button class="btn btn-primary" onClick={handleChangePassword}>Change</button>
+                      <button
+                        class="btn btn-primary"
+                        onClick={handleChangePassword}
+                      >
+                        Change
+                      </button>
                       <button class="btn btn-light">Cancel</button>
                     </div>
                   </div>
