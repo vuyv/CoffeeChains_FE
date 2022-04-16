@@ -6,6 +6,7 @@ import Select from "react-select";
 import { loadHappeningDiscounts } from "../../redux/actions/discountAction";
 import { applyDiscount, clearCart } from "../../redux/actions/cartAction";
 import Button from "@mui/material/Button";
+import { createOrder } from "../../redux/actions/orderAction";
 
 function Cart(props) {
   const cartItemsRedux = useSelector((state) => state.cartReducer);
@@ -39,55 +40,56 @@ function Cart(props) {
       {cartItemsRedux.cartItems.map((item) => (
         <CartItem key={item.id} item={item} />
       ))}
-      {cartItemsRedux.cartItems.length !== 0 && (
+      <div>
+        <div className="discount">
+          <h5 className="title">Discount code</h5>
+          <Select
+            options={discountList}
+            onChange={(value) => {
+              setHasDiscount(true);
+              dispatch(applyDiscount(value));
+            }}
+          />
+        </div>
+        <div className="subTotal">
+          <h5 className="title">Total</h5>
+          <h5> ${cartItemsRedux.total}</h5>
+        </div>
         <div>
-          <div className="discount">
-            <h5 className="title">Discount code</h5>
-            <Select
-              options={discountList}
-              onChange={(value) => {
-                setHasDiscount(true);
-                dispatch(applyDiscount(value.percent));
-              }}
-            />
+          <div className="discountSave">
+            <h5 className="title">Discount</h5>
+            <h5>${cartItemsRedux.discountSave}</h5>
           </div>
-          <div className="subTotal">
-            <h5 className="title">Subtotal</h5>
-            <h5> ${cartItemsRedux.total}</h5>
-          </div>
-
-          {hasDiscount && (
-            <div>
-              <div className="discountSave">
-                <h5 className="title">Discount</h5>
-                <h5>$-{cartItemsRedux.discountSave}</h5>
-              </div>
-              <div className="total">
-                <h5 className="title">Total</h5>
-                <h5> ${cartItemsRedux.totalApplyDiscount}</h5>
-              </div>
-            </div>
-          )}
-          <div className="buttonsCheckout">
-            <Button
-              size="big"
-              disableElevation
-              variant="outlined"
-              onClick={() => dispatch(clearCart())}
-            >
-              Clear Cart
-            </Button>
-            <Button
-              size="big"
-              disableElevation
-              variant="contained"
-              // onClick={() => dispatch(decreaseQuantity(item))}
-            >
-              Checkout
-            </Button>
+          <div className="total">
+            <h5 className="title">Total</h5>
+            <h5> ${cartItemsRedux.appliedDiscountTotal}</h5>
           </div>
         </div>
-      )}
+        <div className="buttonsCheckout">
+          <Button
+            size="big"
+            disableElevation
+            variant="outlined"
+            onClick={() => dispatch(clearCart())}
+          >
+            Clear Cart
+          </Button>
+          <Button
+            size="big"
+            disableElevation
+            variant="contained"
+            onClick={() => {
+              dispatch(createOrder(cartItemsRedux));
+              window.setTimeout(() => {
+                props.parentCallback(false);
+                dispatch(clearCart());
+              }, 500);
+            }}
+          >
+            Checkout
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

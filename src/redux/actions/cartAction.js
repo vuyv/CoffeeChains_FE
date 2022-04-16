@@ -42,11 +42,11 @@ export const decreaseQuantity = (item) => {
   };
 };
 
-export const applyDiscount = (percent) => {
+export const applyDiscount = (discount) => {
   return function (dispatch) {
     dispatch({
       type: "APPLY_DISCOUNT",
-      payload: percent,
+      payload: discount,
     });
   };
 };

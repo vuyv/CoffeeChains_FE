@@ -17,17 +17,17 @@ function CartItem(props) {
   return (
     <div className="wrap">
       <div>
-        <h4>{item.name}</h4>
+        <h4>{item.product.name}</h4>
         <div className="information">
-          <p>Price: ${item.price}</p>
-          <p>Subtotal: ${item.quantity * item.price}</p>
+          <p>Price: ${item.product.price.toFixed(2)}</p>
+          <p>Subtotal: ${(item.quantity * item.product.price).toFixed(2)}</p>
         </div>
         <div className="buttons">
           <Button
             size="small"
             disableElevation
             variant="contained"
-            onClick={() => dispatch(decreaseQuantity(item))}
+            onClick={() => dispatch(decreaseQuantity(item.product))}
           >
             -
           </Button>
@@ -36,14 +36,17 @@ function CartItem(props) {
             size="small"
             disableElevation
             variant="contained"
-            onClick={() => dispatch(addToCart(item))}
+            onClick={() => dispatch(addToCart(item.product))}
           >
             +
           </Button>
         </div>
       </div>
-      <img src={item.image} alt={item.name} />
-      <button className="remove" onClick={() => handleRemoveFromCart(item)}>
+      <img src={item.product.image} />
+      <button
+        className="remove"
+        onClick={() => handleRemoveFromCart(item.product)}
+      >
         <i>Remove</i>
       </button>
     </div>

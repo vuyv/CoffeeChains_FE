@@ -101,6 +101,30 @@ export const loadOrderByOrdinalNumber = (ordinalNumber) => {
       .then((res) => {
         dispatch({
           type: "GET_ORDER_BY_ORDINAL_NUMBER",
+                    payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const createOrder = (order) => {
+  return function (dispatch) {
+    const headers = setAuthHeaders();
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/order/new`,
+        {
+          discount_code: order.discountCode,
+          totalPrice: order.appliedDiscountTotal,
+          orderDetails: order.cartItems,
+        },
+        headers
+      )
+      .then((res) => {
+        toast.success("Create Order Successfully", 1500);
+        dispatch({
+          type: "CREATE_ORDER",
           payload: res.data,
         });
       })
@@ -158,3 +182,4 @@ export const loadOrdersInAMonthInBranch = () => {
       .catch((error) => toast.error(error));
   };
 };
+

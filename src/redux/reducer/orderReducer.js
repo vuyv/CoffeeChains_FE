@@ -6,6 +6,7 @@ const initialState = {
   ordersInAMonthInBranch: [],
   order: {},
   cancel: false,
+  newOrder: {},
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -59,6 +60,11 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         ordersInAMonthInBranch: action.payload,
+      };
+    case "CREATE_ORDER":
+      return {
+        ...state,
+        newOrder: action.payload,
       };
     default:
       return state;

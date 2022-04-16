@@ -7,12 +7,14 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 
-const BTable = () => {
+const BTable = (props) => {
+  const { orders, total } = props;
   const rows = [
     {
       id: 1143155,
       product: "Acer Nitro 5",
-      img: "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
+      img:
+        "https://m.media-amazon.com/images/I/81bc8mA3nKL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
       amount: 785,
@@ -22,7 +24,8 @@ const BTable = () => {
     {
       id: 2235235,
       product: "Playstation 5",
-      img: "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
+      img:
+        "https://m.media-amazon.com/images/I/31JaiPXYI8L._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Michael Doe",
       date: "1 March",
       amount: 900,
@@ -32,7 +35,8 @@ const BTable = () => {
     {
       id: 2342353,
       product: "Redragon S101",
-      img: "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
+      img:
+        "https://m.media-amazon.com/images/I/71kr3WAj1FL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "John Smith",
       date: "1 March",
       amount: 35,
@@ -42,7 +46,8 @@ const BTable = () => {
     {
       id: 2357741,
       product: "Razer Blade 15",
-      img: "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
+      img:
+        "https://m.media-amazon.com/images/I/71wF7YDIQkL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Jane Smith",
       date: "1 March",
       amount: 920,
@@ -52,7 +57,8 @@ const BTable = () => {
     {
       id: 2342355,
       product: "ASUS ROG Strix",
-      img: "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
+      img:
+        "https://m.media-amazon.com/images/I/81hH5vK-MCL._AC_UY327_FMwebp_QL65_.jpg",
       customer: "Harold Carol",
       date: "1 March",
       amount: 2000,
@@ -62,32 +68,25 @@ const BTable = () => {
   ];
   return (
     <TableContainer component={Paper} className="table">
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table sx={{ width: 750 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell className="tableCell">Tracking ID</TableCell>
-            <TableCell className="tableCell">Product</TableCell>
-            <TableCell className="tableCell">Customer</TableCell>
-            <TableCell className="tableCell">Date</TableCell>
+            <TableCell className="tableCell">Rank</TableCell>
+            <TableCell className="tableCell">Branch</TableCell>
             <TableCell className="tableCell">Amount</TableCell>
-            <TableCell className="tableCell">Payment Method</TableCell>
             <TableCell className="tableCell">Status</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {total.map((row, index) => (
             <TableRow key={row.id}>
-              <TableCell className="tableCell">{row.id}</TableCell>
+              <TableCell className="tableCell">{index + 1}</TableCell>
               <TableCell className="tableCell">
-                <div className="cellWrapper">
-                  <img src={row.img} alt="" className="image" />
-                  {row.product}
-                </div>
+                <div className="cellWrapper">{row[0]}</div>
               </TableCell>
-              <TableCell className="tableCell">{row.customer}</TableCell>
+              <TableCell className="tableCell">{row[1]}</TableCell>
               <TableCell className="tableCell">{row.date}</TableCell>
               <TableCell className="tableCell">{row.amount}</TableCell>
-              <TableCell className="tableCell">{row.method}</TableCell>
               <TableCell className="tableCell">
                 <span className={`status ${row.status}`}>{row.status}</span>
               </TableCell>
