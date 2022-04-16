@@ -1,7 +1,7 @@
 import "./style.scss";
 import "./styleCSS.css";
 import "./single.scss";
-import Sidebar from "../sidebar/Sidebar";
+import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import Avatar from "@mui/material/Avatar";
@@ -121,7 +121,7 @@ const Profile = () => {
   };
 
   const handleCancelForm = () => {
-    navigate("/seller/profile");
+    navigate("/owner/profile");
   };
 
   const handleChangePassword = () => {

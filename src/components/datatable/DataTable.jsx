@@ -19,6 +19,8 @@ import DialogTitle from "@mui/material/DialogTitle";
 const Datatable = () => {
   const navigate = useNavigate();
   const employees = useSelector((state) => state.employeeReducer.employees);
+  const [rows, setRows] = useState();
+  const [content, setContent] = useState();
 
   const dispatch = useDispatch();
 
@@ -42,6 +44,15 @@ const Datatable = () => {
     dispatch(disableEmployees(id));
     handleClose();
   };
+
+  const getSearchValue = () => {};
+
+  // const handleSearchEmployee = (searchValue) => {
+    // const filteredRows = products.filter((row) => {
+    //   return row.name.toLowerCase().includes(searchValue.toLowerCase());
+    // });
+    // setRows(filteredRows);
+  // };
 
   const actionColumn = [
     {

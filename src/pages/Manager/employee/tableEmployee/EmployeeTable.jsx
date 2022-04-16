@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../../../datatablesource";
 import { Link } from "react-router-dom";
@@ -16,18 +16,46 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import "./EmployeeTable.scss";
 
-import Sidebar from "../../sidebar/Sidebar"
+import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../..//navbar/Navbar";
 
 const EmployeeTable = () => {
   const navigate = useNavigate();
-  const employees = useSelector((state) => state.employeeReducer.employees);
-
   const dispatch = useDispatch();
+  const typingTimeOutRef = useRef(null);
+
+  const [listEmployees, setListEmployees] = useState([]);
+  const [content, setContent] = useState([]);
+
+  const listEmployeesRedux = useSelector((state) => state.employeeReducer);
 
   useEffect(() => {
     dispatch(loadEmployeesInBranch());
   }, []);
+
+  useEffect(() => {
+    if (listEmployeesRedux) {
+      let result = [];
+      listEmployeesRedux.employees.forEach((emp) => {
+        result.push(emp);
+      });
+      setContent(result);
+      setListEmployees(result);
+    }
+  }, [listEmployeesRedux, setContent, setListEmployees]);
+
+  const handleSearchEmployee = (searchValue) => {
+    if (typingTimeOutRef.current) {
+      clearTimeout(typingTimeOutRef.current);
+    }
+    typingTimeOutRef.current = setTimeout(() => {
+      setListEmployees(
+        content.filter((employee) =>
+          employee.name.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }, 300);
+  };
 
   const [open, setOpen] = useState(false);
 
@@ -71,11 +99,12 @@ const EmployeeTable = () => {
       },
     },
   ];
+
   return (
     <div className="list">
       <Sidebar />
       <div className="listContainer">
-        <Navbar />
+        <Navbar search={handleSearchEmployee} />
         <div className="datatable">
           <div className="datatableTitle">
             Employee Management
@@ -85,7 +114,7 @@ const EmployeeTable = () => {
           </div>
           <DataGrid
             className="datagrid"
-            rows={employees}
+            rows={listEmployees}
             columns={userColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}

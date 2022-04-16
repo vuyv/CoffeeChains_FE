@@ -7,43 +7,29 @@ import IconButton from "@mui/material/IconButton";
 import Alert from "@mui/material/Alert";
 
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import {
   loadOrderByIdInBranch,
   removeOrder,
+  loadOrderByOrdinalNumber,
 } from "../../../redux/actions/orderAction";
-import { loadOrderInBranch } from "./../../../redux/actions/orderAction";
-import orderReducer from "./../../../redux/reducer/orderReducer";
-import { format } from "date-fns";
+import { loadProducts } from "../../../redux/actions/productAction";
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [value, setValue] = useState();
+  const [value, setValue] = useState("");
 
-  // useEffect(() => {
-  //   dispatch(loadOrderInBranch());
-  // }, []);
-
-  const order = useSelector((state) =>
-    state.orderReducer.ordersInBranch.find((order) => {
-      return order.id == value;
-    })
-  );
-
-  const currentUser = useSelector((state) => state.employeeReducer.currentUser);
-
-  const handleFindOrderById = () => {
-    // if (currentUser.branch.id === order.createdBy.branch.id) {
-    // dispatch(loadOrderByIdInBranch(currentUser.branch.id, value));
-    // window.setTimeout(() => {
-    dispatch(loadOrderByIdInBranch(currentUser.branch.id, value));
-    navigate(`/seller/orders/${currentUser.branch.id}/${value}`);
-    // }, 500);
-    // }
+  const handleSearch = () => {
+    dispatch(loadOrderByOrdinalNumber(value));
+    navigate(`/seller/orders/${value}`);
   };
+
+  useEffect(() => {
+    dispatch(loadProducts());
+  }, []);
 
   const { totalQuantity } = useSelector((state) => state.cartReducer);
 
@@ -55,9 +41,12 @@ const Navbar = (props) => {
             type="text"
             placeholder="Search..."
             id="search"
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              setValue(e.target.value);
+              props.search(e.target.value);
+            }}
           />
-          <SearchOutlinedIcon onClick={handleFindOrderById} />
+          <SearchOutlinedIcon onClick={handleSearch} />
         </div>
         <div className="items">
           <div className="item">

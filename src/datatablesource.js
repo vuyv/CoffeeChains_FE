@@ -24,7 +24,7 @@ export const userColumns = [
   {
     field: "branch",
     headerName: "Branch",
-    width: 220,
+    width: 170,
     renderCell: (params) => {
       return <div>{params.row.branch.name}</div>;
     },
@@ -32,7 +32,7 @@ export const userColumns = [
   {
     field: "role",
     headerName: "Role",
-    width: 180,
+    width: 150,
     renderCell: (params) => {
       return <div>{params.row.role.name}</div>;
     },
@@ -148,7 +148,7 @@ export const orderColumns = [
   { field: "id", headerName: "Order Number", width: 150 },
   {
     field: "createdBy",
-    headerName: "Created By",
+    headerName: "Employee",
     width: 150,
     renderCell: (params) => {
       return <div>{params.row.createdBy.name}</div>;
@@ -160,7 +160,7 @@ export const orderColumns = [
     width: 150,
     renderCell: (params) => {
       var percent = "None";
-      if(params.row.discount !== null){
+      if (params.row.discount !== null) {
         percent = params.row.discount.percent + "%";
       }
       return <div>{percent}</div>;
@@ -176,7 +176,7 @@ export const orderColumns = [
   },
   {
     field: "createdAt",
-    headerName: "Created At",
+    headerName: "Date",
     width: 180,
     renderCell: (params) => {
       const date = new Date(params.row.createdAt);
@@ -222,6 +222,5 @@ export const orderDetailsColumns = [
     renderCell: (params) => {
       return <div>{params.row.quantity}</div>;
     },
-  }
-]
-
+  },
+];

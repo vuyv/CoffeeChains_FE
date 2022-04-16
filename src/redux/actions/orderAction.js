@@ -51,10 +51,13 @@ export const loadOrderInBranch = () => {
   };
 };
 
-export const loadOrderByIdInBranch = (branchId, orderId ) => {
+export const loadOrderByIdInBranch = (branchId, orderId) => {
   return function (dispatch) {
     axios
-    .get(`${process.env.REACT_APP_HOST}/order/` + branchId + "/" + orderId, setAuthHeaders())
+      .get(
+        `${process.env.REACT_APP_HOST}/order/` + branchId + "/" + orderId,
+        setAuthHeaders()
+      )
       .then((res) => {
         dispatch({
           type: "GET_ORDER_BY_ID_IN_BRANCH",
@@ -85,5 +88,73 @@ export const removeOrder = () => {
     dispatch({
       type: "REMOVE_ORDER",
     });
+  };
+};
+
+export const loadOrderByOrdinalNumber = (ordinalNumber) => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/find/` + ordinalNumber,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ORDER_BY_ORDINAL_NUMBER",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const loadOrdersInADayInBranch = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/branch/find/day`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ORDERS_IN_A_DAY_IN_BRANCH",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const loadOrdersInAWeekInBranch = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/branch/find/week`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ORDERS_IN_A_WEEK_IN_BRANCH",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const loadOrdersInAMonthInBranch = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/branch/find/month`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ORDERS_IN_A_MONTH_IN_BRANCH",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
   };
 };

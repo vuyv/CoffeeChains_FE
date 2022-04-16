@@ -10,14 +10,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../redux/actions/authAction";
 const Sidebar = () => {
-  const state = useSelector((state) => state.token);
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSignOut = () => {
     dispatch(logOut());
     navigate("/login");
   };
+  const currentUser = JSON.parse(localStorage.getItem("current_user"));
   return (
     <div className="sidebar">
       <div className="top">
@@ -25,8 +24,12 @@ const Sidebar = () => {
           <span className="logo">Coffee</span>
         </Link>
       </div>
-      <hr />
+      {/* <hr /> */}
       <div className="center">
+        <span style={{ "text-transform": "uppercase", marginLeft: 20 }}>
+          {currentUser.branch.name}
+        </span>
+        <hr style={{ marginLeft: -10 }} />
         <ul>
           <p className="title">MAIN</p>
           <Link to="/manager" style={{ textDecoration: "none" }}>
@@ -43,18 +46,19 @@ const Sidebar = () => {
             </li>
           </Link>
           <Link to="/manager/orders" style={{ textDecoration: "none" }}>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Orders</span>
+            </li>
           </Link>
           <Link to="/manager/discounts" style={{ textDecoration: "none" }}>
-          <li>
-            <DiscountIcon className="icon" />
-            <span>Discount</span>
-          </li></Link>
+            <li>
+              <DiscountIcon className="icon" />
+              <span>Discount</span>
+            </li>
+          </Link>
           <p className="title">USER</p>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
+          <Link to="/manager/profile" style={{ textDecoration: "none" }}>
             <li>
               <AccountCircleOutlinedIcon className="icon" />
               <span>Profile</span>
