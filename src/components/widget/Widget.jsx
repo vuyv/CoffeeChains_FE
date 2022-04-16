@@ -5,7 +5,7 @@ import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalance
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
-const Widget = ({ type }) => {
+const Widget = ({ type, count, parentCallback }) => {
   let data;
 
   //temporary
@@ -15,9 +15,9 @@ const Widget = ({ type }) => {
   switch (type) {
     case "user":
       data = {
-        title: "USERS",
+        title: "EMPLOYEES",
         isMoney: false,
-        link: "See all users",
+        link: "See all employees",
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -31,7 +31,7 @@ const Widget = ({ type }) => {
       break;
     case "order":
       data = {
-        title: "ORDERS",
+        title: "DAILY ORDERS",
         isMoney: false,
         link: "View all orders",
         icon: (
@@ -47,7 +47,7 @@ const Widget = ({ type }) => {
       break;
     case "earning":
       data = {
-        title: "EARNINGS",
+        title: "DAILY EARNINGS",
         isMoney: true,
         link: "View net earnings",
         icon: (
@@ -58,11 +58,11 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
+    case "products":
       data = {
-        title: "BALANCE",
-        isMoney: true,
-        link: "See details",
+        title: "PRODUCTS",
+        isMoney: false,
+        link: "See all products",
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -83,9 +83,15 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "$"} {amount}
+          {data.isMoney && "$"} {count}
         </span>
-        <span className="link">{data.link}</span>
+        <a
+          className="link"
+          onClick={() => parentCallback(true)}
+          style={{ cursor: "pointer" }}
+        >
+          {data.link}
+        </a>
       </div>
       <div className="right">
         <div className="percentage positive">

@@ -51,10 +51,13 @@ export const loadOrderInBranch = () => {
   };
 };
 
-export const loadOrderByIdInBranch = (branchId, orderId ) => {
+export const loadOrderByIdInBranch = (branchId, orderId) => {
   return function (dispatch) {
     axios
-    .get(`${process.env.REACT_APP_HOST}/order/` + branchId + "/" + orderId, setAuthHeaders())
+      .get(
+        `${process.env.REACT_APP_HOST}/order/` + branchId + "/" + orderId,
+        setAuthHeaders()
+      )
       .then((res) => {
         dispatch({
           type: "GET_ORDER_BY_ID_IN_BRANCH",
@@ -85,5 +88,29 @@ export const removeOrder = () => {
     dispatch({
       type: "REMOVE_ORDER",
     });
+  };
+};
+
+export const createOrder = (order) => {
+  return function (dispatch) {
+    const headers = setAuthHeaders();
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/order/new`,
+        {
+          discount_code: order.discountCode,
+          totalPrice: order.appliedDiscountTotal,
+          orderDetails: order.cartItems,
+        },
+        headers
+      )
+      .then((res) => {
+        toast.success("Create Order Successfully", 1500);
+        dispatch({
+          type: "CREATE_ORDER",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
   };
 };

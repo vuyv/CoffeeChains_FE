@@ -3,6 +3,7 @@ const initialState = {
   ordersInBranch: [],
   order: {},
   cancel: false,
+  newOrder: {},
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -32,10 +33,15 @@ const orderReducer = (state = initialState, action) => {
         ...state,
         order: action.payload,
       };
-      case "REMOVE_ORDER":
+    case "REMOVE_ORDER":
       return {
         ...state,
         order: null,
+      };
+    case "CREATE_ORDER":
+      return {
+        ...state,
+        newOrder: action.payload,
       };
     default:
       return state;

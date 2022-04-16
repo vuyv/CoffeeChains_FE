@@ -45,7 +45,7 @@ const Order = () => {
           open={cartOpen}
           onClose={() => setCartOpen(false)}
         >
-          <Cart cartItems={cartItems} />
+          <Cart cartItems={cartItems} parentCallback={callbackFunction} />
         </Drawer>
 
         <Box className={classes.container}>

@@ -50,7 +50,7 @@ const ProductCard = (props) => {
         <Tooltip title={"Price per unit"}>
           <Button color="primary">
             <Typography gutterBottom variant="h6" component="h2">
-              {"$" + item.price}
+              {"$" + item.price.toFixed(2)}
             </Typography>
           </Button>
         </Tooltip>
