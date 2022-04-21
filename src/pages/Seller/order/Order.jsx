@@ -1,12 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
-import { useState, useEffect, React } from "react";
+import { useState, useEffect, React, useRef } from "react";
 import { Grid, Box } from "@material-ui/core";
 import ProductCard from "../../../components/Cards/productCard.component";
 import { makeStyles } from "@material-ui/core/styles";
 import { productPageStyles } from "./productPage.styles";
-import { loadProductByCategory } from "../../../redux/actions/productAction";
+import {
+  loadProductByCategory,
+  loadProducts,
+} from "../../../redux/actions/productAction";
 import Cart from "../../../components/cart/Cart";
 import Drawer from "@mui/material/Drawer";
 
@@ -15,31 +18,65 @@ const useStyles = makeStyles(productPageStyles);
 const Order = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const typingTimeOutRef = useRef(null);
 
   const callbackFunction = (childData) => {
     setCartOpen(childData);
   };
 
-  const productList = useSelector((state) => state.productReducer.products);
+  const productListRedux = useSelector((state) => state.productReducer);
+  const [productList, setProductList] = useState([]);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [content, setContent] = useState();
+  const allProductsRedux = useSelector((state) => state.productReducer);
 
   useEffect(() => {
     dispatch(loadProductByCategory(1));
   }, [dispatch]);
 
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  useEffect(() => {
+    if (productListRedux) {
+      let result = [];
+      productListRedux.productsByCategory.forEach((product) => {
+        result.push(product);
+      });
+      setProductList(result);
+    }
+  }, [productListRedux, setProductList]);
 
-  const getTotalItems = (items) => {
-    return items.reduce((ack, item) => {
-      return ack + item.amount;
-    }, 0);
+  useEffect(() => {
+    if (allProductsRedux) {
+      let result = [];
+      productListRedux.allProducts.forEach((product) => {
+        result.push(product);
+      });
+      setContent(result);
+    }
+  }, [productListRedux, setContent]);
+
+  const handleSearchProduct = (value) => {
+    if (typingTimeOutRef.current) {
+      clearTimeout(typingTimeOutRef.current);
+    }
+
+    typingTimeOutRef.current = setTimeout(() => {
+      setProductList(
+        content.filter((product) =>
+          product.name.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    }, 300);
   };
 
   return (
     <div className="single">
       <Sidebar />
       <div className="singleContainer">
-        <Navbar parentCallback={callbackFunction} />
+        <Navbar
+          parentCallback={callbackFunction}
+          search={handleSearchProduct}
+        />
         <Drawer
           anchor="right"
           open={cartOpen}

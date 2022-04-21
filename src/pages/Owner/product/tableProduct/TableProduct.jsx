@@ -18,11 +18,17 @@ import {
   loadProductById,
   disableProduct,
 } from "../../../../redux/actions/productAction";
+import { useRef } from "react";
+
 const TableProduct = () => {
   const navigate = useNavigate();
-  const products = useSelector((state) => state.productReducer.products);
-
   const dispatch = useDispatch();
+
+  const [rows, setRows] = useState();
+  const [content, setContent] = useState();
+
+  const products = useSelector((state) => state.productReducer);
+  const product = useSelector((state) => state.productReducer.product);
 
   useEffect(() => {
     dispatch(loadProducts());
@@ -45,12 +51,29 @@ const TableProduct = () => {
     handleClose();
   };
 
-  const product = useSelector((state) => state.productReducer.product);
-
   const handleViewDetail = (id) => {
     dispatch(loadProductById(id));
-    console.log(product);
-    // navigate(`/owner/products/${id}`, { state: product });
+  };
+
+  useEffect(() => {
+    setRows(products.allProducts);
+  }, []);
+
+  useEffect(() => {
+    if (products) {
+      let result = [];
+      products.allProducts.forEach((product) => {
+        result.push(product);
+      });
+      setContent(result);
+    }
+  }, [products, setContent]);
+
+  const handleSearchProduct = (searchValue) => {
+    const filteredRows = content.filter((row) => {
+      return row.name.toLowerCase().includes(searchValue.toLowerCase());
+    });
+    setRows(filteredRows);
   };
 
   const actionColumn = [
@@ -87,7 +110,7 @@ const TableProduct = () => {
     <div className="list">
       <Sidebar />
       <div className="listContainer">
-        <Navbar />
+        <Navbar search={handleSearchProduct} />
         <div className="datatable">
           <div className="datatableTitle">
             Product Management
@@ -97,7 +120,7 @@ const TableProduct = () => {
           </div>
           <DataGrid
             className="datagrid"
-            rows={products}
+            rows={rows}
             columns={productColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}

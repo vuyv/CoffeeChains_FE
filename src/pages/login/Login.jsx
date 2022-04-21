@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { logIn } from "../../redux/actions/authAction";
 import { useNavigate } from "react-router-dom";
@@ -16,13 +16,19 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import { loadCurrentUser } from "../../redux/actions/employeeAction"
+import { loadCurrentUser } from "../../redux/actions/employeeAction";
+import Alert from "@mui/material/Alert";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const theme = createTheme();
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -45,7 +51,6 @@ function Login() {
   });
 
   const auth = useSelector((state) => state.authReducer);
-  const dispatch = useDispatch();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -54,16 +59,22 @@ function Login() {
     e.preventDefault();
     dispatch(logIn(username, password));
   };
-  // const currentUser = useSelector((state) => state.userReducer.currentUser);
 
   if (auth.token) {
-    dispatch(loadCurrentUser())
-    // if(currentUser){
-      navigate("/seller");
-    // }
-  }
-
-
+    dispatch(loadCurrentUser());
+    switch (auth.role) {
+      case "OWNER":
+        navigate("/owner");
+        break;
+      case "SELLER":
+        navigate("/seller");
+        break;
+      case "MANAGER":
+        navigate("/manager");
+        break;
+      default:
+    }
+  } 
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -143,8 +154,8 @@ function Login() {
               </Grid>
             </Grid>
           </Box>
+          {/* {auth.token && <Alert severity="error">Login fail</Alert>} */}
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );

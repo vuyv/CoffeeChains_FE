@@ -1,5 +1,5 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import { useParams } from "react-router-dom";
@@ -22,17 +22,18 @@ function OrderDetail() {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">Order Detail</div>
-          <DataGrid
-            className="datagrid"
-            rows={order.orderDetails}
-            columns={orderDetailsColumns}
-            pageSize={9}
-            rowsPerPageOptions={[9]}
-            getRowId={(row) =>
-              row.orderDetailId.orderId + row.orderDetailId.productId
-            }
-          />
-          <div></div>
+          <div className="container" style={{ width: 450, height: "100%" }}>
+            <DataGrid
+              className="datagrid"
+              rows={order.orderDetails}
+              columns={orderDetailsColumns}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) =>
+                row.orderDetailId.orderId + row.orderDetailId.productId
+              }
+            />
+          </div>
         </div>
       </div>
     </div>

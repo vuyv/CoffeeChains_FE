@@ -1,5 +1,5 @@
 import "./style.scss";
-import "./styleCSS.css";
+// import "./styleCSS.css";
 import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
@@ -21,14 +21,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../redux/actions/branchAction";
-import { changePassword } from "./../../../redux/actions/employeeAction";
-import employeeReducer from "./../../../redux/reducer/employeeReducer";
+import { changePassword } from "../../../redux/actions/employeeAction";
+import employeeReducer from "../../../redux/reducer/employeeReducer";
 import { makeStyles } from "@material-ui/core/styles";
 import { profileStyles } from "./profile.style";
 
 const useStyles = makeStyles(profileStyles);
 
-const Profile = () => {
+const ProfileManager = () => {
   const [isEdit, setIsEdit] = useState(false);
   const dispatch = useDispatch();
   const classes = useStyles();
@@ -121,7 +121,7 @@ const Profile = () => {
   };
 
   const handleCancelForm = () => {
-    navigate("/seller/profile");
+    navigate("/manager/profile");
   };
 
   const handleChangePassword = () => {
@@ -413,4 +413,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileManager;

@@ -1,5 +1,6 @@
 const initialState = {
-  products: [],
+  productsByCategory: [],
+  allProducts: [],
   product: {},
 };
 
@@ -8,7 +9,7 @@ const productReducer = (state = initialState, action) => {
     case "GET_PRODUCTS":
       return {
         ...state,
-        products: action.payload,
+        allProducts: action.payload,
       };
     case "CREATE_PRODUCT":
       return {
@@ -33,7 +34,7 @@ const productReducer = (state = initialState, action) => {
     case "GET_PRODUCT_BY_CATEGORY":
       return {
         ...state,
-        products: action.payload,
+        productsByCategory: action.payload,
       };
     default:
       return state;

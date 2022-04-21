@@ -17,7 +17,7 @@ const DetailProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const product = useSelector((state) =>
-    state.productReducer.products.find((product) => {
+    state.productReducer.allProducts.find((product) => {
       return product.id == productId;
     })
   );
@@ -132,12 +132,17 @@ const DetailProduct = () => {
                     <div>
                       <div>
                         {isEdit ? (
-                          <Button variant="contained" style={{ width: 90 }} onClick={handleUpdate}>
+                          <Button
+                            variant="contained"
+                            style={{ width: 90 }}
+                            onClick={handleUpdate}
+                          >
                             Save
                           </Button>
                         ) : (
                           <Button
-                            variant="contained" style={{ width: 90 }}
+                            variant="contained"
+                            style={{ width: 90 }}
                             onClick={() => setIsEdit(!isEdit)}
                           >
                             Edit
@@ -145,8 +150,8 @@ const DetailProduct = () => {
                         )}
                         {isEdit && (
                           <Button
-                          variant="outlined"
-                          style={{ marginLeft: 50 }}
+                            variant="outlined"
+                            style={{ marginLeft: 50 }}
                             onClick={handleCancelForm}
                           >
                             Cancel
@@ -168,7 +173,7 @@ const DetailProduct = () => {
                 >
                   <div class="p-4">
                     <div class="img-circle text-center mb-3">
-                      <img src={image} alt="Image"/>
+                      <img src={image} alt="Image" />
                       {isEdit && (
                         <div className="formInput">
                           <label htmlFor="file">

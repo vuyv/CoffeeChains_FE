@@ -15,12 +15,15 @@ export const logIn = (username, password) => {
         localStorage.setItem("token", token.data.accessToken);
 
         dispatch({
-          type: "LOG_IN",
+          type: "LOG_IN_SUCCESS",
           token: token.data.accessToken,
         });
       })
       .catch((error) => {
-        console.log(error);
+        dispatch({
+          type: "LOG_IN_FAILED",
+          payload: error,
+        });
       });
   };
 };

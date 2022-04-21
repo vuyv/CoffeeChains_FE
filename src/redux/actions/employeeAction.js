@@ -2,7 +2,6 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import branchReducer from "./../reducer/branchReducer";
 
 toast.configure();
 
@@ -44,6 +43,7 @@ export const loadCurrentUser = () => {
         setAuthHeaders()
       )
       .then((res) => {
+        localStorage.setItem("current_user", JSON.stringify(res.data));
         dispatch({
           type: "GET_CURRENT_USER",
           payload: res.data,
@@ -138,7 +138,7 @@ export const updateEmployee = (
           payload: res.data,
         });
         dispatch(loadEmployees());
-        dispatch(loadCurrentUser())
+        dispatch(loadCurrentUser());
       })
       .catch((error) => toast.error(error));
   };
@@ -302,5 +302,3 @@ export const changePassword = (
       .catch((error) => toast.error(error));
   };
 };
-
-

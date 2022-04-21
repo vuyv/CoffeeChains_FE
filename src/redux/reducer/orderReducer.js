@@ -1,6 +1,9 @@
 const initialState = {
   orders: [],
   ordersInBranch: [],
+  ordersInADayInBranch: [],
+  ordersInAWeekInBranch: [],
+  ordersInAMonthInBranch: [],
   order: {},
   cancel: false,
   newOrder: {},
@@ -37,6 +40,26 @@ const orderReducer = (state = initialState, action) => {
       return {
         ...state,
         order: null,
+      };
+    case "GET_ORDER_BY_ORDINAL_NUMBER":
+      return {
+        ...state,
+        order: action.payload,
+      };
+    case "GET_ORDERS_IN_A_DAY_IN_BRANCH":
+      return {
+        ...state,
+        ordersInADayInBranch: action.payload,
+      };
+    case "GET_ORDERS_IN_A_WEEK_IN_BRANCH":
+      return {
+        ...state,
+        ordersInAWeekInBranch: action.payload,
+      };
+    case "GET_ORDERS_IN_A_MONTH_IN_BRANCH":
+      return {
+        ...state,
+        ordersInAMonthInBranch: action.payload,
       };
     case "CREATE_ORDER":
       return {

@@ -1,4 +1,5 @@
 import "./sidebar.scss";
+import React, { useState, useEffect } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import DiscountIcon from "@mui/icons-material/Discount";
@@ -19,18 +20,15 @@ import {
 } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState, useEffect } from "react";
 import { logOut } from "../../../redux/actions/authAction";
 import { removeCurrentUser } from "../../../redux/actions/employeeAction";
 import { loadCategories } from "../../../redux/actions/categoryAction";
 import { panelStyle } from "./sidebar.style";
 import { loadProductByCategory } from "../../../redux/actions/productAction";
-import { width } from "@mui/system";
 
 const useStyles = makeStyles(panelStyle);
 
 const Sidebar = () => {
-  const state = useSelector((state) => state.token);
   const classes = useStyles();
 
   const navigate = useNavigate();
@@ -101,7 +99,7 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">USER</p>
-          <Link to="/profile" style={{ textDecoration: "none" }}>
+          <Link to="/seller/profile" style={{ textDecoration: "none" }}>
             <li>
               <AccountCircleOutlinedIcon className="icon" />
               <span>Profile</span>

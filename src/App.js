@@ -7,7 +7,6 @@ import TableProduct from "./pages/Owner/product/tableProduct/TableProduct";
 import DetailProduct from "./pages/Owner/product/detailProduct/DetailProduct";
 import CreateProduct from "./pages/Owner/product/createProduct/CreateProduct";
 import Branch from "./pages/Owner/branch/Branch";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DetailDiscount from "./pages/Owner/discount/detail/DetailDiscount";
 import DiscountHome from "./pages/Owner/discount/home/DiscountHome";
 import CreateDiscount from "./pages/Owner/discount/create/CreateDiscount";
@@ -15,7 +14,9 @@ import ManagerHome from "./pages/Manager/home/Home";
 import EmployeeTable from "./pages/Manager/employee/tableEmployee/EmployeeTable";
 import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/CreateEmployeeInBranch";
 import EmployeeDetail from "./pages/Manager/employee/detailEmployee/EmployeeDetail";
-import Profile from "./pages/Seller/profile/Profile";
+import ProfileSeller from "./pages/Seller/profile/Profile";
+import ProfileManager from "./pages/Manager/profile/ProfileManager";
+import ProfileOwner from "./pages/Owner/profile/Profile";
 import Order from "./pages/Seller/order/Order";
 import FindOrder from "./pages/Seller/order/FindOrder";
 import HappeningDiscount from "./pages/Seller/discount/Discount";
@@ -23,7 +24,125 @@ import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
 import ViewOrder from "./pages/Manager/order/ViewOrder";
 import OrderDetail from "./pages/Manager/order/OrderDetail";
 import Report from "./pages/Owner/report/Report";
+import React from "react";
+import { useSelector } from "react-redux";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useRoutes,
+  Navigate,
+} from "react-router-dom";
+
+const RouteOwner = () => {
+  let route = useRoutes([
+    {
+      path: "/owner",
+      children: [
+        { path: "", element: <OwnerHome /> },
+        { path: "profile", element: <ProfileOwner /> },
+        {
+          path: "employees",
+          children: [
+            { path: "", element: <TableEmployee /> },
+            { path: ":employeeId", element: <DetailEmployee /> },
+            { path: "new", element: <CreateEmployee /> },
+          ],
+        },
+        {
+          path: "branch",
+          element: <Branch />,
+        },
+        {
+          path: "products",
+          children: [
+            { path: "", element: <TableProduct /> },
+            { path: ":productId", element: <DetailProduct /> },
+            { path: "new", element: <CreateProduct /> },
+          ],
+        },
+        {
+          path: "discounts",
+          children: [
+            { path: "", element: <DiscountHome /> },
+            { path: ":discountCode", element: <DetailDiscount /> },
+            { path: "new", element: <CreateDiscount /> },
+          ],
+        },
+      ],
+    },
+  ]);
+  return route;
+};
+
+const RouteManager = () => {
+  let route = useRoutes([
+    {
+      path: "/manager",
+      children: [
+        { path: "", element: <ManagerHome /> },
+        { path: "profile", element: <ProfileManager /> },
+        {
+          path: "employees",
+          children: [
+            { path: "", element: <EmployeeTable /> },
+            { path: ":employeeId", element: <EmployeeDetail /> },
+            { path: "new", element: <CreateEmployeeInBranch /> },
+          ],
+        },
+        { path: "discounts", element: <ViewDiscount /> },
+        {
+          path: "orders",
+          children: [
+            { path: "", element: <ViewOrder /> },
+            { path: ":orderId", element: <OrderDetail /> },
+          ],
+        },
+      ],
+    },
+  ]);
+  return route;
+};
+
+const RouteSeller = () => {
+  let route = useRoutes([
+    {
+      path: "/seller",
+      children: [
+        { path: "", element: <Order /> },
+        { path: "profile", element: <ProfileSeller /> },
+        {
+          path: "orders",
+          children: [{ path: ":orderId", element: <FindOrder /> }],
+        },
+        { path: "discounts", element: <HappeningDiscount /> },
+      ],
+    },
+  ]);
+  return route;
+};
+
 function App() {
+  const auth = useSelector((state) => state.authReducer);
+  const user = JSON.parse(localStorage.getItem("current_user"));
+
+  const RequireAuth = ({ children, redirectTo }) => {
+    if (auth.token && auth.role) {
+      return children;
+    }
+
+    switch (user.role.name) {
+      case "OWNER":
+        return <RouteOwner />;
+      case "MANAGER":
+        return <RouteManager />;
+      case "SELLER":
+        return <RouteSeller />;
+      default:
+        return <Navigate to={redirectTo} />;
+    }
+  };
+
   return (
     <div className="app">
       <BrowserRouter>
@@ -76,15 +195,16 @@ function App() {
               </Route>
             </Route>
 
-            <Route path="seller">
-              <Route index element={<Order />} />
-              <Route path="orders">
-                <Route path=":branchId">
-                  <Route path=":orderId" element={<FindOrder />} />
-                </Route>
-              </Route>
-              <Route path="discounts" element={<HappeningDiscount />} />
-            </Route>
+            <Route
+              path="*"
+              element={
+                <RequireAuth redirectTo="/login">
+                  <RouteOwner />
+                  <RouteManager />
+                  <RouteSeller />
+                </RequireAuth>
+              }
+            />
           </Route>
         </Routes>
       </BrowserRouter>

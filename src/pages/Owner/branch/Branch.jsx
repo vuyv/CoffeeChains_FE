@@ -46,7 +46,7 @@ const Branch = () => {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">
-            Branch Manage
+            Branch Management
             <button className="link" onClick={handleClickOpen}>
               Add New
             </button>

@@ -4,30 +4,42 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import { DataGrid } from "@mui/x-data-grid";
+import { Tabs, Tab } from "@material-ui/core";
 import orderReducer from "./../../../redux/reducer/orderReducer";
 import { orderColumns } from "../../../datatablesource";
-import { loadOrderInBranch, loadOrderById } from "./../../../redux/actions/orderAction";
+import {
+  loadOrderInBranch,
+  loadOrderById,
+  loadOrdersInADayInBranch,
+  loadOrdersInAWeekInBranch,
+  loadOrdersInAMonthInBranch,
+} from "./../../../redux/actions/orderAction";
 
 function ViewOrder() {
   const orders = useSelector((state) => state.orderReducer.ordersInBranch);
+  const ordersInADay = useSelector(
+    (state) => state.orderReducer.ordersInADayInBranch
+  );
+  const ordersInAWeek = useSelector(
+    (state) => state.orderReducer.ordersInAWeekInBranch
+  );
+  const ordersInAMonth = useSelector(
+    (state) => state.orderReducer.ordersInAMonthInBranch
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadOrderInBranch());
+    dispatch(loadOrdersInADayInBranch());
+    dispatch(loadOrdersInAWeekInBranch());
+    dispatch(loadOrdersInAMonthInBranch());
   }, []);
 
-  const [open, setOpen] = useState(false);
-
-  const [id, setId] = useState();
-  const handleClickOpen = (id) => {
-    setOpen(true);
-    setId(id);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const handleChangeTab = (e, newValue) => {
+    setSelectedTab(newValue);
   };
 
   const actionColumn = [
@@ -46,14 +58,6 @@ function ViewOrder() {
             >
               View
             </div>
-            {/* <div
-              className="deleteButton"
-              onClick={() => {
-                handleClickOpen(params.row.id);
-              }}
-            >
-              Cancel
-            </div> */}
           </div>
         );
       },
@@ -67,15 +71,53 @@ function ViewOrder() {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">Order Management</div>
-          <DataGrid
-            className="datagrid"
-            rows={orders}
-            columns={orderColumns.concat(actionColumn)}
-            pageSize={9}
-            rowsPerPageOptions={[9]}
-            getRowId={(row) => row.id}
-          />
-          <div></div>
+
+          <Tabs value={selectedTab} onChange={handleChangeTab}>
+            <Tab label="all"></Tab>
+            <Tab label="today"></Tab>
+            <Tab label="week"></Tab>
+            <Tab label="month"></Tab>
+          </Tabs>
+          {selectedTab === 0 && (
+            <DataGrid
+              className="datagrid"
+              rows={orders}
+              columns={orderColumns.concat(actionColumn)}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) => row.id}
+            />
+          )}
+          {selectedTab === 1 && (
+            <DataGrid
+              className="datagrid"
+              rows={ordersInADay}
+              columns={orderColumns.concat(actionColumn)}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) => row.id}
+            />
+          )}
+          {selectedTab === 2 && (
+            <DataGrid
+              className="datagrid"
+              rows={ordersInAWeek}
+              columns={orderColumns.concat(actionColumn)}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) => row.id}
+            />
+          )}
+          {selectedTab === 3 && (
+            <DataGrid
+              className="datagrid"
+              rows={ordersInAMonth}
+              columns={orderColumns.concat(actionColumn)}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) => row.id}
+            />
+          )}
         </div>
       </div>
     </div>
