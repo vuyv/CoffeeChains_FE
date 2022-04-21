@@ -3,8 +3,14 @@ const initialState = {
   allDailyOrders: 0,
   allDailyEarnings: 0,
   allProducts: 0,
-  dailyOrdersEachBrach: [],
-  dailyTotalPriceEachBrach: [],
+  dailyOrdersEachBranch: [],
+  dailyTotalPriceEachBranch: [],
+  employeeEachBranch: [],
+  compareLastMonthRevenue: 0,
+  compareLastWeekRevenue: 0,
+  topWeeklySeller: [],
+  currentMonthRevenue: 0,
+  currentWeekRevenue: 0,
 };
 
 const ownerStatisticsReducer = (state = initialState, action) => {
@@ -32,13 +38,44 @@ const ownerStatisticsReducer = (state = initialState, action) => {
     case "DAILY_ORDERS_EACH_BRACH":
       return {
         ...state,
-        dailyOrdersEachBrach: action.payload,
+        dailyOrdersEachBranch: action.payload,
       };
     case "DAILY_TOTAL_PRICE_EACH_BRACH":
       return {
         ...state,
-        dailyTotalPriceEachBrach: action.payload,
+        dailyTotalPriceEachBranch: action.payload,
       };
+    case "EMPLOYEE_EACH_BRANCH":
+      return {
+        ...state,
+        employeeEachBranch: action.payload,
+      };
+    case "COMPARE_LAST_MONTH_REVENUE":
+      return {
+        ...state,
+        compareLastMonthRevenue: action.payload,
+      };
+    case "COMPARE_LAST_WEEK_REVENUE":
+      return {
+        ...state,
+        compareLastWeekRevenue: action.payload,
+      };
+    case "TOP_WEEKLY_SELLER":
+      return {
+        ...state,
+        topWeeklySeller: action.payload,
+      };
+    case "CURRENT_MONTH_REVENUE":
+      return {
+        ...state,
+        currentMonthRevenue: action.payload,
+      };
+    case "CURRENT_WEEK_REVENUE":
+      return {
+        ...state,
+        currentWeekRevenue: action.payload,
+      };
+   
     default:
       return state;
   }

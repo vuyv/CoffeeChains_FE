@@ -102,3 +102,107 @@ export const getDailyTotalPriceEachBranch = (date) => {
       .catch((error) => toast.error(error));
   };
 };
+
+export const getEmployeeEachBranch = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/employee/count/eachBranch`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "EMPLOYEE_EACH_BRANCH",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const compareLastMonthRevenue1 = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/owner/compare/lastMonth`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COMPARE_LAST_MONTH_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const compareLastWeekRevenue1 = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/owner/compare/lastWeek`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COMPARE_LAST_WEEK_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const topWeeklySeller1 = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/owner/topSeller/weekly`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "TOP_WEEKLY_SELLER",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getCurrentMonthRevenue = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/owner/revenue/currentMonth`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "CURRENT_MONTH_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getCurrentWeekRevenue = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/owner/revenue/currentWeek`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "CURRENT_WEEK_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+

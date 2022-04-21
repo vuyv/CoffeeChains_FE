@@ -22,7 +22,7 @@ import HappeningDiscount from "./pages/Seller/discount/Discount";
 import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
 import ViewOrder from "./pages/Manager/order/ViewOrder";
 import OrderDetail from "./pages/Manager/order/OrderDetail";
-
+import Report from "./pages/Owner/report/Report";
 function App() {
   return (
     <div className="app">
@@ -39,6 +39,10 @@ function App() {
                 <Route index element={<TableEmployee />} />
                 <Route path=":employeeId" element={<DetailEmployee />} />
                 <Route path="new" element={<CreateEmployee />} />
+              </Route>
+
+              <Route path="report">
+                <Route index element={<Report />} />
               </Route>
 
               <Route path="branch">

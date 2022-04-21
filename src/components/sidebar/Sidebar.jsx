@@ -11,6 +11,7 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+import FeedIcon from "@mui/icons-material/Feed";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -35,10 +36,16 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <p className="title">MAIN</p>
-          <Link to="/" style={{ textDecoration: "none" }}>
+          <Link to="/owner" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
+            </li>
+          </Link>
+          <Link to="/owner/report" style={{ textDecoration: "none" }}>
+            <li>
+              <FeedIcon className="icon" />
+              <span>Report</span>
             </li>
           </Link>
           <p className="title">LISTS</p>
@@ -60,10 +67,6 @@ const Sidebar = () => {
               <span>Products</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Orders</span>
-          </li>
           <Link to="/owner/discounts" style={{ textDecoration: "none" }}>
             <li>
               <DiscountIcon className="icon" />

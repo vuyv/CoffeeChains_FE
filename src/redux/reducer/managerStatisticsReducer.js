@@ -3,6 +3,7 @@ const initialState = {
   dailyOrders: 0,
   dailyEarnings: 0,
   weeklyEarnings: [],
+  bestSellingProducts: [],
 };
 
 const managerStatisticsReducer = (state = initialState, action) => {
@@ -26,6 +27,11 @@ const managerStatisticsReducer = (state = initialState, action) => {
       return {
         ...state,
         weeklyEarnings: action.payload,
+      };
+    case "BEST_SELLING_PRODUCTS":
+      return {
+        ...state,
+        bestSellingProducts: action.payload,
       };
     default:
       return state;

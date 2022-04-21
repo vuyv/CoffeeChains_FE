@@ -93,6 +93,11 @@ export const removeOrder = () => {
 
 export const createOrder = (order) => {
   return function (dispatch) {
+    console.log({
+      discount_code: order.discountCode,
+      totalPrice: order.appliedDiscountTotal,
+      orderDetails: order.cartItems,
+    });
     const headers = setAuthHeaders();
     axios
       .post(
@@ -105,7 +110,7 @@ export const createOrder = (order) => {
         headers
       )
       .then((res) => {
-        toast.success("Create Order Successfully", 1500);
+        toast.success("Create Order Successfully", { autoClose: 1100 });
         dispatch({
           type: "CREATE_ORDER",
           payload: res.data,

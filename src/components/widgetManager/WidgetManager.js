@@ -1,11 +1,10 @@
-import "./widget.scss";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
-const Widget = ({ type, count, parentCallback }) => {
+const WidgetManager = ({ type, count }) => {
   let data;
 
   switch (type) {
@@ -83,7 +82,6 @@ const Widget = ({ type, count, parentCallback }) => {
         </span>
         <a
           className="link"
-          onClick={() => parentCallback(true, type)}
           style={{ cursor: "pointer" }}
         >
           {data.link}
@@ -99,4 +97,4 @@ const Widget = ({ type, count, parentCallback }) => {
   );
 };
 
-export default Widget;
+export default WidgetManager;

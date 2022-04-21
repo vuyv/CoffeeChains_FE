@@ -1,7 +1,7 @@
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import "./home.scss";
-import Widget from "../../../components/widget/Widget";
+import WidgetManager from "../../../components/widgetManager/WidgetManager";
 import Featured from "../../../components/featured/Featured";
 import Chart from "../../../components/chart/Chart";
 import Table from "../../../components/table/Table";
@@ -12,8 +12,10 @@ import {
   getDailyOrders,
   getDailyEarnings,
   getWeeklyEarnings,
+  getBestSellingProducts,
 } from "../../../redux/actions/managerStatistics";
 import ColumnChart from "../../../components/columnChart/ColumnChart";
+import HorizontalBarChart from "../../../components/horizontalBarChart/HorizontalBarChart";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ const Home = () => {
     dispatch(getDailyOrders(currentDay));
     dispatch(getDailyEarnings(currentDay));
     dispatch(getWeeklyEarnings());
+    dispatch(getBestSellingProducts());
   }, []);
 
   const countOfEmployee = useSelector(
@@ -41,12 +44,24 @@ const Home = () => {
   const weeklyEarnings = useSelector(
     (state) => state.managerStatisticsReducer.weeklyEarnings
   );
-  
-  const arrayDate = [];
-  const getDate = weeklyEarnings.map((item) => arrayDate.push(item[0]));
 
-  const arrayTotal = [];
-  const getTotal = weeklyEarnings.map((item) => arrayTotal.push(item[1]));
+  const dates = [];
+  const getDate = weeklyEarnings.map((item) => dates.push(item[0]));
+
+  const totals = [];
+  const getTotal = weeklyEarnings.map((item) => totals.push(item[1]));
+
+  const bestSellingProducts = useSelector(
+    (state) => state.managerStatisticsReducer.bestSellingProducts
+  );
+
+  const products = [];
+  const getProducts = bestSellingProducts.map((item) => products.push(item[0]));
+
+  const quantities = [];
+  const getQuantity = bestSellingProducts.map((item) =>
+    quantities.push(item[1])
+  );
 
   return (
     <div className="home">
@@ -54,21 +69,31 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="user" count={countOfEmployee} />
-          <Widget type="order" count={dailyOrders} />
-          <Widget type="earning" count={dailyEarnings.toFixed(2)} />
-          <Widget type="products" />
+          <WidgetManager type="employee" count={countOfEmployee} />
+          <WidgetManager type="order" count={dailyOrders} />
+          <WidgetManager type="earning" count={dailyEarnings.toFixed(2)} />
         </div>
-        <ColumnChart dates={arrayDate} totals={arrayTotal} />
-
+        {/* <ColumnChart dates={arrayDate} totals={arrayTotal} /> */}
         <div className="charts">
-          <Featured />
-          <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
+          {/* <Featured /> */}
+          <div style={{ width: "560px", marginRight: "60px", textAlign: "center" }}>
+            <HorizontalBarChart
+              vertical={products}
+              horizontal={quantities}
+              type="bestSeller"
+            />
+            Best Selling Products
+          </div>
+          <div style={{textAlign: "center"}}>
+            <ColumnChart dates={dates} totals={totals} />
+            Weekly Revenue
+          </div>
+          {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
         </div>
-        <div className="listContainer">
+        {/* <div className="listContainer">
           <div className="listTitle">Latest Transactions</div>
-          <Table />
-        </div>
+          <BTable />
+        </div> */}
       </div>
     </div>
   );

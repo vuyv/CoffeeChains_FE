@@ -11,6 +11,7 @@ import discountReducer from "./discountReducer";
 import orderReducer from "./orderReducer";
 import managerStatisticsReducer from "./managerStatisticsReducer";
 import ownerStatisticsReducer from "./ownerStatisticsReducer";
+import ownerReportReducer from "./ownerReportReducer";
 const rootReducer = combineReducers({
   authReducer,
   employeeReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   orderReducer,
   managerStatisticsReducer,
   ownerStatisticsReducer,
+  ownerReportReducer,
 });
 
 export default rootReducer;
