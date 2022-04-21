@@ -72,3 +72,20 @@ export const getWeeklyEarnings = () => {
       .catch((error) => toast.error(error));
   };
 };
+
+export const getBestSellingProducts = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/manager/bestSellingProducts`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "BEST_SELLING_PRODUCTS",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};

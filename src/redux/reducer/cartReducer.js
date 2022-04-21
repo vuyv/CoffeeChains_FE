@@ -165,6 +165,7 @@ const cartReducer = (state = initialState, action) => {
         totalQuantity: 0,
         appliedDiscountTotal: 0,
         discountSave: 0,
+        discountCode: "",
       };
     }
     case "APPLY_DISCOUNT": {

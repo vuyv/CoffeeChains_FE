@@ -23,6 +23,7 @@ import HappeningDiscount from "./pages/Seller/discount/Discount";
 import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
 import ViewOrder from "./pages/Manager/order/ViewOrder";
 import OrderDetail from "./pages/Manager/order/OrderDetail";
+import Report from "./pages/Owner/report/Report";
 import React from "react";
 import { useSelector } from "react-redux";
 import {

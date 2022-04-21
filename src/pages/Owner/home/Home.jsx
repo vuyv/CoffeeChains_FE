@@ -14,6 +14,8 @@ import {
   getAllProducts,
   getDailyOrdersEachBranch,
   getDailyTotalPriceEachBranch,
+  getEmployeeEachBranch,
+  topWeeklySeller1,
 } from "../../../redux/actions/ownerStatistics";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
@@ -27,18 +29,20 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
-
+import HorizontalBarChart from "../../../components/horizontalBarChart/HorizontalBarChart";
 const Home = (props) => {
   const dispatch = useDispatch();
   const currentDay = format(new Date(), "yyyy-MM-dd");
 
   useEffect(() => {
     dispatch(getCountOfAllEmployee());
+    dispatch(getEmployeeEachBranch());
     dispatch(getAllDailyOrders(currentDay));
     dispatch(getAllDailyEarnings(currentDay));
     dispatch(getAllProducts());
     dispatch(getDailyOrdersEachBranch(currentDay));
     dispatch(getDailyTotalPriceEachBranch(currentDay));
+    dispatch(topWeeklySeller1());
   }, []);
 
   const countOfAllEmployee = useSelector(
@@ -57,18 +61,35 @@ const Home = (props) => {
     (state) => state.ownerStatisticsReducer.allProducts
   );
 
-  const dailyOrdersEachBrach = useSelector(
-    (state) => state.ownerStatisticsReducer.dailyOrdersEachBrach
+  const dailyOrdersEachBranch = useSelector(
+    (state) => state.ownerStatisticsReducer.dailyOrdersEachBranch
   );
 
-  const dailyTotalPriceEachBrach = useSelector(
-    (state) => state.ownerStatisticsReducer.dailyTotalPriceEachBrach
+  const dailyTotalPriceEachBranch = useSelector(
+    (state) => state.ownerStatisticsReducer.dailyTotalPriceEachBranch
   );
 
-  const [open, setOpen] = React.useState(false);
+  const employeeEachBranch = useSelector(
+    (state) => state.ownerStatisticsReducer.employeeEachBranch
+  );
 
-  const callbackFunction = (childData) => {
-    setOpen(childData); //true
+  const topWeeklySeller = useSelector(
+    (state) => state.ownerStatisticsReducer.topWeeklySeller
+  );
+
+  const branchs = [];
+  const getBranch = topWeeklySeller.map((item) => branchs.push(item[0]));
+
+  const total = [];
+  const getTotal = topWeeklySeller.map((item) => total.push(item[1]));
+
+  const [type, setType] = useState();
+
+  const [open, setOpen] = useState(false);
+
+  const callbackFunction = (status, type) => {
+    setOpen(status); //true
+    setType(type); //employee product/ earning
   };
 
   const handleClose = () => {
@@ -81,7 +102,11 @@ const Home = (props) => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <Widget type="user" count={countOfAllEmployee} />
+          <Widget
+            type="employee"
+            count={countOfAllEmployee}
+            parentCallback={callbackFunction}
+          />
           <Widget
             type="order"
             count={allDailyOrders}
@@ -101,36 +126,111 @@ const Home = (props) => {
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
           >
-            <DialogTitle id="alert-dialog-title">
-              DAILY ORDERS DETAIL
-            </DialogTitle>
-            <DialogContent>
-              <DialogContentText id="alert-dialog-description">
-                <Table sx={{ minWidth: 340 }} aria-label="simple table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Branch</TableCell>
-                      <TableCell align="right">Orders</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {dailyOrdersEachBrach.map((branch) => (
-                      <TableRow
-                        key={branch}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
-                      >
-                        <TableCell component="th" scope="row">
-                          {branch[0]}
-                        </TableCell>
-                        <TableCell align="right">{branch[1]}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </DialogContentText>
-            </DialogContent>
+            {type === "employee" && (
+              <div>
+                <DialogTitle id="alert-dialog-title">
+                  ALL EMPLOYEES EACH BRANCH
+                </DialogTitle>
+
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    <Table sx={{ minWidth: 340 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Branch</TableCell>
+                          <TableCell align="right">Employees</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {employeeEachBranch.map((branch) => (
+                          <TableRow
+                            key={branch}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {branch[0]}
+                            </TableCell>
+                            <TableCell align="right">{branch[1]}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </DialogContentText>
+                </DialogContent>
+              </div>
+            )}
+            {type === "order" && (
+              <div>
+                <DialogTitle id="alert-dialog-title">
+                  DAILY ORDERS EACH BRANCH
+                </DialogTitle>
+
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    <Table sx={{ minWidth: 340 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Branch</TableCell>
+                          <TableCell align="right">Orders Quantity</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {dailyOrdersEachBranch.map((branch) => (
+                          <TableRow
+                            key={branch}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {branch[0]}
+                            </TableCell>
+                            <TableCell align="right">{branch[1]}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </DialogContentText>
+                </DialogContent>
+              </div>
+            )}
+            {type === "earning" && (
+              <div>
+                <DialogTitle id="alert-dialog-title">
+                  DAILY EARNING EACH BRANCH
+                </DialogTitle>
+
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    <Table sx={{ minWidth: 340 }} aria-label="simple table">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Branch</TableCell>
+                          <TableCell align="right">Revenue</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {dailyTotalPriceEachBranch.map((branch) => (
+                          <TableRow
+                            key={branch}
+                            sx={{
+                              "&:last-child td, &:last-child th": { border: 0 },
+                            }}
+                          >
+                            <TableCell component="th" scope="row">
+                              {branch[0]}
+                            </TableCell>
+                            <TableCell align="right">${branch[1]}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </DialogContentText>
+                </DialogContent>
+              </div>
+            )}
             <DialogActions>
               <Button onClick={handleClose}>Close</Button>
             </DialogActions>
@@ -139,10 +239,15 @@ const Home = (props) => {
         <div className="charts">
           <Featured />
           {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
-          <div className="listContainer">
-            <div className="listTitle">Best seller</div>
-            <BTable orders={dailyOrdersEachBrach} total={dailyTotalPriceEachBrach} />
-          </div>
+
+          {/* <div className="listContainer">
+            <div className="listTitle">Top 5 Best Selling</div>
+            <BTable
+              orders={dailyOrdersEachBranch}
+              total={dailyTotalPriceEachBranch}
+            />
+          </div> */}
+          <HorizontalBarChart vertical={branchs} horizontal={total} />
         </div>
       </div>
     </div>

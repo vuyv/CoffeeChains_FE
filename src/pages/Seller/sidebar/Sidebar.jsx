@@ -1,4 +1,5 @@
 import "./sidebar.scss";
+import React, { useState, useEffect } from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import DiscountIcon from "@mui/icons-material/Discount";
@@ -19,8 +20,6 @@ import {
 } from "@material-ui/core";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-
 import { logOut } from "../../../redux/actions/authAction";
 import { removeCurrentUser } from "../../../redux/actions/employeeAction";
 import { loadCategories } from "../../../redux/actions/categoryAction";
