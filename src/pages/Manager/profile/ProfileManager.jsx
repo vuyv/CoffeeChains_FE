@@ -9,7 +9,6 @@ import Stack from "@mui/material/Stack";
 import { uploadImage } from "../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  loadCurrentUser,
   updateEmployee,
 } from "../../../redux/actions/employeeAction";
 import { useState, useEffect } from "react";
@@ -22,7 +21,6 @@ import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../redux/actions/branchAction";
 import { changePassword } from "../../../redux/actions/employeeAction";
-import employeeReducer from "../../../redux/reducer/employeeReducer";
 import { makeStyles } from "@material-ui/core/styles";
 import { profileStyles } from "./profile.style";
 

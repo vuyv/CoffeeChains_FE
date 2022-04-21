@@ -26,10 +26,10 @@ const Sidebar = () => {
       </div>
       {/* <hr /> */}
       <div className="center">
-        <span style={{ "text-transform": "uppercase", marginLeft: 20 }}>
+        {/* <span style={{ textTransform: "uppercase", marginLeft: 20 }}>
           {currentUser.branch.name}
         </span>
-        <hr style={{ marginLeft: -10 }} />
+        <hr style={{ marginLeft: -10 }} /> */}
         <ul>
           <p className="title">MAIN</p>
           <Link to="/manager" style={{ textDecoration: "none" }}>

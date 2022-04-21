@@ -17,12 +17,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { loadCurrentUser } from "../../redux/actions/employeeAction";
-import Alert from "@mui/material/Alert";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 
 const theme = createTheme();
 
@@ -60,7 +54,7 @@ function Login() {
     dispatch(logIn(username, password));
   };
 
-  if (auth.token) {
+  if (auth.token && auth.role) {
     dispatch(loadCurrentUser());
     switch (auth.role) {
       case "OWNER":
@@ -74,7 +68,8 @@ function Login() {
         break;
       default:
     }
-  } 
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -148,13 +143,12 @@ function Login() {
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/forgot_password" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
             </Grid>
           </Box>
-          {/* {auth.token && <Alert severity="error">Login fail</Alert>} */}
         </Box>
       </Container>
     </ThemeProvider>

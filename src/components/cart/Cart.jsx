@@ -7,11 +7,13 @@ import { loadHappeningDiscounts } from "../../redux/actions/discountAction";
 import { applyDiscount, clearCart } from "../../redux/actions/cartAction";
 import Button from "@mui/material/Button";
 import { createOrder } from "../../redux/actions/orderAction";
+import { Navigate, useNavigate } from "react-router-dom";
 
 function Cart(props) {
   const cartItemsRedux = useSelector((state) => state.cartReducer);
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(loadHappeningDiscounts());
@@ -29,7 +31,6 @@ function Cart(props) {
     };
   });
   const [hasDiscount, setHasDiscount] = useState(false);
-
   return (
     <div className="wrapCard">
       <h2>Order</h2>
@@ -84,6 +85,7 @@ function Cart(props) {
                 props.parentCallback(false);
                 dispatch(clearCart());
               }, 500);
+              navigate("/seller/orders/new");
             }}
           >
             Checkout

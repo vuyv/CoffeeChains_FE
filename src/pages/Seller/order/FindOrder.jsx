@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
@@ -28,10 +28,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { textTransform } from "@mui/system";
-import {
-  loadOrderByOrdinalNumber,
-  loadOrderByIdInBranch,
-} from "../../../redux/actions/orderAction";
+import { useReactToPrint } from "react-to-print";
 
 const Order = () => {
   const dispatch = useDispatch();
@@ -41,6 +38,13 @@ const Order = () => {
 
   const order = useSelector((state) => state.orderReducer.order);
   const currentUser = useSelector((state) => state.employeeReducer.currentUser);
+
+  const componentRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    copyStyles: true,
+  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -69,7 +73,6 @@ const Order = () => {
     return percent;
   };
 
-
   return (
     <div className="single">
       <Sidebar />
@@ -77,8 +80,9 @@ const Order = () => {
         <Navbar />
 
         {Object.keys(order).length !== 0 && (
-          <>
+          <div>
             <TableContainer
+              ref={componentRef}
               component={Paper}
               sx={{
                 width: 500,
@@ -119,7 +123,7 @@ const Order = () => {
                   <TableCell align="center">{order.status}</TableCell>
                 </TableRow>
               </Table>
-              <Table sx={{ marginBottom: 2 }}>
+              <Table>
                 <TableHead>
                   <TableRow sx={{ backgroundColor: "#f5eee8 !important" }}>
                     <TableCell align="center" colSpan={2}>
@@ -170,16 +174,33 @@ const Order = () => {
                   </TableRow>
                 </TableBody>
               </Table>
+            </TableContainer>
+            <TableContainer
+              component={Paper}
+              sx={{
+                width: 500,
+                margin: "auto",
+                // marginTop: 10,
+                fontSize: "1rem",
+              }}
+            >
+              <Button
+                variant="outlined"
+                onClick={handlePrint}
+                style={{ margin: 20, marginLeft: 200, width: 100 }}
+              >
+                Print
+              </Button>
               <Button
                 variant="outlined"
                 color="error"
                 onClick={handleClickOpen}
-                style={{ margin: 20, marginLeft: 370, width: 100 }}
+                style={{ margin: 10, marginLeft: 50, width: 100 }}
               >
                 Cancel
               </Button>
             </TableContainer>
-          </>
+          </div>
         )}
         {Object.keys(order).length === 0 ||
           (order === null && (

@@ -3,6 +3,7 @@ const initialState = {
   employee: {},
   disable: false,
   currentUser: {},
+  isValidPhone: false
 };
 
 const employeeReducer = (state = initialState, action) => {
@@ -52,6 +53,29 @@ const employeeReducer = (state = initialState, action) => {
         ...state,
         currentUser: null,
       };
+    case "GET_EMPLOYEE_BY_PHONE_SUCCESS":
+      return {
+        ...state,
+        employee: action.payload,
+        isValidPhone: true,
+      };
+
+    case "GET_EMPLOYEE_BY_PHONE_FAIL":
+      return {
+        ...state,
+      };
+
+    case "RESET_PASSWORD_SUCCESS":
+      return {
+        ...state,
+        employee: action.payload,
+      };
+
+    case "RESET_PASSWORD_FAIL":
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }

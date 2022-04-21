@@ -11,7 +11,6 @@ const authReducer = (state = initialState, action) => {
     case "USER_LOADED":
     case "LOG_IN_SUCCESS":
       const user = jwtDecode(action.token);
-
       return {
         ...initialState,
         token: action.token,

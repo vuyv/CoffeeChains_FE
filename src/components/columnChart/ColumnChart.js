@@ -5,8 +5,8 @@ import { Chart } from "react-chartjs-2";
 
 function ColumnChart(props) {
   const { dates, totals } = props;
-  console.log(dates);
-  console.log(totals);
+  // console.log(dates);
+  // console.log(totals);
 
   return (
     <div>
@@ -26,7 +26,7 @@ function ColumnChart(props) {
             {
               label: "Weekly Earnings",
               // data: [120, 190, 300, 500, 200, 300, 700],
-              data:  totals ,
+              data: totals,
               backgroundColor: [
                 "rgba(255, 99, 132, 0.2)",
                 "rgba(54, 162, 235, 0.2)",

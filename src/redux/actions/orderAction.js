@@ -101,7 +101,7 @@ export const loadOrderByOrdinalNumber = (ordinalNumber) => {
       .then((res) => {
         dispatch({
           type: "GET_ORDER_BY_ORDINAL_NUMBER",
-                    payload: res.data,
+          payload: res.data,
         });
       })
       .catch((error) => toast.error(error));
@@ -127,6 +127,7 @@ export const createOrder = (order) => {
           type: "CREATE_ORDER",
           payload: res.data,
         });
+        dispatch(loadOrderById(res.data.id))
       })
       .catch((error) => toast.error(error));
   };
@@ -182,4 +183,3 @@ export const loadOrdersInAMonthInBranch = () => {
       .catch((error) => toast.error(error));
   };
 };
-

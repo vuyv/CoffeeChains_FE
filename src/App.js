@@ -31,7 +31,11 @@ import {
   Route,
   useRoutes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
+import PhoneNumber from "./pages/Forgot Password/PhoneNumber";
+import VerifyCode from "./pages/Forgot Password/VerifyCode";
+import ResetPassword from "./pages/Forgot Password/ResetPassword";
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -125,20 +129,34 @@ function App() {
   const auth = useSelector((state) => state.authReducer);
   const user = JSON.parse(localStorage.getItem("current_user"));
 
-  const RequireAuth = ({ children, redirectTo }) => {
-    if (auth.token && auth.role) {
-      return children;
-    }
+  const RequireAuth = ({ redirectTo }) => {
+    let location = useLocation();
 
-    switch (user.role.name) {
-      case "OWNER":
-        return <RouteOwner />;
-      case "MANAGER":
-        return <RouteManager />;
-      case "SELLER":
-        return <RouteSeller />;
-      default:
-        return <Navigate to={redirectTo} />;
+    if (auth.role === "OWNER") {
+      return <RouteOwner />;
+    } else if (auth.role === "MANAGER") {
+      return <RouteManager />;
+    } else if (auth.role === "SELLER") {
+      return <RouteSeller />;
+    } 
+
+    if (user.role.name === "OWNER" && location.pathname.startsWith("/owner")) {
+      return <RouteOwner />;
+    } else if (
+      user.role.name === "MANAGER" &&
+      location.pathname.startsWith("/manager")
+    ) {
+      return <RouteManager />;
+    } else if (
+      user.role.name === "SELLER" &&
+      location.pathname.startsWith("/seller")
+    ) {
+      return <RouteSeller />;
+    } 
+    else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("current_user");
+      return <Navigate to={redirectTo} state={{ from: location }} />;
     }
   };
 
@@ -148,15 +166,13 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />
-
+            <Route path="forgot_password" element={<PhoneNumber />} />
+            <Route path="verify_code" element={<VerifyCode />} />
+            <Route path="reset_password" element={<ResetPassword />} />
             <Route
               path="*"
               element={
-                <RequireAuth redirectTo="/login">
-                  <RouteOwner />
-                  <RouteManager />
-                  <RouteSeller />
-                </RequireAuth>
+                <RequireAuth redirectTo="/login"/>
               }
             />
           </Route>
