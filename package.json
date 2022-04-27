@@ -42,12 +42,8 @@
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
     "react-switch": "^6.0.0",
-<<<<<<< HEAD
-    "react-to-pdf": "0.0.14",
-=======
     "react-to-pdf": "^0.0.14",
     "react-to-print": "^2.14.6",
->>>>>>> 812675ea2a49875bf740ff64422530463db5de35
     "react-toastify": "^8.2.0",
     "react-validation": "^3.0.7",
     "recharts": "^2.1.9",

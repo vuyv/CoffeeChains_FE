@@ -32,6 +32,7 @@ function Report(props) {
 
   useEffect(() => {
     categories.unshift({ id: 0, name: "All" });
+    setCategory(0);
   }, [categories]);
 
   //datepicker
@@ -109,6 +110,7 @@ function Report(props) {
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
                           label="Category"
+                          value={category}
                           onChange={handleChangeCategory}
                           size="small"
                         >

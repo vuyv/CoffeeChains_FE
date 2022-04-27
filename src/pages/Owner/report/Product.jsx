@@ -13,9 +13,9 @@ const Product = ({ filter }) => {
   const [data, setData] = useState([]);
   const reducer = useSelector((state) => state.ownerReportReducer);
 
-   useEffect(() => {
-     setData(reducer.reportByTime);
-   }, [reducer, setData]);
+  useEffect(() => {
+    setData(reducer.reportByTime);
+  }, [reducer, setData]);
 
   return (
     <div className="listContainer">
@@ -30,6 +30,9 @@ const Product = ({ filter }) => {
             </TableRow>
           </TableHead>
           <TableBody>
+            {data.length === 0 && (
+              <TableCell className="tableCell">No rows data</TableCell>
+            )}
             {data.map((row, index) => (
               <TableRow key={index}>
                 <TableCell className="tableCell">{index + 1}</TableCell>
