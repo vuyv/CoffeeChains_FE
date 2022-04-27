@@ -37,7 +37,8 @@ import {
 import PhoneNumber from "./pages/Forgot Password/PhoneNumber";
 import VerifyCode from "./pages/Forgot Password/VerifyCode";
 import ResetPassword from "./pages/Forgot Password/ResetPassword";
-
+import ReportOfOwner from "./pages/Owner/report/Report";
+import ReportOfManager from "./pages/Manager/report/Report";
 const RouteOwner = () => {
   let route = useRoutes([
     {
@@ -73,6 +74,10 @@ const RouteOwner = () => {
             { path: "new", element: <CreateDiscount /> },
           ],
         },
+        {
+          path: "report",
+          element: <ReportOfOwner />,
+        },
       ],
     },
   ]);
@@ -101,6 +106,10 @@ const RouteManager = () => {
             { path: "", element: <ViewOrder /> },
             { path: ":orderId", element: <OrderDetail /> },
           ],
+        },
+        {
+          path: "report",
+          element: <ReportOfManager />,
         },
       ],
     },
@@ -140,8 +149,10 @@ function App() {
     } else if (auth.role === "SELLER") {
       return <RouteSeller />;
     } 
-
-    if (user.role.name === "OWNER" && location.pathname.startsWith("/owner")) {
+    if (
+      user.role.name === "OWNER" &&
+      location.pathname.startsWith("/owner")
+    ) {
       return <RouteOwner />;
     } else if (
       user.role.name === "MANAGER" &&
@@ -153,8 +164,7 @@ function App() {
       location.pathname.startsWith("/seller")
     ) {
       return <RouteSeller />;
-    } 
-    else {
+    } else {
       localStorage.removeItem("token");
       localStorage.removeItem("current_user");
       return <Navigate to={redirectTo} state={{ from: location }} />;
@@ -170,12 +180,7 @@ function App() {
             <Route path="forgot_password" element={<PhoneNumber />} />
             <Route path="verify_code" element={<VerifyCode />} />
             <Route path="reset_password" element={<ResetPassword />} />
-            <Route
-              path="*"
-              element={
-                <RequireAuth redirectTo="/login"/>
-              }
-            />
+            <Route path="*" element={<RequireAuth redirectTo="/login" />} />
           </Route>
         </Routes>
       </BrowserRouter>

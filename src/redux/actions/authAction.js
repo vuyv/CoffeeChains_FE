@@ -1,4 +1,7 @@
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+toast.configure();
 
 export const logIn = (username, password) => {
   return (dispatch) => {
@@ -24,6 +27,7 @@ export const logIn = (username, password) => {
           type: "LOG_IN_FAILED",
           payload: error,
         });
+        toast.error("LOGIN FAIL");
       });
   };
 };

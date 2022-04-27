@@ -9,6 +9,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../redux/actions/authAction";
+import FeedIcon from "@mui/icons-material/Feed";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,6 +38,12 @@ const Sidebar = () => {
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
+            </li>
+          </Link>
+          <Link to="/manager/report" style={{ textDecoration: "none" }}>
+            <li>
+              <FeedIcon className="icon" />
+              <span>Report</span>
             </li>
           </Link>
           <p className="title">LISTS</p>
