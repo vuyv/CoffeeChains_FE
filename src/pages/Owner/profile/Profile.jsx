@@ -121,7 +121,7 @@ const Profile = () => {
   };
 
   const handleCancelForm = () => {
-    navigate("/owner/profile");
+    navigate("/owner");
   };
 
   const handleChangePassword = () => {

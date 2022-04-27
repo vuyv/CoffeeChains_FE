@@ -32,8 +32,13 @@ import {
   Route,
   useRoutes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
-
+import PhoneNumber from "./pages/Forgot Password/PhoneNumber";
+import VerifyCode from "./pages/Forgot Password/VerifyCode";
+import ResetPassword from "./pages/Forgot Password/ResetPassword";
+import ReportOfOwner from "./pages/Owner/report/Report";
+import ReportOfManager from "./pages/Manager/report/Report";
 const RouteOwner = () => {
   let route = useRoutes([
     {
@@ -69,6 +74,10 @@ const RouteOwner = () => {
             { path: "new", element: <CreateDiscount /> },
           ],
         },
+        {
+          path: "report",
+          element: <ReportOfOwner />,
+        },
       ],
     },
   ]);
@@ -98,6 +107,10 @@ const RouteManager = () => {
             { path: ":orderId", element: <OrderDetail /> },
           ],
         },
+        {
+          path: "report",
+          element: <ReportOfManager />,
+        },
       ],
     },
   ]);
@@ -126,20 +139,35 @@ function App() {
   const auth = useSelector((state) => state.authReducer);
   const user = JSON.parse(localStorage.getItem("current_user"));
 
-  const RequireAuth = ({ children, redirectTo }) => {
-    if (auth.token && auth.role) {
-      return children;
-    }
+  const RequireAuth = ({ redirectTo }) => {
+    let location = useLocation();
 
-    switch (user.role.name) {
-      case "OWNER":
-        return <RouteOwner />;
-      case "MANAGER":
-        return <RouteManager />;
-      case "SELLER":
-        return <RouteSeller />;
-      default:
-        return <Navigate to={redirectTo} />;
+    if (auth.role === "OWNER") {
+      return <RouteOwner />;
+    } else if (auth.role === "MANAGER") {
+      return <RouteManager />;
+    } else if (auth.role === "SELLER") {
+      return <RouteSeller />;
+    } 
+    if (
+      user.role.name === "OWNER" &&
+      location.pathname.startsWith("/owner")
+    ) {
+      return <RouteOwner />;
+    } else if (
+      user.role.name === "MANAGER" &&
+      location.pathname.startsWith("/manager")
+    ) {
+      return <RouteManager />;
+    } else if (
+      user.role.name === "SELLER" &&
+      location.pathname.startsWith("/seller")
+    ) {
+      return <RouteSeller />;
+    } else {
+      localStorage.removeItem("token");
+      localStorage.removeItem("current_user");
+      return <Navigate to={redirectTo} state={{ from: location }} />;
     }
   };
 
@@ -149,62 +177,10 @@ function App() {
         <Routes>
           <Route path="/">
             <Route path="login" element={<Login />} />
-            <Route path="profile" element={<Profile />} />
-
-            <Route path="owner">
-              <Route index element={<OwnerHome />} />
-
-              <Route path="employees">
-                <Route index element={<TableEmployee />} />
-                <Route path=":employeeId" element={<DetailEmployee />} />
-                <Route path="new" element={<CreateEmployee />} />
-              </Route>
-
-              <Route path="report">
-                <Route index element={<Report />} />
-              </Route>
-
-              <Route path="branch">
-                <Route index element={<Branch />} />
-              </Route>
-
-              <Route path="products">
-                <Route index element={<TableProduct />} />
-                <Route path=":productId" element={<DetailProduct />} />
-                <Route path="new" element={<CreateProduct />} />
-              </Route>
-
-              <Route path="discounts">
-                <Route index element={<DiscountHome />} />
-                <Route path=":discountCode" element={<DetailDiscount />} />
-                <Route path="new" element={<CreateDiscount />} />
-              </Route>
-            </Route>
-
-            <Route path="manager">
-              <Route index element={<ManagerHome />} />
-              <Route path="employees">
-                <Route index element={<EmployeeTable />} />
-                <Route path=":employeeId" element={<EmployeeDetail />} />
-                <Route path="new" element={<CreateEmployeeInBranch />} />
-              </Route>
-              <Route path="discounts" element={<ViewDiscount />} />
-              <Route path="orders">
-                <Route index element={<ViewOrder />} />
-                <Route path=":orderId" element={<OrderDetail />} />
-              </Route>
-            </Route>
-
-            <Route
-              path="*"
-              element={
-                <RequireAuth redirectTo="/login">
-                  <RouteOwner />
-                  <RouteManager />
-                  <RouteSeller />
-                </RequireAuth>
-              }
-            />
+            <Route path="forgot_password" element={<PhoneNumber />} />
+            <Route path="verify_code" element={<VerifyCode />} />
+            <Route path="reset_password" element={<ResetPassword />} />
+            <Route path="*" element={<RequireAuth redirectTo="/login" />} />
           </Route>
         </Routes>
       </BrowserRouter>

@@ -9,6 +9,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../redux/actions/authAction";
+import FeedIcon from "@mui/icons-material/Feed";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -26,16 +28,22 @@ const Sidebar = () => {
       </div>
       {/* <hr /> */}
       <div className="center">
-        <span style={{ "text-transform": "uppercase", marginLeft: 20 }}>
+        {/* <span style={{ textTransform: "uppercase", marginLeft: 20 }}>
           {currentUser.branch.name}
         </span>
-        <hr style={{ marginLeft: -10 }} />
+        <hr style={{ marginLeft: -10 }} /> */}
         <ul>
           <p className="title">MAIN</p>
           <Link to="/manager" style={{ textDecoration: "none" }}>
             <li>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
+            </li>
+          </Link>
+          <Link to="/manager/report" style={{ textDecoration: "none" }}>
+            <li>
+              <FeedIcon className="icon" />
+              <span>Report</span>
             </li>
           </Link>
           <p className="title">LISTS</p>

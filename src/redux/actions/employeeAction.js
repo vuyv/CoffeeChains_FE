@@ -2,6 +2,8 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 toast.configure();
 
@@ -300,5 +302,56 @@ export const changePassword = (
         // dispatch(loadCurrentUser());
       })
       .catch((error) => toast.error(error));
+  };
+};
+
+export const loadEmployeeByPhone = (phone) => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/employee/find/` + phone,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_EMPLOYEE_BY_PHONE_SUCCESS",
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        toast.error("PHONE NUMBER WAS NOT FOUND");
+        dispatch({
+          type: "GET_EMPLOYEE_BY_PHONE_FAIL",
+        });
+      });
+  };
+};
+
+export const resetPassword = (phone, password, confirmPassword) => {
+  return function (dispatch) {
+    axios
+      .put(
+        `${process.env.REACT_APP_HOST}/employee/reset_password/` + phone,
+        {
+          password,
+          confirmPassword,
+        },
+        headers
+      )
+      .then((res) => {
+        toast.success("Reset Password Successfully");
+        dispatch({
+          type: "RESET_PASSWORD_SUCCESS",
+          payload: res.data,
+        });
+      })
+      .catch((error) => {
+        let err = JSON.stringify(error);
+        toast.error(err);
+        console.log(err);
+        dispatch({
+          type: "RESET_PASSWORD_FAIL",
+        });
+      });
   };
 };

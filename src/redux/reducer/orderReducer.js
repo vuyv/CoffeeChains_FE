@@ -7,6 +7,7 @@ const initialState = {
   order: {},
   cancel: false,
   newOrder: {},
+  orderId: ""
 };
 
 const orderReducer = (state = initialState, action) => {
