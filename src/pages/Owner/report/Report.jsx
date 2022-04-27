@@ -4,7 +4,6 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import BTable from "../../../components/table/Table";
 import Grid from "@mui/material/Grid";
-import { loadBranchs } from "../../../redux/actions/branchAction";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import TextField from "@mui/material/TextField";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
@@ -16,47 +15,57 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
+import { format } from "date-fns";
 
+import { getReportByTime } from "../../../redux/actions/ownerReport";
+import { loadCategories } from "../../../redux/actions/categoryAction";
+import Product from "./Product";
+import Revenue from "./Revenue";
 function Report(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadBranchs());
+    dispatch(loadCategories());
   }, []);
 
   const categories = useSelector((state) => state.categoryReducer.categories);
 
-  const [branch, setBranch] = useState();
-  const branches = useSelector((state) => state.branchReducer.branchs);
-
   useEffect(() => {
-    branches.unshift({ id: 0, name: "All" });
-  }, [branches]);
-
-  const [type, setType] = useState();
+    categories.unshift({ id: 0, name: "All" });
+  }, [categories]);
 
   //datepicker
-  const [value, setValue] = React.useState(null);
+  const [timeSelected, setTimeSelected] = useState(new Date());
 
   //select
-  const [timeRange, setTimeRange] = useState("");
-  const [reportType, setReportType] = useState();
+  const [timeRange, setTimeRange] = useState("Daily");
+  const [filter, setFilter] = useState("");
 
   const handleChangeTimeRange = (event) => {
     setTimeRange(event.target.value);
   };
+
+  const [reportType, setReportType] = useState("Revenue");
   const handleChangeReportType = (e) => {
     setReportType(e.target.value);
   };
 
-  const [measure, setMeasure] = useState();
-  const handleChangeMeasure = (e) => {
-    setMeasure(e.target.value);
+  const [category, setCategory] = useState();
+  const handleChangeCategory = (e) => {
+    setCategory(e.target.value);
   };
 
   const handleApply = () => {
-    console.log("hi");
-  }
+    dispatch(
+      getReportByTime(
+        reportType,
+        timeRange,
+        category,
+        format(timeSelected, "yyyy-MM-dd")
+      )
+    );
+    setFilter(reportType);
+  };
   return (
     <div className="home">
       <Sidebar />
@@ -81,31 +90,29 @@ function Report(props) {
                         onChange={handleChangeReportType}
                         size="small"
                       >
-                        <MenuItem value={0}>Product</MenuItem>
-                        <MenuItem value={1}>Employee</MenuItem>
-                        <MenuItem value={2}>Revenue</MenuItem>
+                        <MenuItem value={"Revenue"}>Revenue</MenuItem>
+                        <MenuItem value={"Product"}>Product</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
                 </div>
               </Grid>
-              {reportType === 2 && (
+              {reportType === "Product" && (
                 <Grid item xs={2}>
                   <div>
                     <Box sx={{ minWidth: 130 }}>
                       <FormControl fullWidth>
                         <InputLabel id="demo-simple-select-label" size="small">
-                          Measure
+                          Category
                         </InputLabel>
                         <Select
                           labelId="demo-simple-select-label"
                           id="demo-simple-select"
-                          value={measure}
-                          label="Measure"
-                          onChange={handleChangeMeasure}
+                          label="Category"
+                          onChange={handleChangeCategory}
                           size="small"
                         >
-                          {branches.map((item) => (
+                          {categories.map((item) => (
                             <MenuItem value={item.id}>{item.name}</MenuItem>
                           ))}
                         </Select>
@@ -129,25 +136,24 @@ function Report(props) {
                         onChange={handleChangeTimeRange}
                         size="small"
                       >
-                        <MenuItem value={0}>Daily</MenuItem>
-                        <MenuItem value={1}>Weekly</MenuItem>
-                        <MenuItem value={2}>Monthly</MenuItem>
+                        <MenuItem value={"Daily"}>Daily</MenuItem>
+                        <MenuItem value={"Weekly"}>Weekly</MenuItem>
+                        <MenuItem value={"Monthly"}>Monthly</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
                 </div>
               </Grid>
               <Grid item xs={2}>
-                <Button variant="contained" onClick={handleApply}>Aplly</Button>
-              </Grid>
-              {/* <Grid item xs={2}>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                      label="Basic example"
-                      value={value}
+                      label="Select Time"
+                      value={timeSelected}
+                      views={["year", "month", "day"]}
+                      label="Year, month and date"
                       onChange={(newValue) => {
-                        setValue(newValue);
+                        setTimeSelected(newValue);
                       }}
                       renderInput={(params) => (
                         <TextField size="small" {...params} />
@@ -155,11 +161,15 @@ function Report(props) {
                     />
                   </LocalizationProvider>
                 </div>
-              </Grid> */}
+              </Grid>
+              <Grid item xs={2}>
+                <Button variant="contained" onClick={handleApply}>
+                  Aplly
+                </Button>
+              </Grid>
             </Grid>
-            <div className="listContainer">
-              <BTable />
-            </div>
+            {filter.includes("Product") && <Product filter={filter} />}
+            {filter.includes("Revenue") && <Revenue filter={filter} />}
           </div>
         </div>
       </div>

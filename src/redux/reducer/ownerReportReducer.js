@@ -1,13 +1,13 @@
 const initialState = {
-  dailyRevenueAllBranch: [],
+  reportByTime: [],
 };
 
 const ownerReportReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "DAILY_REVENUE_ALL_BRANCH":
+    case "REPORT_BY_TIME":
       return {
         ...state,
-        dailyRevenueAllBranch: action.payload,
+        reportByTime: action.payload,
       };
     default:
       return state;

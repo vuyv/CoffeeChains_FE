@@ -38,6 +38,7 @@
     "react-scripts": "5.0.0",
     "react-select": "^5.2.2",
     "react-switch": "^6.0.0",
+    "react-to-pdf": "0.0.14",
     "react-toastify": "^8.2.0",
     "react-validation": "^3.0.7",
     "recharts": "^2.1.9",
