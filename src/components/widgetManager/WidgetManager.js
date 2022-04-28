@@ -12,7 +12,7 @@ const WidgetManager = ({ type, count }) => {
       data = {
         title: "EMPLOYEES",
         isMoney: false,
-        link: "See all employees",
+        // link: "See all employees",
         icon: (
           <PersonOutlinedIcon
             className="icon"
@@ -28,7 +28,7 @@ const WidgetManager = ({ type, count }) => {
       data = {
         title: "DAILY ORDERS",
         isMoney: false,
-        link: "View all orders",
+        // link: "View all orders",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -44,7 +44,7 @@ const WidgetManager = ({ type, count }) => {
       data = {
         title: "DAILY EARNINGS",
         isMoney: true,
-        link: "View net earnings",
+        // link: "View net earnings",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -80,10 +80,7 @@ const WidgetManager = ({ type, count }) => {
         <span className="counter">
           {data.isMoney && "$"} {count}
         </span>
-        <a
-          className="link"
-          style={{ cursor: "pointer" }}
-        >
+        <a className="link" style={{ cursor: "pointer" }}>
           {data.link}
         </a>
       </div>

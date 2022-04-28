@@ -6,15 +6,15 @@ toast.configure();
 
 export const getReportEachBranch = (
   type,
-  branch,
-  category,
+  branchId,
+  categoryId,
   timeRange,
   date
 ) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/report/manager/?type=${type}&timeRange=${timeRange}&category=${category}&branch=${branch}&date=${date}`,
+        `${process.env.REACT_APP_HOST}/report/manager/?type=${type}&branchId=${branchId}&categoryId=${categoryId}&date=${date}&timeRange=${timeRange}`,
         setAuthHeaders()
       )
       .then((res) => {
