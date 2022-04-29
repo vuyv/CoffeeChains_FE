@@ -78,6 +78,9 @@ export const productColumns = [
     field: "price",
     headerName: "Price",
     width: 150,
+    renderCell: (params) => {
+      return <div>$ {params.row.price.toFixed(2)}</div>;
+    },
   },
 
   {

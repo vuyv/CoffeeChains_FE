@@ -109,6 +109,8 @@ const Detail = () => {
     );
     dispatch(removeTempImage());
     setIsEdit(!isEdit);
+    navigate("/owner/employees");
+
   };
 
   const handleCancelForm = () => {
