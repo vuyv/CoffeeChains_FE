@@ -180,7 +180,8 @@ export const orderColumns = [
     width: 180,
     renderCell: (params) => {
       const date = new Date(params.row.createdAt);
-      const afterFormat = format(date, "yyyy-MM-dd");
+      const afterFormat = format(date, "MM/dd/yyyy");
+      console.log(date);
       return <div>{afterFormat}</div>;
     },
   },

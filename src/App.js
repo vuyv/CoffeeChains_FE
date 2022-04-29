@@ -39,6 +39,8 @@ import VerifyCode from "./pages/Forgot Password/VerifyCode";
 import ResetPassword from "./pages/Forgot Password/ResetPassword";
 import ReportOfOwner from "./pages/Owner/report/Report";
 import ReportOfManager from "./pages/Manager/report/Report";
+import Bill from "./pages/Seller/order/Bill";
+
 const RouteOwner = () => {
   let route = useRoutes([
     {
@@ -126,7 +128,10 @@ const RouteSeller = () => {
         { path: "profile", element: <ProfileSeller /> },
         {
           path: "orders",
-          children: [{ path: ":orderId", element: <FindOrder /> }],
+          children: [
+            { path: ":orderId", element: <FindOrder /> },
+            { path: "new", element: <Bill /> },
+          ],
         },
         { path: "discounts", element: <HappeningDiscount /> },
       ],
@@ -148,11 +153,8 @@ function App() {
       return <RouteManager />;
     } else if (auth.role === "SELLER") {
       return <RouteSeller />;
-    } 
-    if (
-      user.role.name === "OWNER" &&
-      location.pathname.startsWith("/owner")
-    ) {
+    }
+    if (user.role.name === "OWNER" && location.pathname.startsWith("/owner")) {
       return <RouteOwner />;
     } else if (
       user.role.name === "MANAGER" &&

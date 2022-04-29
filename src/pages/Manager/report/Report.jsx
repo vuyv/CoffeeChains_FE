@@ -248,9 +248,9 @@ const Report = () => {
             <Stack
               direction="row"
               spacing={{ xs: 1, sm: 2, md: 4 }}
-              justifyContent="center"
-              alignItems="center"
-              margin={2}
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              marginRight={40}
             >
               <Pdf targetRef={ref} filename="report.pdf">
                 {({ toPdf }) => (
@@ -264,7 +264,7 @@ const Report = () => {
                 )}
               </Pdf>
 
-              <ReactToPrint content={() => ref.current}>
+              {/* <ReactToPrint content={() => ref.current}>
                 <PrintContextConsumer>
                   {({ handlePrint }) => (
                     <Button
@@ -278,8 +278,8 @@ const Report = () => {
                       Print
                     </Button>
                   )}
-                </PrintContextConsumer>
-              </ReactToPrint>
+                </PrintContextConsumer> */}
+              {/* </ReactToPrint> */}
 
               {/* <ReactToPrint
                 trigger={() => {

@@ -20,7 +20,7 @@ const Product = ({ timeRange, reportType, date }) => {
 
   useEffect(() => {
     setData(reducer.reportEachBranch);
-    timeReport()
+    timeReport();
   }, [reducer, setData]);
 
   const [page, setPage] = React.useState(0);
@@ -41,10 +41,8 @@ const Product = ({ timeRange, reportType, date }) => {
 
   const timeReport = () => {
     if (timeRange === "Daily") {
-      document.getElementById("timeReport").innerHTML = "Date: " +format(
-        date,
-        "dd/MM/yyyy"
-      );
+      document.getElementById("timeReport").innerHTML =
+        "Date: " + format(date, "dd/MM/yyyy");
     }
   };
 
@@ -81,6 +79,9 @@ const Product = ({ timeRange, reportType, date }) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {data.length === 0 && (
+                <TableCell className="tableCell">No rows data</TableCell>
+              )}
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
@@ -88,7 +89,9 @@ const Product = ({ timeRange, reportType, date }) => {
                     <TableCell className="tableCell">{index + 1}</TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
-                    <TableCell className="tableCell">{row[2]}</TableCell>
+                    <TableCell className="tableCell">
+                      ${row[2].toFixed(2)}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>
