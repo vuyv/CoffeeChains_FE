@@ -98,6 +98,7 @@ function Report(props) {
                   </Box>
                 </div>
               </Grid>
+
               {reportType === "Product" && (
                 <Grid item xs={2}>
                   <div>
@@ -123,6 +124,7 @@ function Report(props) {
                   </div>
                 </Grid>
               )}
+
               <Grid item xs={2}>
                 <div>
                   <Box sx={{ minWidth: 130 }}>
@@ -146,6 +148,7 @@ function Report(props) {
                   </Box>
                 </div>
               </Grid>
+
               <Grid item xs={2}>
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -170,8 +173,27 @@ function Report(props) {
                 </Button>
               </Grid>
             </Grid>
-            {filter.includes("Product") && <Product filter={filter} />}
-            {filter.includes("Revenue") && <Revenue filter={filter} />}
+            <div
+              style={{
+                width: 800,
+                marginLeft: 230,
+              }}
+            >
+              {filter === "Product" && (
+                <Product
+                  timeRange={timeRange}
+                  reportType={reportType}
+                  date={timeSelected}
+                />
+              )}
+              {filter === "Revenue" && (
+                <Revenue
+                  timeRange={timeRange}
+                  reportType={reportType}
+                  date={timeSelected}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>

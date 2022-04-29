@@ -49,6 +49,7 @@ const ProductCard = (props) => {
       <CardActions className={classes.actions}>
         <Tooltip title={"Price per unit"}>
           <Button color="primary">
+            <i style={{marginRight: "6px"}}>Price:</i>
             <Typography gutterBottom variant="h6" component="h2">
               {"$" + item.price.toFixed(2)}
             </Typography>
