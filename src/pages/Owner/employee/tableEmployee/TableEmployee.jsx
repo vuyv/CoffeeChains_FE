@@ -114,7 +114,9 @@ const TableEmployee = () => {
     if (role === "All") {
       return array;
     } else {
-      return array.filter((item) => item.role.name === role);
+      return array.filter(
+        (item) => item.role.name.toLowerCase() === role.toLowerCase()
+      );
     }
   };
 
@@ -224,12 +226,8 @@ const TableEmployee = () => {
                   }}
                 >
                   <MenuItem value={"All"}>All</MenuItem>
-                  {roles.map((role) => (
-                    <MenuItem value={role.name}>
-                      {role.name.toLowerCase().charAt(0).toUpperCase() +
-                        role.name.toLowerCase().slice(1)}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={"Manager"}>Manager</MenuItem>
+                  <MenuItem value={"Seller"}>Seller</MenuItem>
                 </Select>
               </FormControl>
             </Box>

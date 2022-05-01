@@ -64,14 +64,6 @@ const TableProduct = () => {
     handleClose();
   };
 
-  const handleChangeCategory = (e) => {
-    setCategory(e.target.value);
-    const filteredRows = products.allProducts.filter((row) => {
-      return row.category.id === e.target.value;
-    });
-    setRows(filteredRows);
-  };
-
   useEffect(() => {
     setRows(products.allProducts);
   }, [content]);
