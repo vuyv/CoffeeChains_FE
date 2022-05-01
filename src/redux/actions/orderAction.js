@@ -132,7 +132,38 @@ export const createOrder = (order) => {
           type: "CREATE_ORDER",
           payload: res.data,
         });
-        dispatch(loadOrderById(res.data.id))
+        dispatch(loadOrderById(res.data.id));
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const createFakeOrder = (order) => {
+  return function (dispatch) {
+    console.log({
+      discount_code: order.discountCode,
+      orderDetails: order.cartItems,
+      date: order.date,
+    });
+    const headers = setAuthHeaders();
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/order/new`,
+        {
+          discount_code: order.discountCode,
+          date: order.date,
+          employeeId: order.employeeId,
+          orderDetails: order.cartItems,
+        },
+        headers
+      )
+      .then((res) => {
+        // toast.success("Create Order Successfully", { autoClose: 1100 });
+        dispatch({
+          type: "CREATE_ORDER",
+          payload: res.data,
+        });
+        // dispatch(loadOrderById(res.data.id));
       })
       .catch((error) => toast.error(error));
   };

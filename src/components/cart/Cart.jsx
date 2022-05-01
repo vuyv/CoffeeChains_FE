@@ -6,7 +6,7 @@ import Select from "react-select";
 import { loadHappeningDiscounts } from "../../redux/actions/discountAction";
 import { applyDiscount, clearCart } from "../../redux/actions/cartAction";
 import Button from "@mui/material/Button";
-import { createOrder } from "../../redux/actions/orderAction";
+import { createOrder, createFakeOrder } from "../../redux/actions/orderAction";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function Cart(props) {
@@ -31,6 +31,16 @@ function Cart(props) {
     };
   });
   const [hasDiscount, setHasDiscount] = useState(false);
+
+  //generate order
+  const getRandom = (min, max) => {
+    return Math.floor(Math.random() * (max - min) + min);
+  };
+
+  var discountCode = ["wuJnyj", "KwLKum"];
+  var code = discountCode[Math.floor(Math.random() * discountCode.length)];
+
+
   return (
     <div className="wrapCard">
       <h2>Order</h2>
@@ -80,12 +90,38 @@ function Cart(props) {
             disableElevation
             variant="contained"
             onClick={() => {
-              dispatch(createOrder(cartItemsRedux));
+              for (let i = 1; i < 950; i++) {
+                const cart = {
+                  discountCode: "",
+                  // discountCode[
+                  //   Math.floor(Math.random() * discountCode.length)
+                  // ],
+                  date: "2022-01-31",
+                  employeeId: getRandom(24, 103),
+                  cartItems: [
+                    {
+                      quantity: getRandom(1, 4),
+                      product: {
+                        id: getRandom(1, 50),
+                      },
+                    },
+                    {
+                      quantity: getRandom(1, 5),
+                      product: {
+                        id: getRandom(1, 50),
+                      },
+                    },
+                  ],
+                };
+                dispatch(createFakeOrder(cart));
+              }
+
+              // dispatch(createOrder(cartItemsRedux));
               window.setTimeout(() => {
                 props.parentCallback(false);
                 dispatch(clearCart());
               }, 500);
-              navigate("/seller/orders/new");
+              // navigate("/seller/orders/new");
             }}
           >
             Checkout
