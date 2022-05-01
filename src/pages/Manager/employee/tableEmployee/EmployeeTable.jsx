@@ -112,13 +112,16 @@ const EmployeeTable = () => {
               Add New
             </Link>
           </div>
+         
           <DataGrid
             className="datagrid"
+            sx={{ width: " 89%", margin: "auto" }}
             rows={listEmployees}
             columns={userColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
           />
+
           <div>
             <Dialog
               open={open}

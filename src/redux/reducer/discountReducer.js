@@ -7,6 +7,7 @@ const initialState = {
   upcomingDiscounts: [],
   happeningDiscounts: [],
   expiredDiscounts: [],
+  statusDiscounts: [],
   discount: {},
   deleteSuccess: false,
 };
@@ -18,6 +19,7 @@ const discountReducer = (state = initialState, action) => {
         ...state,
         discounts: action.payload,
       };
+      
     case "GET_UPCOMING_DISCOUNTS":
       return {
         ...state,

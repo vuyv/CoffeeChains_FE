@@ -15,6 +15,7 @@ export const panelStyle = (theme) => ({
     display: "block",
     // marginRight: "10px",
     width: "250px",
-    "box-shadow": "none"
-  },
+    "box-shadow": "none",
+    padding: "none",
+  }
 });

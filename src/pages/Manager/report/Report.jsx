@@ -40,6 +40,7 @@ const Report = () => {
   const [timeRange, setTimeRange] = useState("Daily");
   const [reportType, setReportType] = useState("Employee");
   const [category, setCategory] = useState();
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     dispatch(loadCategories());
@@ -114,7 +115,7 @@ const Report = () => {
         <div className="datatable">
           <div className="datatableTitle">Report</div>
           <div>
-            <Grid container spacing={2} style={{ justifyContent: "center" }}>
+            <Grid container spacing={2}>
               <Grid item xs={2}>
                 <div>
                   <Box sx={{ minWidth: 130 }}>
@@ -257,6 +258,7 @@ const Report = () => {
                   <Button
                     variant="outlined"
                     style={{ marginLeft: 10, marginBottom: 10 }}
+                    // disabled={disable}
                     onClick={toPdf}
                   >
                     Export

@@ -39,20 +39,27 @@ const CreateDiscount = () => {
         <div className="top">
           <h1>Create Discount</h1>
         </div>
-        <div className="bottom" style={{ width: "650px", margin: "auto" }}>
+        <div className="bottom" style={{ width: "70%", margin: "auto" }}>
           <div className="right">
             <form>
               <div className="formInput">
                 <label>Code</label>
                 <input
                   type="text"
+                  disabled={true}
                   placeholder="Input discount code"
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  style={{ width: "63%", marginRight: "10px" }}
+                  style={{ width: "70%", marginRight: "10px" }}
                 />
-                {/* <Button variant="outlined" size="small" onClick={handleGenerateCode}>Generate</Button> */}
-                <button onClick={handleGenerateCode}>Generate</button>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={handleGenerateCode}
+                >
+                  Generate
+                </Button>
+                {/* <button onClick={handleGenerateCode}>Generate</button> */}
               </div>
               <div className="formInput">
                 <label>Percent</label>
@@ -68,7 +75,7 @@ const CreateDiscount = () => {
                   className="formInput"
                   selected={startedAt}
                   onChange={(date) => setStartedAt(date)}
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="MM/dd/yyyy"
                 />
               </div>
               <div className="formInput">
@@ -77,7 +84,7 @@ const CreateDiscount = () => {
                   className="formInput"
                   selected={endedAt}
                   onChange={(date) => setEndedAt(date)}
-                  dateFormat="dd/MM/yyyy"
+                  dateFormat="MM/dd/yyyy"
                 />
               </div>
               <div className="formInput" style={{ width: "93%" }}>
@@ -89,12 +96,29 @@ const CreateDiscount = () => {
                 ></textarea>
               </div>
             </form>
-            <button
+            {/* <div style={{ margin: "30px", alignItems: "center" }}> */}
+            <Button
+              variant="contained"
+              size="medium"
+              sx={{ margin: "30px", marginLeft: "400px" }}
               onClick={handleCreate}
-              style={{ marginTop: "10px", marginLeft: "270px" }}
             >
               Create
-            </button>
+            </Button>
+            {/* </div> */}
+
+            {/* <button
+              onClick={handleCreate}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "auto",
+                padding: "auto",
+              }}
+            >
+              Create
+            </button> */}
           </div>
         </div>
       </div>

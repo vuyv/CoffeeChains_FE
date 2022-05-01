@@ -107,10 +107,47 @@ export const disableProduct = (id) => {
 export const loadProductByCategory = (categoryId) => {
   return function (dispatch) {
     axios
-      .get(`${process.env.REACT_APP_HOST}/product/category/` + categoryId, setAuthHeaders())
+      .get(
+        `${process.env.REACT_APP_HOST}/product/category/` + categoryId,
+        setAuthHeaders()
+      )
       .then((res) => {
         dispatch({
           type: "GET_PRODUCT_BY_CATEGORY",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const loadActiveProductByCategory = (categoryId) => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/product/?categoryId=${categoryId}&status=available`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ACTIVE_PRODUCT_BY_CATEGORY",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const loadActiveProducts = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/product/status/?status=available`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_ACTIVE_PRODUCTS",
           payload: res.data,
         });
       })

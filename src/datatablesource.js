@@ -118,7 +118,7 @@ export const discountColumns = [
     width: 180,
     renderCell: (params) => {
       const date = new Date(params.row.startedAt);
-      const afterFormat = format(date, "yyyy-MM-dd");
+      const afterFormat = format(date, "MM/dd/yyyy");
       return <div>{afterFormat}</div>;
     },
   },
@@ -128,7 +128,7 @@ export const discountColumns = [
     width: 180,
     renderCell: (params) => {
       const date = new Date(params.row.endedAt);
-      const afterFormat = format(date, "yyyy-MM-dd");
+      const afterFormat = format(date, "MM/dd/yyyy");
       return <div>{afterFormat}</div>;
     },
   },
@@ -148,11 +148,11 @@ export const discountColumns = [
 ];
 
 export const orderColumns = [
-  { field: "id", headerName: "Order Number", width: 150 },
+  { field: "id", headerName: "Order Number", width: 200 },
   {
     field: "createdBy",
     headerName: "Employee",
-    width: 150,
+    width: 200,
     renderCell: (params) => {
       return <div>{params.row.createdBy.name}</div>;
     },
@@ -184,7 +184,6 @@ export const orderColumns = [
     renderCell: (params) => {
       const date = new Date(params.row.createdAt);
       const afterFormat = format(date, "MM/dd/yyyy");
-      console.log(date);
       return <div>{afterFormat}</div>;
     },
   },

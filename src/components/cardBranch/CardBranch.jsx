@@ -24,8 +24,8 @@ const CardBranch = (props) => {
 
   useEffect(() => {
     if (branchStatus === "INACTIVE") {
-      setBackgroundColor("rgba(255, 0, 0, 0.2)");
-      setLogoColor("crimson");
+      setBackgroundColor("rgba(56, 54, 54, 0.05)");
+      setLogoColor("silver");
       setStatusSwitch(false);
     } else {
       setBackgroundColor("rgba(0, 128, 0, 0.2)");

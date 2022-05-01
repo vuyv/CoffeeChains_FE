@@ -58,10 +58,16 @@ const Sidebar = () => {
               <span>Employee</span>
             </li>
           </Link>
+          <Link to="/owner/category" style={{ textDecoration: "none" }}>
+            <li>
+              <CreditCardIcon className="icon" />
+              <span>Category</span>
+            </li>
+          </Link>
           <Link to="/owner/products" style={{ textDecoration: "none" }}>
             <li>
-              <StoreIcon className="icon" />
-              <span>Products</span>
+              <SettingsSystemDaydreamOutlinedIcon className="icon" />
+              <span>Product</span>
             </li>
           </Link>
           <Link to="/owner/discounts" style={{ textDecoration: "none" }}>

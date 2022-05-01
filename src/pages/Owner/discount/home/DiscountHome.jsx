@@ -6,6 +6,7 @@ import {
   loadHappeningDiscounts,
   loadUpcomingDiscounts,
   deleteDiscount,
+
 } from "../../../../redux/actions/discountAction";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
@@ -40,6 +41,7 @@ function DiscountHome(props) {
     dispatch(loadUpcomingDiscounts());
     dispatch(loadHappeningDiscounts());
     dispatch(loadExpiredDiscounts());
+
   }, []);
 
   const [value, setValue] = useState(0);
@@ -151,6 +153,7 @@ function DiscountHome(props) {
               getRowId={(row) => row.code}
             />
           )}
+
           <Dialog
             open={open}
             onClose={handleClose}
@@ -162,7 +165,7 @@ function DiscountHome(props) {
             </DialogTitle>
             <DialogContent>
               <DialogContentText id="alert-dialog-description">
-                Are you sure you want to disable this element?
+                Are you sure you want to disable this discount?
               </DialogContentText>
             </DialogContent>
             <DialogActions>

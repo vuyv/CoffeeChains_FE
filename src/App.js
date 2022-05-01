@@ -40,6 +40,7 @@ import ResetPassword from "./pages/Forgot Password/ResetPassword";
 import ReportOfOwner from "./pages/Owner/report/Report";
 import ReportOfManager from "./pages/Manager/report/Report";
 import Bill from "./pages/Seller/order/Bill";
+import Category from "./pages/Owner/category/Category"
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -59,6 +60,10 @@ const RouteOwner = () => {
         {
           path: "branch",
           element: <Branch />,
+        },
+        {
+          path: "category",
+          element: <Category />,
         },
         {
           path: "products",

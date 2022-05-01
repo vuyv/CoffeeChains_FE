@@ -1,0 +1,24 @@
+.category {
+    display: flex;
+
+    .homeContainer {
+        flex: 6;
+
+        // .link {
+        //   color: white;
+        //   margin-top: 0px;
+        // }
+        .widgets,
+        .charts {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 40px;
+            gap: 40px;
+            justify-content: space-between;  
+        }
+
+        .charts {
+            padding: 5px 20px;
+        }
+    }
+}

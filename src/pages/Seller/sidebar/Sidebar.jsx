@@ -25,6 +25,7 @@ import { removeCurrentUser } from "../../../redux/actions/employeeAction";
 import { loadCategories } from "../../../redux/actions/categoryAction";
 import { panelStyle } from "./sidebar.style";
 import { loadProductByCategory } from "../../../redux/actions/productAction";
+import { loadActiveProductByCategory } from './../../../redux/actions/productAction';
 
 const useStyles = makeStyles(panelStyle);
 
@@ -41,7 +42,7 @@ const Sidebar = () => {
   };
 
   const handleChangeCategory = (id) => {
-    dispatch(loadProductByCategory(id));
+    dispatch(loadActiveProductByCategory(id));
   };
 
   const categories = useSelector((state) => state.categoryReducer.categories);
@@ -61,12 +62,20 @@ const Sidebar = () => {
       <div className="center">
         <ul>
           <Link to="/seller" style={{ textDecoration: "none" }}>
-            <ExpansionPanel className={classes.panel} elevation={5}>
+            <ExpansionPanel
+              className={classes.panel}
+              elevation={5}
+              style={{ padding: 0 }}
+            >
               <li>
                 <ExpansionPanelSummary
                   expandIcon={<ExpandMoreIcon fontSize="small" />}
                 >
-                  <EmojiFoodBeverageIcon fontSize="medium" color="primary" />
+                  <EmojiFoodBeverageIcon
+                    // fontSize="medium"
+                    // color="primary"
+                    style={{ "font-size": "18px", color: "#7451f8" }}
+                  />
                   <span>Products</span>
                 </ExpansionPanelSummary>
               </li>

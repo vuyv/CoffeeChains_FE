@@ -55,7 +55,7 @@ const Revenue = ({ timeRange, reportType, date }) => {
           </Stack> */}
           <Stack direction="column">
             <h6>
-              <b>Date:</b> <i>{format(date, "dd/MM/yyyy")}</i>
+              <b>Date:</b> <i>{format(date, "MM/dd/yyyy")}</i>
             </h6>
           </Stack>
         </Stack>
@@ -77,12 +77,18 @@ const Revenue = ({ timeRange, reportType, date }) => {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={index + 1}>
-                    <TableCell className="tableCell">{index + 1}</TableCell>
+                  <TableRow key={index + 1 + page * rowsPerPage}>
+                    <TableCell className="tableCell">
+                      {index + 1 + page * rowsPerPage}
+                    </TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
-                    <TableCell className="tableCell">{row[2]}</TableCell>
                     <TableCell className="tableCell">
+                      {String(row[2]).length == 1
+                        ? "0" + String(row[2]).slice(-2)
+                        : row[2]}
+                    </TableCell>
+                    <TableCell className="tableCell" align="right" >
                       ${Number(row[3]).toFixed(2)}
                     </TableCell>
                   </TableRow>

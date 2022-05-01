@@ -72,15 +72,21 @@ function ViewOrder() {
         <div className="datatable">
           <div className="datatableTitle">Order Management</div>
 
-          <Tabs value={selectedTab} onChange={handleChangeTab}>
+          <Tabs
+            value={selectedTab}
+            onChange={handleChangeTab}
+            style={{ margin: "auto" }}
+          >
             <Tab label="all"></Tab>
             <Tab label="today"></Tab>
             <Tab label="week"></Tab>
             <Tab label="month"></Tab>
           </Tabs>
+
           {selectedTab === 0 && (
             <DataGrid
               className="datagrid"
+              sx={{ margin: "auto" }}
               rows={orders}
               columns={orderColumns.concat(actionColumn)}
               pageSize={9}

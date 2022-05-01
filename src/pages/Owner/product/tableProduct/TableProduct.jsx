@@ -13,12 +13,21 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import {
   loadProducts,
   loadProductById,
   disableProduct,
+  loadProductByCategory,
 } from "../../../../redux/actions/productAction";
 import { useRef } from "react";
+import { loadCategories } from "./../../../../redux/actions/categoryAction";
+import { Stack } from "@mui/material";
 
 const TableProduct = () => {
   const navigate = useNavigate();
@@ -26,12 +35,16 @@ const TableProduct = () => {
 
   const [rows, setRows] = useState();
   const [content, setContent] = useState();
+  const [category, setCategory] = useState("All");
+  const [status, setStatus] = useState("All");
 
   const products = useSelector((state) => state.productReducer);
   const product = useSelector((state) => state.productReducer.product);
+  const categories = useSelector((state) => state.categoryReducer.categories);
 
   useEffect(() => {
     dispatch(loadProducts());
+    dispatch(loadCategories());
   }, []);
 
   const [open, setOpen] = useState(false);
@@ -51,13 +64,17 @@ const TableProduct = () => {
     handleClose();
   };
 
-  const handleViewDetail = (id) => {
-    dispatch(loadProductById(id));
+  const handleChangeCategory = (e) => {
+    setCategory(e.target.value);
+    const filteredRows = products.allProducts.filter((row) => {
+      return row.category.id === e.target.value;
+    });
+    setRows(filteredRows);
   };
 
   useEffect(() => {
     setRows(products.allProducts);
-  }, []);
+  }, [content]);
 
   useEffect(() => {
     if (products) {
@@ -75,6 +92,33 @@ const TableProduct = () => {
     });
     setRows(filteredRows);
   };
+
+  const filterStatus = (array) => {
+    if (status === "All") {
+      return array;
+    } else {
+      return array.filter(
+        (item) => item.status.toLowerCase() === status.toLowerCase()
+      );
+    }
+  };
+
+  const filterCategory = (array) => {
+    if (category === "All") {
+      return array;
+    } else {
+      return array.filter((item) => item.category.name === category);
+    }
+  };
+
+  useEffect(() => {
+    let result = products.allProducts;
+    window.setTimeout(() => {
+      result = filterCategory(result);
+      result = filterStatus(result);
+      setRows(result);
+    }, 100);
+  }, [category, status]);
 
   const actionColumn = [
     {
@@ -114,17 +158,71 @@ const TableProduct = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Product Management
-            <Link to="/owner/products/new" className="link">
-              Add New
-            </Link>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/owner/products/new")}
+            >
+              <AddCircleOutlineIcon />
+              New Product
+            </Button>
           </div>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={5}
+            m={2}
+          >
+            <Box sx={{ width: 200 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" size="small">
+                  Category
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={category}
+                  label="Category"
+                  onChange={(e) => setCategory(e.target.value)}
+                  size="small"
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  {categories.map((item) => (
+                    <MenuItem value={item.name}>{item.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ width: 200 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" size="small">
+                  Status
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={status}
+                  label="Status"
+                  onChange={(e) => setStatus(e.target.value)}
+                  size="small"
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  <MenuItem value={"Available"}>Available</MenuItem>
+                  <MenuItem value={"Unavailable"}>Unavailable</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Stack>
+
           <DataGrid
             className="datagrid"
+            sx={{ width: "77%", margin: "auto" }}
             rows={rows}
             columns={productColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
           />
+
           <div>
             <Dialog
               open={open}
@@ -137,7 +235,7 @@ const TableProduct = () => {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Are you sure you want to disable this element?
+                  Are you sure you want to disable this product?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

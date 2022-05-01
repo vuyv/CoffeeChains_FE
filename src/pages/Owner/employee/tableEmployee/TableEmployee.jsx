@@ -20,6 +20,16 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Box from "@mui/material/Box";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { loadBranchs } from "./../../../../redux/actions/branchAction";
+import branchReducer from "./../../../../redux/reducer/branchReducer";
+import { loadRoles } from "./../../../../redux/actions/roleAction";
+import { Stack } from "@mui/material";
 
 const TableEmployee = () => {
   const navigate = useNavigate();
@@ -30,11 +40,18 @@ const TableEmployee = () => {
   const [id, setId] = useState();
   const [listEmployees, setListEmployees] = useState([]);
   const [content, setContent] = useState([]);
+  const [branch, setBranch] = useState("All");
+  const [active, setActive] = useState("All");
+  const [role, setRole] = useState("All");
 
   const listEmployeesRedux = useSelector((state) => state.employeeReducer);
+  const branches = useSelector((state) => state.branchReducer.branchs);
+  const roles = useSelector((state) => state.roleReducer.roles);
 
   useEffect(() => {
     dispatch(loadEmployees());
+    dispatch(loadBranchs());
+    dispatch(loadRoles());
   }, []);
 
   useEffect(() => {
@@ -75,6 +92,43 @@ const TableEmployee = () => {
     handleClose();
   };
 
+  const filterStatus = (array) => {
+    if (active === "All") {
+      return array;
+    } else {
+      return array.filter(
+        (item) => item.status.toLowerCase() === active.toLowerCase()
+      );
+    }
+  };
+
+  const filterBranch = (array) => {
+    if (branch === "All") {
+      return array;
+    } else {
+      return array.filter((item) => item.branch.name === branch);
+    }
+  };
+
+  const filterRole = (array) => {
+    if (role === "All") {
+      return array;
+    } else {
+      return array.filter((item) => item.role.name === role);
+    }
+  };
+
+  useEffect(() => {
+    //Filter options updated so apply all filters here
+    let result = listEmployeesRedux.employees;
+    window.setTimeout(() => {
+      result = filterBranch(result);
+      result = filterStatus(result);
+      result = filterRole(result);
+      setListEmployees(result);
+    }, 100);
+  }, [branch, active, role, listEmployees]);
+
   const actionColumn = [
     {
       field: "action",
@@ -109,10 +163,77 @@ const TableEmployee = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Employee Management
-            <Link to="/owner/employees/new" className="link">
-              Add New
-            </Link>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/owner/employees/new")}
+            >
+              <AddCircleOutlineIcon />
+              New Employee
+            </Button>
           </div>
+          <Stack
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            spacing={5}
+            m={2}
+          >
+            <Box sx={{ width: 250 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Branch</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={branch}
+                  label="branch"
+                  onChange={(event) => setBranch(event.target.value)}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  {branches.map((branch) => (
+                    <MenuItem value={branch.name}>{branch.name}</MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ width: 250 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Status</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={active}
+                  label="status"
+                  onChange={(event) => setActive(event.target.value)}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  <MenuItem value={"Active"}>Active</MenuItem>
+                  <MenuItem value={"Inactive"}>Inactive</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box sx={{ width: 250 }}>
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Role</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={role}
+                  label="role"
+                  onChange={(e) => {
+                    setRole(e.target.value);
+                  }}
+                >
+                  <MenuItem value={"All"}>All</MenuItem>
+                  {roles.map((role) => (
+                    <MenuItem value={role.name}>
+                      {role.name.toLowerCase().charAt(0).toUpperCase() +
+                        role.name.toLowerCase().slice(1)}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </Stack>
           <DataGrid
             className="datagrid"
             rows={listEmployees}

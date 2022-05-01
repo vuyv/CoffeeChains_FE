@@ -6,12 +6,13 @@ import { Grid, Box } from "@material-ui/core";
 import ProductCard from "../../../components/Cards/productCard.component";
 import { makeStyles } from "@material-ui/core/styles";
 import { productPageStyles } from "./productPage.styles";
-import {
-  loadProductByCategory,
-  loadProducts,
-} from "../../../redux/actions/productAction";
+
 import Cart from "../../../components/cart/Cart";
 import Drawer from "@mui/material/Drawer";
+import {
+  loadActiveProductByCategory,
+  loadActiveProducts,
+} from "./../../../redux/actions/productAction";
 
 const useStyles = makeStyles(productPageStyles);
 
@@ -32,13 +33,14 @@ const Order = () => {
   const allProductsRedux = useSelector((state) => state.productReducer);
 
   useEffect(() => {
-    dispatch(loadProductByCategory(1));
+    dispatch(loadActiveProducts());
+    dispatch(loadActiveProductByCategory(1));
   }, [dispatch]);
 
   useEffect(() => {
     if (productListRedux) {
       let result = [];
-      productListRedux.productsByCategory.forEach((product) => {
+      productListRedux.activeProductsByCategory.forEach((product) => {
         result.push(product);
       });
       setProductList(result);
@@ -48,7 +50,7 @@ const Order = () => {
   useEffect(() => {
     if (allProductsRedux) {
       let result = [];
-      productListRedux.allProducts.forEach((product) => {
+      productListRedux.activeProducts.forEach((product) => {
         result.push(product);
       });
       setContent(result);
