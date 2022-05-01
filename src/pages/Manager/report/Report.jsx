@@ -40,6 +40,7 @@ const Report = () => {
   const [timeRange, setTimeRange] = useState("Daily");
   const [reportType, setReportType] = useState("Employee");
   const [category, setCategory] = useState();
+  const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     dispatch(loadCategories());
@@ -114,7 +115,7 @@ const Report = () => {
         <div className="datatable">
           <div className="datatableTitle">Report</div>
           <div>
-            <Grid container spacing={2} style={{ justifyContent: "center" }}>
+            <Grid container spacing={2}>
               <Grid item xs={2}>
                 <div>
                   <Box sx={{ minWidth: 130 }}>
@@ -248,15 +249,16 @@ const Report = () => {
             <Stack
               direction="row"
               spacing={{ xs: 1, sm: 2, md: 4 }}
-              justifyContent="center"
-              alignItems="center"
-              margin={2}
+              justifyContent="flex-end"
+              alignItems="flex-end"
+              marginRight={40}
             >
               <Pdf targetRef={ref} filename="report.pdf">
                 {({ toPdf }) => (
                   <Button
                     variant="outlined"
                     style={{ marginLeft: 10, marginBottom: 10 }}
+                    // disabled={disable}
                     onClick={toPdf}
                   >
                     Export
@@ -264,7 +266,7 @@ const Report = () => {
                 )}
               </Pdf>
 
-              <ReactToPrint content={() => ref.current}>
+              {/* <ReactToPrint content={() => ref.current}>
                 <PrintContextConsumer>
                   {({ handlePrint }) => (
                     <Button
@@ -278,8 +280,8 @@ const Report = () => {
                       Print
                     </Button>
                   )}
-                </PrintContextConsumer>
-              </ReactToPrint>
+                </PrintContextConsumer> */}
+              {/* </ReactToPrint> */}
 
               {/* <ReactToPrint
                 trigger={() => {

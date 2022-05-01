@@ -52,18 +52,22 @@ const Product = ({ timeRange, reportType, date }) => {
           </Stack> */}
           <Stack direction="column">
             <h6>
-              <b>Date:</b> <i>{format(date, "dd/MM/yyyy")}</i>
+              <b>Date:</b> <i>{format(date, "MM/dd/yyyy")}</i>
             </h6>
           </Stack>
         </Stack>
         <TableContainer component={Paper} className="table">
-          <Table sx={{ minWidth: 650 }} aria-label="simple table" pagin>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell className="tableCell">No.</TableCell>
                 <TableCell className="tableCell">Name</TableCell>
-                <TableCell className="tableCell">Quantity</TableCell>
-                <TableCell className="tableCell">Revenue</TableCell>
+                <TableCell className="tableCell" align="center">
+                  Quantity
+                </TableCell>
+                <TableCell className="tableCell" align="right">
+                  Revenue
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -73,12 +77,20 @@ const Product = ({ timeRange, reportType, date }) => {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={index + 1}>
-                    <TableCell className="tableCell">{index + 1}</TableCell>
-                    <TableCell className="tableCell">{row[0]}</TableCell>
-                    <TableCell className="tableCell">{row[1]}</TableCell>
+                  <TableRow key={index + 1 + page * rowsPerPage}>
                     <TableCell className="tableCell">
-                      $ {row[2].toFixed(2)}
+                      {index + 1 + page * rowsPerPage}
+                    </TableCell>
+                    <TableCell className="tableCell">{row[0]}</TableCell>
+                    <TableCell className="tableCell" align="center">
+                      {String(row[1]).length == 1
+                        ? "00" + String(row[1]).slice(-2)
+                        : row[1] || String(row[1]).length == 2
+                        ? "0" + String(row[1]).slice(-2)
+                        : row[1]}
+                    </TableCell>
+                    <TableCell className="tableCell" align="right">
+                      ${Number(row[2]).toFixed(2)}
                     </TableCell>
                   </TableRow>
                 ))}

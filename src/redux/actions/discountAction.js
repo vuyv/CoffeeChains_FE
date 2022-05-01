@@ -94,7 +94,7 @@ export const createDiscount = (code, percent, startedAt, endedAt, title) => {
         });
         dispatch(loadUpcomingDiscounts());
       })
-      .catch((error) => toast.error(error));
+      .catch((error) => toast.error("CREATE DISCOUNT FAIL"));
   };
 };
 
@@ -138,8 +138,10 @@ export const deleteDiscount = (code) => {
           type: "DELETE_DISCOUNT",
           payload: res.data,
         });
-        dispatch(loadUpcomingDiscounts());
+        dispatch(loadAllDiscounts());
       })
       .catch((error) => toast.error(error));
   };
 };
+
+

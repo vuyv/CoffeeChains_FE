@@ -30,14 +30,12 @@ import Paper from "@mui/material/Paper";
 import { textTransform } from "@mui/system";
 import { useReactToPrint } from "react-to-print";
 
-const Order = () => {
+const Bill = () => {
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
-  const { branchId } = useParams();
-  const { value } = useParams();
 
   const order = useSelector((state) => state.orderReducer.order);
-  const currentUser = useSelector((state) => state.employeeReducer.currentUser);
+  const currentUser = JSON.parse(localStorage.getItem("current_user"));
 
   const componentRef = useRef();
 
@@ -46,22 +44,9 @@ const Order = () => {
     copyStyles: true,
   });
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleAgree = () => {
-    dispatch(cancelOrder(order.id));
-    handleClose();
-  };
-
   const formatDate = (createdDate) => {
     const date = new Date(createdDate);
-    const afterFormat = format(date, "yyyy-MM-dd");
+    const afterFormat = format(date, "dd/MM/yyyy");
     return afterFormat;
   };
 
@@ -87,27 +72,48 @@ const Order = () => {
               sx={{
                 width: 500,
                 margin: "auto",
-                marginTop: 2,
+                marginTop: 10,
                 fontSize: "1rem",
               }}
             >
               <Table sx={{ marginTop: 3 }}>
+                <h5
+                  style={{
+                    position: "absolute",
+                    "justify-content": "center",
+                    marginLeft: 200,
+                    marginBottom: 100
+                  }}
+                >
+                  RECEIPT
+                </h5>
+                <TableRow
+                  xs={{
+                    "&:last-child td, &:last-child th": { border: "none", paddingTop: 30 },
+                  }}
+                >
+                  <TableCell align="center" colSpan={2}>
+                    {/* Branch */}
+                    {currentUser.branch.name}
+                  </TableCell>
+                  <TableCell align="center">
+                    {currentUser.branch.address}
+                  </TableCell>
+                </TableRow>
+
                 <TableRow
                   xs={{
                     "&:last-child td, &:last-child th": { border: "none" },
                   }}
                 >
                   <TableCell align="center" colSpan={2}>
-                    No
+                    No.
                   </TableCell>
-                  <TableCell align="center">{order.id}</TableCell>
-                </TableRow>
-                <TableRow>
-                  <TableCell align="center" colSpan={2}>
-                    Employee
+                  <TableCell align="center">
+                    {order.id.substr(order.id.length - 3)}
                   </TableCell>
-                  <TableCell align="center">{order.createdBy.name}</TableCell>
                 </TableRow>
+
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
                     Date
@@ -116,11 +122,12 @@ const Order = () => {
                     {formatDate(order.createdAt)}
                   </TableCell>
                 </TableRow>
+
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
-                    Status
+                    Employee
                   </TableCell>
-                  <TableCell align="center">{order.status}</TableCell>
+                  <TableCell align="center">{order.createdBy.name}</TableCell>
                 </TableRow>
               </Table>
               <Table>
@@ -151,7 +158,11 @@ const Order = () => {
                       <TableCell align="center" colSpan={2}>
                         {orderDetail.quantity}
                       </TableCell>
-                      <TableCell align="center" colSpan={2}>
+                      <TableCell
+                        align="right"
+                        colSpan={2}
+                        sx={{ paddingRight: 10 }}
+                      >
                         ${orderDetail.product.price}
                       </TableCell>
                     </TableRow>
@@ -160,7 +171,11 @@ const Order = () => {
                     <TableCell align="center" colSpan={4}>
                       Discount
                     </TableCell>
-                    <TableCell align="center" colSpan={4}>
+                    <TableCell
+                      align="right"
+                      colSpan={4}
+                      sx={{ paddingRight: 10 }}
+                    >
                       {formatDiscount(order.discount)}
                     </TableCell>
                   </TableRow>
@@ -168,7 +183,11 @@ const Order = () => {
                     <TableCell align="center" colSpan={4}>
                       Total Price
                     </TableCell>
-                    <TableCell align="center" colSpan={4}>
+                    <TableCell
+                      align="right"
+                      colSpan={4}
+                      sx={{ paddingRight: 10 }}
+                    >
                       ${order.totalPrice}
                     </TableCell>
                   </TableRow>
@@ -187,17 +206,9 @@ const Order = () => {
               <Button
                 variant="outlined"
                 onClick={handlePrint}
-                style={{ margin: 20, marginLeft: 150, width: 100 }}
+                style={{ margin: 20, marginLeft: 350, width: 100 }}
               >
                 Print
-              </Button>
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={handleClickOpen}
-                style={{ margin: 10, marginLeft: 50, width: 150 }}
-              >
-                Cancel Order
               </Button>
             </TableContainer>
           </div>
@@ -209,29 +220,8 @@ const Order = () => {
             </Alert>
           ))}
       </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Do you want to cancel order?"}
-        </DialogTitle>
-        <DialogActions
-          sx={{
-            width: 300,
-            height: 100,
-          }}
-        >
-          <Button onClick={handleClose} autoFocus>
-            Disagree
-          </Button>
-          <Button onClick={handleAgree}>Agree</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
 
-export default Order;
+export default Bill;

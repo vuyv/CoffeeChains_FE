@@ -73,7 +73,9 @@ const Employee = ({ timeRange, reportType, date }) => {
                     <TableCell className="tableCell">{index + 1}</TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
-                    <TableCell className="tableCell">{row[2]}</TableCell>
+                    <TableCell className="tableCell">
+                      ${row[2].toFixed(2)}
+                    </TableCell>
                   </TableRow>
                 ))}
             </TableBody>

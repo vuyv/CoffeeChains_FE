@@ -82,7 +82,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Employee Manage
+        Employee Management
         <Link to="/owner/employees/new" className="link">
           Add New
         </Link>

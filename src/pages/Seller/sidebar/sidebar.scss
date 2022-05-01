@@ -47,10 +47,15 @@
           &:hover {
             background-color: #ece8ff;
           }
+
+          &:active{
+            background-color: #ece8ff;
+          }
   
           .icon {
             font-size: 18px;
             color: #7451f8;
+            
           }
   
           span{
@@ -86,6 +91,14 @@
                 background-color: darkblue;
             }
         }
+    }
+    .MuiExpansionPanelSummary-root{
+      padding: 0
+    }
+    .MuiExpansionPanel-root{
+      
+        padding: 0 !important
+    
     }
   }
   

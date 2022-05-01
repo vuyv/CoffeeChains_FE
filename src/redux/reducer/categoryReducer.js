@@ -20,7 +20,6 @@ const categoryReducer = (state = initialState, action) => {
         category: action.payload,
       };
     case "UPDATE_CATEGORY":
-      toast.success("Update Successfully");
       return {
         ...state,
         category: action.payload,

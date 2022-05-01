@@ -11,6 +11,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { createBranch } from "../../../redux/actions/branchAction";
 
 const Branch = () => {
@@ -47,9 +48,10 @@ const Branch = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Branch Management
-            <button className="link" onClick={handleClickOpen}>
-              Add New
-            </button>
+            <Button variant="outlined" onClick={handleClickOpen}>
+              <AddCircleOutlineIcon />
+              New Branch
+            </Button>
           </div>
           <div className="widgets">
             {branchFromRedux.map((item, index) => (
