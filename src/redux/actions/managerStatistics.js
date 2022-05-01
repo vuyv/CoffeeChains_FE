@@ -56,12 +56,12 @@ export const getDailyEarnings = (date) => {
   };
 };
 
-export const getWeeklyEarnings = () => {
+export const getWeeklyEarnings = (date) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/branch/count/lastweek`,
-          setAuthHeaders()
+        `${process.env.REACT_APP_HOST}/order/branch/count/lastweek/` + date,
+        setAuthHeaders()
       )
       .then((res) => {
         dispatch({

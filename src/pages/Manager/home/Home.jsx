@@ -25,7 +25,7 @@ const Home = () => {
     dispatch(getCountOfBranchEmployee());
     dispatch(getDailyOrders(currentDay));
     dispatch(getDailyEarnings(currentDay));
-    dispatch(getWeeklyEarnings());
+    dispatch(getWeeklyEarnings(currentDay));
     dispatch(getBestSellingProducts());
   }, []);
 
@@ -76,7 +76,9 @@ const Home = () => {
         {/* <ColumnChart dates={arrayDate} totals={arrayTotal} /> */}
         <div className="charts">
           {/* <Featured /> */}
-          <div style={{ width: "560px", marginRight: "60px", textAlign: "center" }}>
+          <div
+            style={{ width: "560px", marginRight: "60px", textAlign: "center" }}
+          >
             <HorizontalBarChart
               vertical={products}
               horizontal={quantities}
@@ -84,7 +86,7 @@ const Home = () => {
             />
             Best Selling Products
           </div>
-          <div style={{textAlign: "center"}}>
+          <div style={{ textAlign: "center" }}>
             <ColumnChart dates={dates} totals={totals} />
             Weekly Revenue
           </div>

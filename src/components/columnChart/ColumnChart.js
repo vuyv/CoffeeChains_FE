@@ -13,7 +13,7 @@ function ColumnChart(props) {
           labels: dates,
           datasets: [
             {
-              label: "Earnings",
+              label: "Earnings ($)",
               // data: [120, 190, 300, 500, 200, 300, 700],
               data: totals,
               backgroundColor: ["rgba(201, 213, 180, 0.6)"],
@@ -22,7 +22,7 @@ function ColumnChart(props) {
             },
           ],
         }}
-        height={400}
+        height={500}
         width={600}
         options={{
           maintainAspectRatio: false,

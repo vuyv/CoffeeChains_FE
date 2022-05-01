@@ -37,7 +37,7 @@ function HorizontalBarChart(props) {
             },
           ],
         }}
-        height={400}
+        height={500}
         width={900}
         options={{
           maintainAspectRatio: false,
