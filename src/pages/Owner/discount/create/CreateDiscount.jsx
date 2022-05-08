@@ -1,24 +1,32 @@
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
-import { useState, useEffect } from "react";
+import { useState, useRef } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate } from "react-router-dom";
 import { createDiscount } from "../../../../redux/actions/discountAction";
-
 import { Button } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import CheckButton from "react-validation/build/button";
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
 
 const CreateDiscount = () => {
   const handleCreate = (e) => {
     e.preventDefault();
-    dispatch(createDiscount(code, percent, startedAt, endedAt, title));
-    navigate("/owner/discounts");
+    form.current.validateAll();
+    if (checkBtn.current.context._errors.length === 0) {
+      dispatch(createDiscount(code, percent, startedAt, endedAt, title));
+      navigate("/owner/discounts");
+    }
   };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const checkBtn = useRef();
+  const form = useRef();
 
   const [code, setCode] = useState("");
   const [percent, setPercent] = useState();
@@ -31,6 +39,16 @@ const CreateDiscount = () => {
     const result = Math.random().toString(36).substring(2, 7);
     setCode(result);
   };
+
+  const required = (value) => {
+    if (!value) {
+      return (
+        <Alert severity="error" xs={{ padding: "none" }}>
+          This field is required!
+        </Alert>
+      );
+    }
+  };
   return (
     <div className="new">
       <Sidebar />
@@ -41,32 +59,37 @@ const CreateDiscount = () => {
         </div>
         <div className="bottom" style={{ width: "70%", margin: "auto" }}>
           <div className="right">
-            <form>
+            <Form ref={form}>
               <div className="formInput">
                 <label>Code</label>
-                <input
-                  type="text"
-                  disabled={true}
-                  placeholder="Input discount code"
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  style={{ width: "70%", marginRight: "10px" }}
-                />
-                <Button
-                  variant="outlined"
-                  size="small"
-                  onClick={handleGenerateCode}
-                >
-                  Generate
-                </Button>
-                {/* <button onClick={handleGenerateCode}>Generate</button> */}
+                <div style={{ display: "flex" }}>
+                  <Input
+                    type="text"
+                    // disabled={true}
+                    placeholder="Input discount code"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    style={{ width: "200px", marginRight: "20px" }}
+                    validations={[required]}
+                  />
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    onClick={handleGenerateCode}
+                    align="right"
+                  >
+                    Generate
+                  </Button>
+                </div>
+
               </div>
               <div className="formInput">
                 <label>Percent</label>
-                <input
+                <Input
                   type="number"
                   placeholder="Input percent"
                   onChange={(e) => setPercent(e.target.value)}
+                  validations={[required]}
                 />
               </div>
               <div className="formInput">
@@ -93,9 +116,11 @@ const CreateDiscount = () => {
                   class="form-control"
                   rows="3"
                   onChange={(e) => setTitle(e.target.value)}
-                ></textarea>
+                  validations={[required]}
+                />
               </div>
-            </form>
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            </Form>
             {/* <div style={{ margin: "30px", alignItems: "center" }}> */}
             <Button
               variant="contained"

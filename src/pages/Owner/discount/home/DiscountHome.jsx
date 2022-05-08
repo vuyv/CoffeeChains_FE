@@ -6,7 +6,6 @@ import {
   loadHappeningDiscounts,
   loadUpcomingDiscounts,
   deleteDiscount,
-
 } from "../../../../redux/actions/discountAction";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
@@ -21,6 +20,7 @@ import { Link } from "react-router-dom";
 import { discountColumns } from "../../../../datatablesource";
 import { Tabs, Tab } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function DiscountHome(props) {
   const navigate = useNavigate();
@@ -41,7 +41,6 @@ function DiscountHome(props) {
     dispatch(loadUpcomingDiscounts());
     dispatch(loadHappeningDiscounts());
     dispatch(loadExpiredDiscounts());
-
   }, []);
 
   const [value, setValue] = useState(0);
@@ -102,8 +101,6 @@ function DiscountHome(props) {
     setSelectedTab(newValue);
   };
 
-  const handleClickOpenAdd = () => {};
-
   return (
     <div className="list">
       <Sidebar />
@@ -112,9 +109,13 @@ function DiscountHome(props) {
         <div className="datatable">
           <div className="datatableTitle">
             Discount Management
-            <Link to="/owner/discounts/new" className="link">
-              Add New
-            </Link>
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/owner/discounts/new")}
+            >
+              {/* <AddCircleOutlineIcon /> */}
+              New Discount
+            </Button>
           </div>
 
           <Tabs value={selectedTab} onChange={handleChangeTab}>

@@ -1,5 +1,6 @@
 const initialState = {
   reportEachBranch: [],
+  exportReportEachBranch: [],
 };
 
 const managerReportReducer = (state = initialState, action) => {
@@ -8,6 +9,12 @@ const managerReportReducer = (state = initialState, action) => {
       return {
         ...state,
         reportEachBranch: action.payload,
+      };
+
+    case "EXPORT_REPORT_EACH_BRANCH":
+      return {
+        ...state,
+        exportReportEachBranch: action.payload,
       };
     default:
       return state;

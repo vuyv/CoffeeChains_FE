@@ -174,7 +174,7 @@ export const orderColumns = [
     headerName: "Total Price",
     width: 150,
     renderCell: (params) => {
-      return <div>{params.row.totalPrice}</div>;
+      return <div>{params.row.totalPrice.toFixed(2)}</div>;
     },
   },
   {

@@ -57,6 +57,7 @@ export const getDailyEarnings = (date) => {
 };
 
 export const getWeeklyEarnings = (date) => {
+  console.log(date);
   return function (dispatch) {
     axios
       .get(
@@ -77,7 +78,7 @@ export const getBestSellingProducts = () => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/manager/bestSellingProducts`,
+        `${process.env.REACT_APP_HOST}/order/manager/topProducts/last3Months`,
         setAuthHeaders()
       )
       .then((res) => {
@@ -89,3 +90,72 @@ export const getBestSellingProducts = () => {
       .catch((error) => toast.error(error));
   };
 };
+
+export const compareLastMonthRevenue1 = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/manager/compare/lastMonth`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COMPARE_LAST_MONTH_BRANCH_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getCurrentMonthRevenue = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/manager/revenue/currentMonth`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "CURRENT_MONTH_BRANCH_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getCurrentWeekRevenue = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/manager/revenue/currentWeek`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "CURRENT_WEEK_BRANCH_REVENUE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getMonthlyOrderQuantity = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/order/manager/orderQuantity/monthly`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "MONTHLY_ORDER_QUANTITY",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+

@@ -26,3 +26,27 @@ export const getReportEachBranch = (
       .catch((error) => toast.error(error));
   };
 };
+
+export const exportReportEachBranch = (
+  type,
+  branchId,
+  categoryId,
+  timeRange,
+  date
+) => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/report/manager/export/?exportType=PDF&type=${type}&branchId=${branchId}&categoryId=${categoryId}&date=${date}&timeRange=${timeRange}`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "EXPORT_REPORT_EACH_BRANCH",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+

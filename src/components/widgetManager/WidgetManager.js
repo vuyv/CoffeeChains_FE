@@ -43,7 +43,7 @@ const WidgetManager = ({ type, count }) => {
     case "earning":
       data = {
         title: "DAILY EARNINGS",
-        isMoney: true,
+        isMoney: false,
         // link: "View net earnings",
         icon: (
           <MonetizationOnOutlinedIcon

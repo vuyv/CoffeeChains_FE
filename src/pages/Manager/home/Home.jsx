@@ -4,7 +4,6 @@ import "./home.scss";
 import WidgetManager from "../../../components/widgetManager/WidgetManager";
 import Featured from "../../../components/featured/Featured";
 import Chart from "../../../components/chart/Chart";
-import Table from "../../../components/table/Table";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import {
@@ -13,20 +12,33 @@ import {
   getDailyEarnings,
   getWeeklyEarnings,
   getBestSellingProducts,
+  getMonthlyOrderQuantity,
 } from "../../../redux/actions/managerStatistics";
 import ColumnChart from "../../../components/columnChart/ColumnChart";
 import HorizontalBarChart from "../../../components/horizontalBarChart/HorizontalBarChart";
+import { format } from "date-fns";
+import FeaturedManager from "../featured/FeaturedManager";
+import OrderColumnChart from "../../../components/columnChart/OrderColumnChart";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const currentDay = new Date().toJSON().slice(0, 10);
+  const currentDay = format(new Date(), "yyyy-MM-dd");
 
   useEffect(() => {
+    dispatch(getBestSellingProducts());
     dispatch(getCountOfBranchEmployee());
     dispatch(getDailyOrders(currentDay));
     dispatch(getDailyEarnings(currentDay));
     dispatch(getWeeklyEarnings(currentDay));
-    dispatch(getBestSellingProducts());
+    
+    dispatch(getMonthlyOrderQuantity());
   }, []);
 
   const countOfEmployee = useSelector(
@@ -45,11 +57,26 @@ const Home = () => {
     (state) => state.managerStatisticsReducer.weeklyEarnings
   );
 
+  const monthlyOrderQuantity = useSelector(
+    (state) => state.managerStatisticsReducer.monthlyOrderQuantity
+  );
+
   const dates = [];
-  const getDate = weeklyEarnings.map((item) => dates.push(item[0]));
+  const getDate = weeklyEarnings.map((item) => {
+    dates.push(item[0]);
+  });
 
   const totals = [];
   const getTotal = weeklyEarnings.map((item) => totals.push(item[1]));
+
+  const month = [];
+  const getMonth = monthlyOrderQuantity.map((item) => month.push(item[0]));
+
+  const sold = [];
+  const getSold = monthlyOrderQuantity.map((item) => sold.push(item[1]));
+
+  const cancel = [];
+  const getCancel = monthlyOrderQuantity.map((item) => cancel.push(item[2]));
 
   const bestSellingProducts = useSelector(
     (state) => state.managerStatisticsReducer.bestSellingProducts
@@ -62,6 +89,19 @@ const Home = () => {
   const getQuantity = bestSellingProducts.map((item) =>
     quantities.push(item[1])
   );
+  const topWeeklySeller = useSelector(
+    (state) => state.ownerStatisticsReducer.topWeeklySeller
+  );
+  const branchs = [];
+  const getBranch = topWeeklySeller.map((item) => branchs.push(item[0]));
+
+  const total = [];
+  const getTotals = topWeeklySeller.map((item) => total.push(item[1]));
+
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   return (
     <div className="home">
@@ -69,33 +109,75 @@ const Home = () => {
       <div className="homeContainer">
         <Navbar />
         <div className="widgets">
-          <WidgetManager type="employee" count={countOfEmployee} />
           <WidgetManager type="order" count={dailyOrders} />
-          <WidgetManager type="earning" count={dailyEarnings.toFixed(2)} />
+          <WidgetManager
+            type="earning"
+            count={formatter.format(dailyEarnings)}
+          />
+          <WidgetManager type="employee" count={countOfEmployee} />
         </div>
-        {/* <ColumnChart dates={arrayDate} totals={arrayTotal} /> */}
         <div className="charts">
-          {/* <Featured /> */}
-          <div
-            style={{ width: "560px", marginRight: "60px", textAlign: "center" }}
-          >
-            <HorizontalBarChart
-              vertical={products}
-              horizontal={quantities}
-              type="bestSeller"
-            />
-            Best Selling Products
+          <div style={{ width: "40%", margin: 30 }}>
+            <FeaturedManager />
           </div>
-          <div style={{ textAlign: "center" }}>
+
+          <div style={{ textAlign: "center", margin: "auto" }}>
+            <div
+              style={{
+                width: "560px",
+                marginRight: "60px",
+                textAlign: "center",
+              }}
+            >
+              <HorizontalBarChart
+                vertical={products}
+                horizontal={quantities}
+                type="bestSeller"
+              />
+              Best Selling Products Last 3 Months
+            </div>
+          </div>
+        </div>
+
+        <div className="charts">
+          <div style={{ textAlign: "center", margin: "auto" }}>
+            {/* <OrderColumnChart month={month} sold={sold} cancel={cancel} /> */}
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ minWidth: 500, minHeight: 400 }}
+                aria-label="simple table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Month</TableCell>
+
+                    <TableCell align="right">Sold</TableCell>
+                    <TableCell align="right">Canceled</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {monthlyOrderQuantity.map((row) => (
+                    <TableRow
+                      key={row.name}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell component="th" scope="row">
+                        {row[0]}
+                      </TableCell>
+                      <TableCell align="right">{row[1]}</TableCell>
+                      <TableCell align="right">{row[2]}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+            Monthly Orders Status
+          </div>
+          <div style={{ textAlign: "center", margin: "auto" }}>
             <ColumnChart dates={dates} totals={totals} />
             Weekly Revenue
           </div>
-          {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
         </div>
-        {/* <div className="listContainer">
-          <div className="listTitle">Latest Transactions</div>
-          <BTable />
-        </div> */}
       </div>
     </div>
   );

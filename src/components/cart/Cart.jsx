@@ -40,6 +40,10 @@ function Cart(props) {
   var discountCode = ["wuJnyj", "KwLKum"];
   var code = discountCode[Math.floor(Math.random() * discountCode.length)];
 
+    let formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
 
   return (
     <div className="wrapCard">
@@ -64,16 +68,16 @@ function Cart(props) {
         </div>
         <div className="subTotal">
           <h5 className="title">Total</h5>
-          <h5> ${cartItemsRedux.total}</h5>
+          <h5> {formatter.format(cartItemsRedux.total)}</h5>
         </div>
         <div>
           <div className="discountSave">
             <h5 className="title">Discount</h5>
-            <h5>${cartItemsRedux.discountSave}</h5>
+            <h5> {formatter.format(cartItemsRedux.discountSave)}</h5>
           </div>
           <div className="total">
             <h5 className="title">Total</h5>
-            <h5> ${cartItemsRedux.appliedDiscountTotal}</h5>
+            <h5> {formatter.format(cartItemsRedux.appliedDiscountTotal)}</h5>
           </div>
         </div>
         <div className="buttonsCheckout">
@@ -90,38 +94,38 @@ function Cart(props) {
             disableElevation
             variant="contained"
             onClick={() => {
-              for (let i = 1; i < 950; i++) {
-                const cart = {
-                  discountCode: "",
-                  // discountCode[
-                  //   Math.floor(Math.random() * discountCode.length)
-                  // ],
-                  date: "2022-01-31",
-                  employeeId: getRandom(24, 103),
-                  cartItems: [
-                    {
-                      quantity: getRandom(1, 4),
-                      product: {
-                        id: getRandom(1, 50),
-                      },
-                    },
-                    {
-                      quantity: getRandom(1, 5),
-                      product: {
-                        id: getRandom(1, 50),
-                      },
-                    },
-                  ],
-                };
-                dispatch(createFakeOrder(cart));
-              }
+              // // for (let i = 1; i < 950; i++) {
+              // //   const cart = {
+              // //     discountCode: "",
+              // //     // discountCode[
+              // //     //   Math.floor(Math.random() * discountCode.length)
+              // //     // ],
+              // //     date: "2022-01-31",
+              // //     employeeId: getRandom(24, 103),
+              // //     cartItems: [
+              // //       {
+              // //         quantity: getRandom(1, 4),
+              // //         product: {
+              // //           id: getRandom(1, 50),
+              // //         },
+              // //       },
+              // //       {
+              // //         quantity: getRandom(1, 5),
+              // //         product: {
+              // //           id: getRandom(1, 50),
+              // //         },
+              // //       },
+              // //     ],
+              // //   };
+              //   // dispatch(createFakeOrder(cart));
+              // }
 
-              // dispatch(createOrder(cartItemsRedux));
+              dispatch(createOrder(cartItemsRedux));
               window.setTimeout(() => {
                 props.parentCallback(false);
                 dispatch(clearCart());
               }, 500);
-              // navigate("/seller/orders/new");
+              navigate("/seller/orders/new");
             }}
           >
             Checkout

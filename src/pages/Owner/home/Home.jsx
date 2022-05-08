@@ -34,6 +34,11 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const currentDay = format(new Date(), "yyyy-MM-dd");
 
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   useEffect(() => {
     dispatch(getCountOfAllEmployee());
     dispatch(getEmployeeEachBranch());
@@ -96,6 +101,8 @@ const Home = (props) => {
     setOpen(false);
   };
 
+  console.log(allDailyEarnings);
+
   return (
     <div className="home">
       <Sidebar />
@@ -103,20 +110,21 @@ const Home = (props) => {
         <Navbar />
         <div className="widgets">
           <Widget
-            type="employee"
-            count={countOfAllEmployee}
-            parentCallback={callbackFunction}
-          />
-          <Widget
             type="order"
             count={allDailyOrders}
             parentCallback={callbackFunction}
           />
           <Widget
             type="earning"
-            count={allDailyEarnings.toFixed(2)}
+            count={formatter.format(allDailyEarnings)}
             parentCallback={callbackFunction}
           />
+          <Widget
+            type="employee"
+            count={countOfAllEmployee}
+            parentCallback={callbackFunction}
+          />
+
           <Widget type="products" count={allProducts} />
         </div>
         <div>
@@ -222,7 +230,10 @@ const Home = (props) => {
                             <TableCell component="th" scope="row">
                               {branch[0]}
                             </TableCell>
-                            <TableCell align="right">${branch[1]}</TableCell>
+                            <TableCell align="right">
+                             
+                              {formatter.format(branch[1])}
+                            </TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -238,15 +249,6 @@ const Home = (props) => {
         </div>
         <div className="charts">
           <Featured />
-          {/* <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} /> */}
-
-          {/* <div className="listContainer">
-            <div className="listTitle">Top 5 Best Selling</div>
-            <BTable
-              orders={dailyOrdersEachBranch}
-              total={dailyTotalPriceEachBranch}
-            />
-          </div> */}
           <HorizontalBarChart vertical={branchs} horizontal={total} />
         </div>
       </div>

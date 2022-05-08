@@ -23,17 +23,16 @@ import Product from "./Product";
 import Revenue from "./Revenue";
 function Report(props) {
   const dispatch = useDispatch();
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   useEffect(() => {
     dispatch(loadCategories());
   }, []);
 
   const categories = useSelector((state) => state.categoryReducer.categories);
-
-  useEffect(() => {
-    categories.unshift({ id: 0, name: "All" });
-    setCategory(0);
-  }, [categories]);
 
   //datepicker
   const [timeSelected, setTimeSelected] = useState(new Date());
@@ -51,7 +50,7 @@ function Report(props) {
     setReportType(e.target.value);
   };
 
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState(0);
   const handleChangeCategory = (e) => {
     setCategory(e.target.value);
   };
@@ -115,6 +114,7 @@ function Report(props) {
                           onChange={handleChangeCategory}
                           size="small"
                         >
+                          <MenuItem value={0}>All</MenuItem>
                           {categories.map((item) => (
                             <MenuItem value={item.id}>{item.name}</MenuItem>
                           ))}
@@ -143,6 +143,7 @@ function Report(props) {
                         <MenuItem value={"Daily"}>Daily</MenuItem>
                         <MenuItem value={"Weekly"}>Weekly</MenuItem>
                         <MenuItem value={"Monthly"}>Monthly</MenuItem>
+                        <MenuItem value={"Quarterly"}>Quarterly</MenuItem>
                       </Select>
                     </FormControl>
                   </Box>
@@ -153,7 +154,7 @@ function Report(props) {
                 <div>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DatePicker
-                      label="Select Time"
+                      // label="Select Time"
                       value={timeSelected}
                       views={["year", "month", "day"]}
                       label="Year, month and date"
@@ -169,7 +170,7 @@ function Report(props) {
               </Grid>
               <Grid item xs={2}>
                 <Button variant="contained" onClick={handleApply}>
-                  Aplly
+                  Apply
                 </Button>
               </Grid>
             </Grid>

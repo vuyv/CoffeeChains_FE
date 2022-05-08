@@ -154,7 +154,6 @@ const TableProduct = () => {
               variant="outlined"
               onClick={() => navigate("/owner/products/new")}
             >
-              <AddCircleOutlineIcon />
               New Product
             </Button>
           </div>
@@ -208,7 +207,7 @@ const TableProduct = () => {
 
           <DataGrid
             className="datagrid"
-            sx={{ width: "77%", margin: "auto" }}
+            sx={{ width: "80%", margin: "auto" }}
             rows={rows}
             columns={productColumns.concat(actionColumn)}
             pageSize={9}

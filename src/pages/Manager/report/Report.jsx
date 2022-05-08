@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, createRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
@@ -26,11 +26,13 @@ import { useRef, forwardRef } from "react";
 import Pdf from "react-to-pdf";
 import ExportProduct from "./ExportProduct";
 import ReactToPrint, { PrintContextConsumer } from "react-to-print";
+import { useNavigate } from "react-router-dom";
 
 const Report = () => {
   const dispatch = useDispatch();
   const ref = useRef(null);
   // const ref = createRef();
+  const navigate = useNavigate();
 
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
   const categories = useSelector((state) => state.categoryReducer.categories);
@@ -39,17 +41,17 @@ const Report = () => {
   const [date, setDate] = React.useState(new Date());
   const [timeRange, setTimeRange] = useState("Daily");
   const [reportType, setReportType] = useState("Employee");
-  const [category, setCategory] = useState();
+  const [category, setCategory] = useState(0);
   const [disable, setDisable] = useState(true);
 
   useEffect(() => {
     dispatch(loadCategories());
   }, []);
 
-  useEffect(() => {
-    categories.unshift({ id: 0, name: "All" });
-    setCategory(categories[0].id);
-  }, [categories]);
+  // useEffect(() => {
+  //   categories.unshift({ id: 0, name: "All" });
+  //   setCategory(categories[0].id);
+  // }, [categories]);
 
   const handleChangeReportType = (e) => {
     setReportType(e.target.value);
@@ -57,34 +59,6 @@ const Report = () => {
 
   const handleChangeTimeRange = (event) => {
     setTimeRange(event.target.value);
-  };
-
-  const handleChangeTime = () => {
-    if (timeRange === "Daily") {
-      document.getElementById("timeReport").innerHTML =
-        "Date: " + format(date, "dd/MM/yyy");
-    } else if (timeRange == "Weekly") {
-      // const date = value
-      // const day = date.getDay();
-      // const first = date.getDate() - day + (day == 0 ? -6 : 1);
-      // const last = date.getDate() + 7;
-      // const monday = new Date(date.setDate(first));
-      // const sunday = new Date(date.setDate(last))
-      // // document.getElementById("timeReport").innerHTML =
-      // //   "From: " + monday + "<br>To:   " + sunday;
-      // // console.log(first + " " + last + " " + day)
-      // console.log(value + "-------------" + date)
-      // console.log(
-      //   format(monday, "dd/MM/yyyy") + " " + format(sunday, "dd/MM/yyyy")
-      // );
-    } else if (timeRange == "Monthly") {
-      let y = date.getFullYear();
-      let m = date.getMonth();
-      let firstDay = format(new Date(y, m, 1), "dd/MM/yyy");
-      let lastDay = format(new Date(y, m + 1, 0), "dd/MM/yyy");
-      document.getElementById("timeReport").innerHTML =
-        "From: " + firstDay + "<br>To:" + lastDay;
-    }
   };
 
   const handleChangeCategory = (e) => {
@@ -103,9 +77,33 @@ const Report = () => {
     );
   };
 
-  // const handlePrint = useReactToPrint({
-  //   content: () => ref.current,
-  // });
+  const handleExport = () => {
+    window.open(
+      `${
+        process.env.REACT_APP_HOST
+      }/report/manager/export/?exportType=PDF&type=${reportType}&branchId=${
+        currentUser.branch.id
+      }&categoryId=${category}&date=${format(
+        date,
+        "yyyy-MM-dd"
+      )}&timeRange=${timeRange}`
+    );
+  };
+
+  const handlePrint = () => {
+    var printPage = window.open(
+      `${
+        process.env.REACT_APP_HOST
+      }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
+        currentUser.branch.id
+      }&categoryId=${category}&date=${format(
+        date,
+        "yyyy-MM-dd"
+      )}&timeRange=${timeRange}`,
+      "_blank"
+    );
+    setTimeout(printPage.print(), 5);
+  };
 
   return (
     <div className="home">
@@ -155,6 +153,7 @@ const Report = () => {
                           onChange={handleChangeCategory}
                           size="small"
                         >
+                          <MenuItem value={0}>All</MenuItem>
                           {categories.map((item) => (
                             <MenuItem value={item.id}>{item.name}</MenuItem>
                           ))}
@@ -244,7 +243,6 @@ const Report = () => {
                 />
               )}
             </div>
-            {/* </div> */}
 
             <Stack
               direction="row"
@@ -253,101 +251,43 @@ const Report = () => {
               alignItems="flex-end"
               marginRight={40}
             >
-              <Pdf targetRef={ref} filename="report.pdf">
-                {({ toPdf }) => (
-                  <Button
-                    variant="outlined"
-                    style={{ marginLeft: 10, marginBottom: 10 }}
-                    // disabled={disable}
-                    onClick={toPdf}
-                  >
-                    Export
-                  </Button>
-                )}
-              </Pdf>
+              <Button
+                variant="outlined"
+                style={{ marginLeft: 10, marginBottom: 10 }}
+                // disabled={disable}
+                onClick={handleExport}
+              >
+                Export
+              </Button>
 
-              {/* <ReactToPrint content={() => ref.current}>
-                <PrintContextConsumer>
-                  {({ handlePrint }) => (
-                    <Button
-                      variant="contained"
-                      style={{
-                        marginLeft: 10,
-                        marginBottom: 10,
-                      }}
-                      onClick={handlePrint}
-                    >
-                      Print
-                    </Button>
-                  )}
-                </PrintContextConsumer> */}
-              {/* </ReactToPrint> */}
-
-              {/* <ReactToPrint
-                trigger={() => {
-                  // NOTE: could just as easily return <SomeComponent />. Do NOT pass an `onClick` prop
-                  // to the root node of the returned component as it will be overwritten.
-                  return (
-                    <Button
-                      variant="contained"
-                      style={{
-                        marginLeft: 10,
-                        marginBottom: 10,
-                      }}
-                      //   onClick={handlePrint}
-                    >
-                      Print
-                    </Button>
-                  );
+              <Button
+                variant="outlined"
+                style={{ marginLeft: 10, marginBottom: 10 }}
+                onClick={() => {
+                  let url = `${
+                    process.env.REACT_APP_HOST
+                  }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
+                    currentUser.branch.id
+                  }&categoryId=${category}&date=${format(
+                    date,
+                    "yyyy-MM-dd"
+                  )}&timeRange=${timeRange}`;
+                  window.open(url);
+                  console.log(window.location);
+                  // console.log("Page: " + page.print());
+                  // console.log(window.location);
+                  document.addEventListener("visibilitychange", function () {
+                    document.title = document.hidden ? "I'm away" : "I'm here";
+                  });
                 }}
-                content={() => ref.current}
-              /> */}
+              >
+                Print
+              </Button>
             </Stack>
           </div>
         </div>
-
-        <div>
-          {/* <Dialog
-            // open={open}
-            // TransitionComponent={Transition}
-            // keepMounted
-            // onClose={handleClose}
-            aria-describedby="alert-dialog-slide-description"
-            fullWidth
-            maxWidth="lg"
-          >
-            <DialogContent ref={ref}>
-              <DialogContentText id="alert-dialog-slide-description">
-                <h4 style={{ textTransform: "uppercase", textAlign: "center" }}>
-                  {timeRange} {reportType} Report
-                </h4>
-                <Stack
-                  direction="row"
-                  justifyContent="space-evenly"
-                  marginTop={2}
-                  marginBottom={2}
-                >
-                  <Stack direction="column">
-                    <h6>Branch: {currentUser.branch.name}</h6>
-                    <h6>Address: {currentUser.branch.address}</h6>
-                  </Stack>
-                  <Stack direction="column">
-                    <h6>Date of Report: {format(new Date(), "dd/MM/yyyy")}</h6>
-                    <h6 id="timeReport"></h6>
-                  </Stack>
-                </Stack>
-                {reportType === "Product" && filter && (
-                  <ExportProduct map={filter} />
-                )}
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Disagree</Button>
-              <Button onClick={handlePrint}>Agree</Button>
-            </DialogActions>
-          </Dialog> */}
-        </div>
       </div>
+      
     </div>
   );
 };

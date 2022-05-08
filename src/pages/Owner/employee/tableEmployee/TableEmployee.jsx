@@ -2,7 +2,6 @@ import "./TableEmployee.scss";
 // import "./datatable.scss";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
-import DataTable from "../../../../components/datatable/DataTable";
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
@@ -27,7 +26,6 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { loadBranchs } from "./../../../../redux/actions/branchAction";
-import branchReducer from "./../../../../redux/reducer/branchReducer";
 import { loadRoles } from "./../../../../redux/actions/roleAction";
 import { Stack } from "@mui/material";
 
@@ -38,45 +36,14 @@ const TableEmployee = () => {
 
   const [open, setOpen] = useState(false);
   const [id, setId] = useState();
-  const [listEmployees, setListEmployees] = useState([]);
-  const [content, setContent] = useState([]);
+  const [listEmployees, setListEmployees] = useState();
+  const [content, setContent] = useState();
   const [branch, setBranch] = useState("All");
-  const [active, setActive] = useState("All");
+  const [status, setStatus] = useState("All");
   const [role, setRole] = useState("All");
 
   const listEmployeesRedux = useSelector((state) => state.employeeReducer);
   const branches = useSelector((state) => state.branchReducer.branchs);
-  const roles = useSelector((state) => state.roleReducer.roles);
-
-  useEffect(() => {
-    dispatch(loadEmployees());
-    dispatch(loadBranchs());
-    dispatch(loadRoles());
-  }, []);
-
-  useEffect(() => {
-    if (listEmployeesRedux) {
-      let result = [];
-      listEmployeesRedux.employees.forEach((emp) => {
-        result.push(emp);
-      });
-      setContent(result);
-      setListEmployees(result);
-    }
-  }, [listEmployeesRedux, setContent, setListEmployees]);
-
-  const handleSearchEmployee = (searchValue) => {
-    if (typingTimeOutRef.current) {
-      clearTimeout(typingTimeOutRef.current);
-    }
-    typingTimeOutRef.current = setTimeout(() => {
-      setListEmployees(
-        content.filter((employee) =>
-          employee.name.toLowerCase().includes(searchValue.toLowerCase())
-        )
-      );
-    }, 300);
-  };
 
   const handleClickOpen = (id) => {
     setOpen(true);
@@ -92,12 +59,44 @@ const TableEmployee = () => {
     handleClose();
   };
 
+  useEffect(() => {
+    dispatch(loadEmployees());
+    dispatch(loadBranchs());
+    dispatch(loadRoles());
+  }, []);
+
+  useEffect(() => {
+    setListEmployees(listEmployeesRedux.employees);
+  }, [content]);
+
+  useEffect(() => {
+    if (listEmployeesRedux) {
+      let result = [];
+      listEmployeesRedux.employees.forEach((emp) => {
+        result.push(emp);
+      });
+      setContent(result);
+    }
+  }, [listEmployeesRedux, setContent]);
+
+  const handleSearchEmployee = (searchValue) => {
+    if (typingTimeOutRef.current) {
+      clearTimeout(typingTimeOutRef.current);
+    }
+    typingTimeOutRef.current = setTimeout(() => {
+      const filteredRows = content.filter((row) => {
+        return row.name.toLowerCase().includes(searchValue.toLowerCase());
+      });
+      setListEmployees(filteredRows);
+    }, 300);
+  };
+
   const filterStatus = (array) => {
-    if (active === "All") {
+    if (status === "All") {
       return array;
     } else {
       return array.filter(
-        (item) => item.status.toLowerCase() === active.toLowerCase()
+        (item) => item.status.toLowerCase() === status.toLowerCase()
       );
     }
   };
@@ -121,7 +120,6 @@ const TableEmployee = () => {
   };
 
   useEffect(() => {
-    //Filter options updated so apply all filters here
     let result = listEmployeesRedux.employees;
     window.setTimeout(() => {
       result = filterBranch(result);
@@ -129,7 +127,7 @@ const TableEmployee = () => {
       result = filterRole(result);
       setListEmployees(result);
     }, 100);
-  }, [branch, active, role, listEmployees]);
+  }, [branch, status, role]);
 
   const actionColumn = [
     {
@@ -169,7 +167,6 @@ const TableEmployee = () => {
               variant="outlined"
               onClick={() => navigate("/owner/employees/new")}
             >
-              <AddCircleOutlineIcon />
               New Employee
             </Button>
           </div>
@@ -203,9 +200,9 @@ const TableEmployee = () => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={active}
+                  value={status}
                   label="status"
-                  onChange={(event) => setActive(event.target.value)}
+                  onChange={(event) => setStatus(event.target.value)}
                 >
                   <MenuItem value={"All"}>All</MenuItem>
                   <MenuItem value={"Active"}>Active</MenuItem>

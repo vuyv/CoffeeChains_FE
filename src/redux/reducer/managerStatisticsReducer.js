@@ -4,6 +4,10 @@ const initialState = {
   dailyEarnings: 0,
   weeklyEarnings: [],
   bestSellingProducts: [],
+  currentMonthRevenue: 0,
+  currentWeekRevenue: 0,
+  compareLastMonthRevenue: 0,
+  monthlyOrderQuantity: []
 };
 
 const managerStatisticsReducer = (state = initialState, action) => {
@@ -32,6 +36,26 @@ const managerStatisticsReducer = (state = initialState, action) => {
       return {
         ...state,
         bestSellingProducts: action.payload,
+      };
+    case "COMPARE_LAST_MONTH_BRANCH_REVENUE":
+      return {
+        ...state,
+        compareLastMonthRevenue: action.payload,
+      };
+    case "CURRENT_MONTH_BRANCH_REVENUE":
+      return {
+        ...state,
+        currentMonthRevenue: action.payload,
+      };
+    case "CURRENT_WEEK_BRANCH_REVENUE":
+      return {
+        ...state,
+        currentWeekRevenue: action.payload,
+      };
+    case "MONTHLY_ORDER_QUANTITY":
+      return {
+        ...state,
+        monthlyOrderQuantity: action.payload,
       };
     default:
       return state;

@@ -44,7 +44,7 @@ const productReducer = (state = initialState, action) => {
         ...state,
         activeProductsByCategory: action.payload,
       };
-    case "GET_ACTIVE_PRODUCT":
+    case "GET_ACTIVE_PRODUCTS":
       return {
         ...state,
         activeProducts: action.payload,

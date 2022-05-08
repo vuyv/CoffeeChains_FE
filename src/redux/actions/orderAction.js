@@ -110,11 +110,11 @@ export const loadOrderByOrdinalNumber = (ordinalNumber) => {
 
 export const createOrder = (order) => {
   return function (dispatch) {
-    console.log({
-      discount_code: order.discountCode,
-      totalPrice: order.appliedDiscountTotal,
-      orderDetails: order.cartItems,
-    });
+    // console.log({
+    //   discount_code: order.discountCode,
+    //   totalPrice: order.appliedDiscountTotal,
+    //   orderDetails: order.cartItems,
+    // });
     const headers = setAuthHeaders();
     axios
       .post(
@@ -138,36 +138,36 @@ export const createOrder = (order) => {
   };
 };
 
-export const createFakeOrder = (order) => {
-  return function (dispatch) {
-    console.log({
-      discount_code: order.discountCode,
-      orderDetails: order.cartItems,
-      date: order.date,
-    });
-    const headers = setAuthHeaders();
-    axios
-      .post(
-        `${process.env.REACT_APP_HOST}/order/new`,
-        {
-          discount_code: order.discountCode,
-          date: order.date,
-          employeeId: order.employeeId,
-          orderDetails: order.cartItems,
-        },
-        headers
-      )
-      .then((res) => {
-        // toast.success("Create Order Successfully", { autoClose: 1100 });
-        dispatch({
-          type: "CREATE_ORDER",
-          payload: res.data,
-        });
-        // dispatch(loadOrderById(res.data.id));
-      })
-      .catch((error) => toast.error(error));
-  };
-};
+// export const createFakeOrder = (order) => {
+//   return function (dispatch) {
+//     console.log({
+//       discount_code: order.discountCode,
+//       orderDetails: order.cartItems,
+//       date: order.date,
+//     });
+//     const headers = setAuthHeaders();
+//     axios
+//       .post(
+//         `${process.env.REACT_APP_HOST}/order/new`,
+//         {
+//           discount_code: order.discountCode,
+//           date: order.date,
+//           employeeId: order.employeeId,
+//           orderDetails: order.cartItems,
+//         },
+//         headers
+//       )
+//       .then((res) => {
+//         // toast.success("Create Order Successfully", { autoClose: 1100 });
+//         dispatch({
+//           type: "CREATE_ORDER",
+//           payload: res.data,
+//         });
+//         // dispatch(loadOrderById(res.data.id));
+//       })
+//       .catch((error) => toast.error(error));
+//   };
+// };
 
 export const loadOrdersInADayInBranch = () => {
   return function (dispatch) {

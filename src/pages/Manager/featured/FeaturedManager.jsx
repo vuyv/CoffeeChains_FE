@@ -5,37 +5,38 @@ import "react-circular-progressbar/dist/styles.css";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutlined";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import {
-  getCurrentMonthRevenue,
   compareLastMonthRevenue1,
   getCurrentWeekRevenue,
-} from "../../redux/actions/ownerStatistics";
+  getCurrentMonthRevenue,
+} from "../../../redux/actions/managerStatistics";
 
-const Featured = (props) => {
+const FeaturedManager = (props) => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCurrentWeekRevenue());
+    dispatch(getCurrentMonthRevenue());
+    dispatch(compareLastMonthRevenue1());
+  }, []);
+
+  const currentWeekRevenue = useSelector(
+    (state) => state.managerStatisticsReducer.currentWeekRevenue
+  );
+
+  const currentMonthRevenue = useSelector(
+    (state) => state.managerStatisticsReducer.currentMonthRevenue
+  );
+
+  const compareLastMonthRevenue = useSelector(
+    (state) => state.managerStatisticsReducer.compareLastMonthRevenue
+  );
+
   let formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
-
-  useEffect(() => {
-    dispatch(getCurrentMonthRevenue());
-    dispatch(compareLastMonthRevenue1());
-    dispatch(getCurrentWeekRevenue());
-  }, []);
-
-  const currentMonthRevenue = useSelector(
-    (state) => state.ownerStatisticsReducer.currentMonthRevenue
-  );
-
-  const compareLastMonthRevenue = useSelector(
-    (state) => state.ownerStatisticsReducer.compareLastMonthRevenue
-  );
-
-  const currentWeekRevenue = useSelector(
-    (state) => state.ownerStatisticsReducer.currentWeekRevenue
-  );
 
   return (
     <div className="featured">
@@ -48,9 +49,7 @@ const Featured = (props) => {
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
         </div>
         <p className="title">Total revenue made month</p>
-        <p className="amount">
-          {formatter.format(currentMonthRevenue.toFixed(2))}
-        </p>
+        <p className="amount">{formatter.format(currentMonthRevenue)}</p>
         <p className="desc">
           Previous transactions processing. Last payments may not be included.
         </p>
@@ -91,4 +90,4 @@ const Featured = (props) => {
   );
 };
 
-export default Featured;
+export default FeaturedManager;

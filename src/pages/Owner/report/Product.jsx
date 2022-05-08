@@ -83,11 +83,7 @@ const Product = ({ timeRange, reportType, date }) => {
                     </TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell" align="center">
-                      {String(row[1]).length == 1
-                        ? "00" + String(row[1]).slice(-2)
-                        : row[1] || String(row[1]).length == 2
-                        ? "0" + String(row[1]).slice(-2)
-                        : row[1]}
+                      {row[1]}
                     </TableCell>
                     <TableCell className="tableCell" align="right">
                       ${Number(row[2]).toFixed(2)}
@@ -106,6 +102,7 @@ const Product = ({ timeRange, reportType, date }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
+      
       </div>
     </>
   );

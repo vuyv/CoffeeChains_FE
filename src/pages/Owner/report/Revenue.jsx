@@ -33,6 +33,11 @@ const Revenue = ({ timeRange, reportType, date }) => {
     setPage(0);
   };
 
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
   return (
     <>
       <div className="listContainer" style={{ padding: 30 }}>
@@ -66,8 +71,12 @@ const Revenue = ({ timeRange, reportType, date }) => {
                 <TableCell className="tableCell">No.</TableCell>
                 <TableCell className="tableCell">Branch Name</TableCell>
                 <TableCell className="tableCell">Address</TableCell>
-                <TableCell className="tableCell">Orders Quantity</TableCell>
-                <TableCell className="tableCell">Revenue</TableCell>
+                <TableCell className="tableCell" align="right">
+                  Orders Quantity
+                </TableCell>
+                <TableCell className="tableCell" align="right">
+                  Revenue
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -77,19 +86,20 @@ const Revenue = ({ timeRange, reportType, date }) => {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={index + 1 + page * rowsPerPage}>
+                  <TableRow
+                    key={index + 1 + page * rowsPerPage}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
                     <TableCell className="tableCell">
                       {index + 1 + page * rowsPerPage}
                     </TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
-                    <TableCell className="tableCell">
-                      {String(row[2]).length == 1
-                        ? "0" + String(row[2]).slice(-2)
-                        : row[2]}
+                    <TableCell className="tableCell" align="right">
+                      {row[2]}
                     </TableCell>
-                    <TableCell className="tableCell" align="right" >
-                      ${Number(row[3]).toFixed(2)}
+                    <TableCell className="tableCell" align="right">
+                      {formatter.format(row[3])}
                     </TableCell>
                   </TableRow>
                 ))}
@@ -107,37 +117,6 @@ const Revenue = ({ timeRange, reportType, date }) => {
         />
       </div>
     </>
-    // <div className="listContainer">
-    //   <TableContainer component={Paper} className="table">
-    //     <Table sx={{ minWidth: 650 }} aria-label="simple table">
-    //       <TableHead>
-    //         <TableRow>
-    //           <TableCell className="tableCell">No.</TableCell>
-    //           <TableCell className="tableCell">Branch Name</TableCell>
-    //           <TableCell className="tableCell">Address</TableCell>
-    //           <TableCell className="tableCell">Orders Quantity</TableCell>
-    //           <TableCell className="tableCell">Revenue</TableCell>
-    //         </TableRow>
-    //       </TableHead>
-    //       <TableBody>
-    // {data.length === 0 && (
-    //     <TableCell className="tableCell">No rows data</TableCell>
-    // )}
-    //         {data.map((row, index) => (
-    //           <TableRow key={index}>
-    //             <TableCell className="tableCell">{index + 1}</TableCell>
-    //             <TableCell className="tableCell">{row[0]}</TableCell>
-    //             <TableCell className="tableCell">{row[1]}</TableCell>
-    //             <TableCell className="tableCell">{row[2]}</TableCell>
-    //             <TableCell className="tableCell">
-    //               $ {row[3].toFixed(2)}
-    //             </TableCell>
-    //           </TableRow>
-    //         ))}
-    //       </TableBody>
-    //     </Table>
-    //   </TableContainer>
-    // </div>
   );
 };
 export default Revenue;

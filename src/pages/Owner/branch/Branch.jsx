@@ -49,7 +49,7 @@ const Branch = () => {
           <div className="datatableTitle">
             Branch Management
             <Button variant="outlined" onClick={handleClickOpen}>
-              <AddCircleOutlineIcon />
+              {/* <AddCircleOutlineIcon /> */}
               New Branch
             </Button>
           </div>

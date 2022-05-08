@@ -5,7 +5,7 @@ import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 import { DataGrid } from "@mui/x-data-grid";
 import { Tabs, Tab } from "@material-ui/core";
-import orderReducer from "./../../../redux/reducer/orderReducer";
+import "../../../components/datatable/datatable.scss";
 import { orderColumns } from "../../../datatablesource";
 import {
   loadOrderInBranch,
@@ -16,7 +16,7 @@ import {
 } from "./../../../redux/actions/orderAction";
 
 function ViewOrder() {
-  const orders = useSelector((state) => state.orderReducer.ordersInBranch);
+  // const orders = useSelector((state) => state.orderReducer.ordersInBranch);
   const ordersInADay = useSelector(
     (state) => state.orderReducer.ordersInADayInBranch
   );
@@ -31,7 +31,7 @@ function ViewOrder() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(loadOrderInBranch());
+    // dispatch(loadOrderInBranch());
     dispatch(loadOrdersInADayInBranch());
     dispatch(loadOrdersInAWeekInBranch());
     dispatch(loadOrdersInAMonthInBranch());
@@ -77,13 +77,13 @@ function ViewOrder() {
             onChange={handleChangeTab}
             style={{ margin: "auto" }}
           >
-            <Tab label="all"></Tab>
+            {/* <Tab label="all"></Tab> */}
             <Tab label="today"></Tab>
             <Tab label="week"></Tab>
             <Tab label="month"></Tab>
           </Tabs>
 
-          {selectedTab === 0 && (
+          {/* {selectedTab === 0 && (
             <DataGrid
               className="datagrid"
               sx={{ margin: "auto" }}
@@ -93,8 +93,8 @@ function ViewOrder() {
               rowsPerPageOptions={[9]}
               getRowId={(row) => row.id}
             />
-          )}
-          {selectedTab === 1 && (
+          )} */}
+          {selectedTab === 0 && (
             <DataGrid
               className="datagrid"
               rows={ordersInADay}
@@ -104,7 +104,7 @@ function ViewOrder() {
               getRowId={(row) => row.id}
             />
           )}
-          {selectedTab === 2 && (
+          {selectedTab === 1 && (
             <DataGrid
               className="datagrid"
               rows={ordersInAWeek}
@@ -114,7 +114,7 @@ function ViewOrder() {
               getRowId={(row) => row.id}
             />
           )}
-          {selectedTab === 3 && (
+          {selectedTab === 2 && (
             <DataGrid
               className="datagrid"
               rows={ordersInAMonth}

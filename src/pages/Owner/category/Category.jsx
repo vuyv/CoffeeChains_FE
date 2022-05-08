@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddIcon from "@mui/icons-material/Add";
 import {
   createCategory,
   loadCategories,
 } from "../../../redux/actions/categoryAction";
-import { loadProductByCategory } from "../../../redux/actions/productAction";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 
 import CardCategory from "./CardCategory";
 
@@ -51,7 +56,7 @@ const Category = () => {
           <div className="datatableTitle">
             Category Management
             <Button variant="outlined" onClick={handleClickOpen}>
-              <AddCircleOutlineIcon />
+              {/* <AddIcon sx={{ marginRight: 1 }} /> */}
               New Category
             </Button>
           </div>
@@ -62,6 +67,25 @@ const Category = () => {
           </div>
         </div>
       </div>
+      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+        <DialogTitle>Create New Category</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Category name"
+            type="name"
+            fullWidth
+            variant="standard"
+            onChange={(e) => setCategoryName(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleCreate}>Create</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

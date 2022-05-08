@@ -2,10 +2,12 @@ import React from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { Chart } from "react-chartjs-2";
+import { format } from "date-fns";
+import { date } from "yup";
 
 function ColumnChart(props) {
   const { dates, totals } = props;
-
+  console.log(dates);
   return (
     <div>
       <Bar
