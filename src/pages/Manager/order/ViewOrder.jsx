@@ -14,11 +14,14 @@ import {
   loadOrdersInAWeekInBranch,
   loadOrdersInAMonthInBranch,
 } from "./../../../redux/actions/orderAction";
+import { format } from "date-fns";
 
 function ViewOrder() {
+  const currentDay = format(new Date(), "yyyy-MM-dd");
+
   // const orders = useSelector((state) => state.orderReducer.ordersInBranch);
-  const ordersInADay = useSelector(
-    (state) => state.orderReducer.ordersInADayInBranch
+  const ordersInADay = useSelector((state) =>
+    state.orderReducer.ordersInADayInBranch
   );
   const ordersInAWeek = useSelector(
     (state) => state.orderReducer.ordersInAWeekInBranch
@@ -32,9 +35,9 @@ function ViewOrder() {
 
   useEffect(() => {
     // dispatch(loadOrderInBranch());
-    dispatch(loadOrdersInADayInBranch());
-    dispatch(loadOrdersInAWeekInBranch());
-    dispatch(loadOrdersInAMonthInBranch());
+    dispatch(loadOrdersInADayInBranch(currentDay));
+    dispatch(loadOrdersInAWeekInBranch(currentDay));
+    dispatch(loadOrdersInAMonthInBranch(currentDay));
   }, []);
 
   const [selectedTab, setSelectedTab] = useState(0);

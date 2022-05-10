@@ -138,42 +138,42 @@ export const createOrder = (order) => {
   };
 };
 
-// export const createFakeOrder = (order) => {
-//   return function (dispatch) {
-//     console.log({
-//       discount_code: order.discountCode,
-//       orderDetails: order.cartItems,
-//       date: order.date,
-//     });
-//     const headers = setAuthHeaders();
-//     axios
-//       .post(
-//         `${process.env.REACT_APP_HOST}/order/new`,
-//         {
-//           discount_code: order.discountCode,
-//           date: order.date,
-//           employeeId: order.employeeId,
-//           orderDetails: order.cartItems,
-//         },
-//         headers
-//       )
-//       .then((res) => {
-//         // toast.success("Create Order Successfully", { autoClose: 1100 });
-//         dispatch({
-//           type: "CREATE_ORDER",
-//           payload: res.data,
-//         });
-//         // dispatch(loadOrderById(res.data.id));
-//       })
-//       .catch((error) => toast.error(error));
-//   };
-// };
+export const createFakeOrder = (order) => {
+  return function (dispatch) {
+    console.log({
+      discount_code: order.discountCode,
+      orderDetails: order.cartItems,
+      date: order.date,
+    });
+    const headers = setAuthHeaders();
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/order/new`,
+        {
+          discount_code: order.discountCode,
+          date: order.date,
+          employeeId: order.employeeId,
+          orderDetails: order.cartItems,
+        },
+        headers
+      )
+      .then((res) => {
+        // toast.success("Create Order Successfully", { autoClose: 1100 });
+        dispatch({
+          type: "CREATE_ORDER",
+          payload: res.data,
+        });
+        // dispatch(loadOrderById(res.data.id));
+      })
+      .catch((error) => toast.error(error));
+  };
+};
 
-export const loadOrdersInADayInBranch = () => {
+export const loadOrdersInADayInBranch = (date) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/branch/find/day`,
+        `${process.env.REACT_APP_HOST}/order/branch/daily/${date}`,
         setAuthHeaders()
       )
       .then((res) => {
@@ -186,11 +186,11 @@ export const loadOrdersInADayInBranch = () => {
   };
 };
 
-export const loadOrdersInAWeekInBranch = () => {
+export const loadOrdersInAWeekInBranch = (date) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/branch/find/week`,
+        `${process.env.REACT_APP_HOST}/order/branch/weekly/${date}`,
         setAuthHeaders()
       )
       .then((res) => {
@@ -203,11 +203,11 @@ export const loadOrdersInAWeekInBranch = () => {
   };
 };
 
-export const loadOrdersInAMonthInBranch = () => {
+export const loadOrdersInAMonthInBranch = (date) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/branch/find/month`,
+        `${process.env.REACT_APP_HOST}/order/branch/monthly/${date}`,
         setAuthHeaders()
       )
       .then((res) => {

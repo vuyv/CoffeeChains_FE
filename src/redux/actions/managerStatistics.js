@@ -74,11 +74,11 @@ export const getWeeklyEarnings = (date) => {
   };
 };
 
-export const getBestSellingProducts = () => {
+export const getBestSellingProducts = (date) => {
   return function (dispatch) {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/order/manager/topProducts/last3Months`,
+        `${process.env.REACT_APP_HOST}/order/manager/topProducts/last3Months/${date}`,
         setAuthHeaders()
       )
       .then((res) => {

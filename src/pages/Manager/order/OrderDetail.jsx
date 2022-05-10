@@ -10,11 +10,12 @@ function OrderDetail() {
   const { orderId } = useParams();
 
   const order = useSelector((state) =>
-    state.orderReducer.ordersInBranch.find((order) => {
+    state.orderReducer.ordersInAMonthInBranch.find((order) => {
       return order.id == orderId;
     })
   );
 
+  console.log(order);
   return (
     <div className="list">
       <Sidebar />

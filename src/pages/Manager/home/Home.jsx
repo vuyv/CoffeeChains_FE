@@ -32,12 +32,12 @@ const Home = () => {
   const currentDay = format(new Date(), "yyyy-MM-dd");
 
   useEffect(() => {
-    dispatch(getBestSellingProducts());
+    dispatch(getBestSellingProducts(currentDay));
     dispatch(getCountOfBranchEmployee());
     dispatch(getDailyOrders(currentDay));
     dispatch(getDailyEarnings(currentDay));
     dispatch(getWeeklyEarnings(currentDay));
-    
+
     dispatch(getMonthlyOrderQuantity());
   }, []);
 
@@ -151,8 +151,8 @@ const Home = () => {
                   <TableRow>
                     <TableCell>Month</TableCell>
 
-                    <TableCell align="right">Sold</TableCell>
-                    <TableCell align="right">Canceled</TableCell>
+                    <TableCell align="right">Total Sold</TableCell>
+                    <TableCell align="right">Total Canceled </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -162,10 +162,10 @@ const Home = () => {
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
                       <TableCell component="th" scope="row">
-                        {row[0]}
+                        {row[0]}/2022
                       </TableCell>
-                      <TableCell align="right">{row[1]}</TableCell>
-                      <TableCell align="right">{row[2]}</TableCell>
+                      <TableCell align="right">{row[1]} orders</TableCell>
+                      <TableCell align="right">{row[2]} orders</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

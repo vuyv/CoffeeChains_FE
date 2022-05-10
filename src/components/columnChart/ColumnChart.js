@@ -7,7 +7,6 @@ import { date } from "yup";
 
 function ColumnChart(props) {
   const { dates, totals } = props;
-  console.log(dates);
   return (
     <div>
       <Bar
