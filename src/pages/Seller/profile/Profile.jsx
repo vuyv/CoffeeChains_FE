@@ -2,7 +2,7 @@ import "./style.scss";
 import "./styleCSS.css";
 import "./single.scss";
 import Sidebar from "../sidebar/Sidebar";
-import Navbar from "../../../components/navbar/Navbar";
+import Navbar from "../navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
@@ -47,7 +47,7 @@ const Profile = () => {
   const [name, setName] = useState(currentUser.name);
   const [phone, setPhone] = useState(currentUser.phone);
   const [address, setAddress] = useState(currentUser.address);
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState(currentUser.avatar);
   const [genderOption, setGenderOption] = useState(null);
   const [branchOption, setBranchOption] = useState(null);
   const [roleOption, setRoleOption] = useState(null);
@@ -94,12 +94,15 @@ const Profile = () => {
     }
   }, [roles, branchs]);
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+  useEffect(() => {
+    if (Object.keys(image).length != 0) {
+      setAvatar(image);
+    }
+  }, [image]);
 
   const handleUploadImage = (file) => {
-    // setFile(file);
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleUpdate = () => {
@@ -121,7 +124,7 @@ const Profile = () => {
   };
 
   const handleCancelForm = () => {
-    navigate("/seller/profile");
+    navigate("/seller");
   };
 
   const handleChangePassword = () => {
@@ -145,6 +148,7 @@ const Profile = () => {
                         alt="Avatar"
                         src={avatar}
                         className={classes.avatar}
+                        sx={{ height: "80px", width: "80px", marginBottom: 2 }}
                       />
                       {isEdit && (
                         <div className="formInput">
@@ -307,6 +311,7 @@ const Profile = () => {
                             class="btn btn-primary"
                             type="button"
                             onClick={handleUpdate}
+                            style={{ marginRight: 10 }}
                           >
                             Save
                           </button>

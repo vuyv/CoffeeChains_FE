@@ -160,12 +160,6 @@ const DetailProduct = () => {
                       </div>
                     </div>
                   </div>
-                  <div
-                    class="tab-pane fade"
-                    id="password"
-                    role="tabpanel"
-                    aria-labelledby="password-tab"
-                  ></div>
                 </div>
                 <div
                   class="profile-tab-nav border-left"

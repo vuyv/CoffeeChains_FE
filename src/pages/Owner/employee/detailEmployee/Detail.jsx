@@ -3,6 +3,8 @@ import "./styleCSS.css";
 import "./single.scss";
 import Sidebar from "../../../../components/sidebar/Sidebar";
 import Navbar from "../../../../components/navbar/Navbar";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import { useNavigate } from "react-router-dom";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import {
@@ -85,11 +87,15 @@ const Detail = () => {
     setGenderOption(getElementByValue(genders, employee.gender));
   }, [roles, branchs]);
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+  useEffect(() => {
+    if (Object.keys(image).length != 0) {
+      setAvatar(image);
+    }
+  }, [image]);
 
   const handleUploadImage = (file) => {
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleUpdate = () => {
@@ -107,10 +113,9 @@ const Detail = () => {
         avatar
       )
     );
-    dispatch(removeTempImage());
+    // dispatch(removeTempImage());
     setIsEdit(!isEdit);
     navigate("/owner/employees");
-
   };
 
   const handleCancelForm = () => {
@@ -127,8 +132,12 @@ const Detail = () => {
               <div class="bg-white shadow rounded-lg d-block d-sm-flex">
                 <div class="profile-tab-nav border-right">
                   <div class="p-4">
-                    <div class="img-circle text-center mb-3">
-                      <img src={avatar} alt="Image" class="shadow" />
+                    <Stack alignItems="center" justifyContent="center">
+                      <Avatar
+                        alt="Avatar"
+                        src={avatar}
+                        sx={{ height: "80px", width: "80px" }}
+                      />
                       {isEdit && (
                         <div className="formInput">
                           <label htmlFor="file">
@@ -144,8 +153,8 @@ const Detail = () => {
                           />
                         </div>
                       )}
-                    </div>
-                    <h4 class="text-center">{employee.name}</h4>
+                      <h4>{employee.name}</h4>
+                    </Stack>
                   </div>
                   <div
                     class="nav flex-column nav-pills"
@@ -165,7 +174,6 @@ const Detail = () => {
                       <i class="fa fa-home text-center mr-1"></i>
                       Account
                     </a>
-                   
                   </div>
                 </div>
                 <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
@@ -279,6 +287,7 @@ const Detail = () => {
                             class="btn btn-primary"
                             type="button"
                             onClick={handleUpdate}
+                            style={{marginRight: 10}}
                           >
                             Save
                           </button>

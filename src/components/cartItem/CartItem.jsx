@@ -22,7 +22,25 @@ function CartItem(props) {
           <p>Price: ${item.product.price.toFixed(2)}</p>
           <p>Subtotal: ${(item.quantity * item.product.price).toFixed(2)}</p>
         </div>
-        <div className="buttons">
+
+        <div className="stepper-input">
+          <a
+            href="#"
+            class="decrement"
+            onClick={() => dispatch(decreaseQuantity(item.product))}
+          >
+            -
+          </a>
+          <span class="quantity">{item.quantity}</span>
+          <a
+            href="#"
+            class="increment"
+            onClick={() => dispatch(addToCart(item.product))}
+          >
+            +
+          </a>
+        </div>
+        {/* <div className="buttons">
           <Button
             size="small"
             disableElevation
@@ -40,7 +58,7 @@ function CartItem(props) {
           >
             +
           </Button>
-        </div>
+        </div> */}
       </div>
       <img src={item.product.image} />
       <button

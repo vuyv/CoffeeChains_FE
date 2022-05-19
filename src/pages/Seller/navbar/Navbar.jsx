@@ -21,6 +21,7 @@ const Navbar = (props) => {
   const navigate = useNavigate();
 
   const [value, setValue] = useState("");
+  const order = useSelector((state) => state.orderReducer.order);
 
   const handleSearch = () => {
     dispatch(loadOrderByOrdinalNumber(value));

@@ -231,7 +231,6 @@ const Home = (props) => {
                               {branch[0]}
                             </TableCell>
                             <TableCell align="right">
-                             
                               {formatter.format(branch[1])}
                             </TableCell>
                           </TableRow>
@@ -249,7 +248,10 @@ const Home = (props) => {
         </div>
         <div className="charts">
           <Featured />
-          <HorizontalBarChart vertical={branchs} horizontal={total} />
+          <div className="text-center">
+            <HorizontalBarChart vertical={branchs} horizontal={total} />
+            Weekly Revenue All Branch
+          </div>
         </div>
       </div>
     </div>
