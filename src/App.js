@@ -23,7 +23,7 @@ import HappeningDiscount from "./pages/Seller/discount/Discount";
 import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
 import ViewOrder from "./pages/Manager/order/ViewOrder";
 import OrderDetail from "./pages/Manager/order/OrderDetail";
-import Report from "./pages/Owner/report/Report";
+import ProductDetail from "./pages/Owner/product/detailProduct/ProductDetail";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -69,7 +69,8 @@ const RouteOwner = () => {
           path: "products",
           children: [
             { path: "", element: <TableProduct /> },
-            { path: ":productId", element: <DetailProduct /> },
+            // { path: ":productId", element: <DetailProduct /> },
+            { path: ":productId", element: <ProductDetail /> },
             { path: "new", element: <CreateProduct /> },
           ],
         },

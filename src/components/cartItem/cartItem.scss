@@ -32,4 +32,39 @@
     // width: 30px;
     // margin-right: -220px;
   }
+
+    .stepper-input {
+      display: flex;
+      justify-content: space-between;
+      color:gray;
+      max-width: 120px;
+      margin: 0 auto;
+  
+      .increment,
+      .decrement {
+        height: 24px;
+        width: 24px;
+        border: 1px solid gray;
+        text-align: center;
+        box-sizing: border-box;
+        border-radius: 50%;
+        text-decoration: none;
+        color: inherit;
+        font-size: 24px;
+        line-height: 22px;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+  
+        &:hover {
+          color: #4e73df;
+          border-color: #4e73df;
+        }
+  
+        &:active {
+          color: white;
+          border-color: #4e73df;
+          // background: lighten($primary-green, 15%);
+        }
+      }
+    }
 }

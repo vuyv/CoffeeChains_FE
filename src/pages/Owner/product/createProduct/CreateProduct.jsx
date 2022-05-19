@@ -27,12 +27,15 @@ const CreateProduct = () => {
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState();
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+
+  useEffect(()=>{
+    setAvatar(image);
+  },[image])
 
   const handleUploadImage = (file) => {
     setFile(file);
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleCreate = (e) => {

@@ -46,6 +46,15 @@ const Report = () => {
 
   useEffect(() => {
     dispatch(loadCategories());
+    dispatch(
+      getReportEachBranch(
+        reportType,
+        currentUser.branch.id,
+        category,
+        timeRange,
+        format(date, "yyyy-MM-dd")
+      )
+    );
   }, []);
 
   // useEffect(() => {
@@ -91,18 +100,21 @@ const Report = () => {
   };
 
   const handlePrint = () => {
-    var printPage = window.open(
-      `${
-        process.env.REACT_APP_HOST
-      }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
-        currentUser.branch.id
-      }&categoryId=${category}&date=${format(
-        date,
-        "yyyy-MM-dd"
-      )}&timeRange=${timeRange}`,
-      "_blank"
-    );
-    setTimeout(printPage.print(), 5);
+    let url = `${
+      process.env.REACT_APP_HOST
+    }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
+      currentUser.branch.id
+    }&categoryId=${category}&date=${format(
+      date,
+      "yyyy-MM-dd"
+    )}&timeRange=${timeRange}`;
+    window.open(url);
+    // console.log(window.location);
+    // // console.log("Page: " + page.print());
+    // // console.log(window.location);
+    // document.addEventListener("visibilitychange", function () {
+    //   document.title = document.hidden ? "I'm away" : "I'm here";
+    // });
   };
 
   return (
@@ -263,23 +275,7 @@ const Report = () => {
               <Button
                 variant="outlined"
                 style={{ marginLeft: 10, marginBottom: 10 }}
-                onClick={() => {
-                  let url = `${
-                    process.env.REACT_APP_HOST
-                  }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
-                    currentUser.branch.id
-                  }&categoryId=${category}&date=${format(
-                    date,
-                    "yyyy-MM-dd"
-                  )}&timeRange=${timeRange}`;
-                  window.open(url);
-                  console.log(window.location);
-                  // console.log("Page: " + page.print());
-                  // console.log(window.location);
-                  document.addEventListener("visibilitychange", function () {
-                    document.title = document.hidden ? "I'm away" : "I'm here";
-                  });
-                }}
+                onClick={handlePrint}
               >
                 Print
               </Button>
@@ -287,7 +283,6 @@ const Report = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

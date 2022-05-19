@@ -164,8 +164,14 @@ const Home = () => {
                       <TableCell component="th" scope="row">
                         {row[0]}/2022
                       </TableCell>
+
                       <TableCell align="right">{row[1]} orders</TableCell>
-                      <TableCell align="right">{row[2]} orders</TableCell>
+                      {row[2] ==1 && (
+                        <TableCell align="right">{row[2]} order</TableCell>
+                      )}
+                      {row[2] != 1 && (
+                        <TableCell align="right">{row[2]} orders</TableCell>
+                      )}
                     </TableRow>
                   ))}
                 </TableBody>

@@ -44,6 +44,7 @@ function HorizontalBarChart(props) {
           indexAxis: "y",
         }}
       />
+     
     </div>
   );
 }

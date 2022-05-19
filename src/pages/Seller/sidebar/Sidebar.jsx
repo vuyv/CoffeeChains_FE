@@ -25,7 +25,7 @@ import { removeCurrentUser } from "../../../redux/actions/employeeAction";
 import { loadCategories } from "../../../redux/actions/categoryAction";
 import { panelStyle } from "./sidebar.style";
 import { loadProductByCategory } from "../../../redux/actions/productAction";
-import { loadActiveProductByCategory } from './../../../redux/actions/productAction';
+import { loadActiveProductByCategory } from "./../../../redux/actions/productAction";
 
 const useStyles = makeStyles(panelStyle);
 
