@@ -24,6 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../../redux/actions/branchAction";
+import { loadEmployees } from './../../../../redux/actions/employeeAction';
 
 const Detail = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -113,7 +114,8 @@ const Detail = () => {
         avatar
       )
     );
-    // dispatch(removeTempImage());
+    dispatch(removeTempImage());
+    dispatch(loadEmployees())
     setIsEdit(!isEdit);
     navigate("/owner/employees");
   };

@@ -13,7 +13,10 @@ import {
   createEmployee,
   loadEmployees,
 } from "../../../../redux/actions/employeeAction";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 import { Button, Alert } from "@mui/material";
 import Form from "react-validation/build/form";
@@ -49,6 +52,7 @@ const CreateEmployee = () => {
 
   useEffect(() => {
     setAvatar(image);
+    
   }, [image]);
 
   const handleUploadImage = (file) => {
@@ -73,6 +77,7 @@ const CreateEmployee = () => {
           avatar
         )
       );
+      dispatch(removeTempImage());
       dispatch(loadEmployees());
       navigate("/owner/employees");
     }

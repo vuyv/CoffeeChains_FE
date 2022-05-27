@@ -13,7 +13,7 @@ export const uploadImage = (file) => {
           type: "UPLOAD_IMAGE",
           payload: res.data.secure_url,
         });
-        dispatch(removeTempImage());
+        // dispatch(removeTempImage());
       })
       .catch((error) => console.log(error));
   };

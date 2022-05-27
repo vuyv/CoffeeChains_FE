@@ -6,10 +6,10 @@ import Select from "react-select";
 import CheckButton from "react-validation/build/button";
 import "react-datepicker/dist/react-datepicker.css";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import { removeTempImage, uploadImage } from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 import { loadCategories } from "../../../../redux/actions/categoryAction";
-import { createProduct } from "../../../../redux/actions/productAction";
+import { createProduct, loadProducts } from "../../../../redux/actions/productAction";
 
 import { Alert, Button } from "@mui/material";
 import Form from "react-validation/build/form";
@@ -43,6 +43,8 @@ const CreateProduct = () => {
     form.current.validateAll();
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(createProduct(productName, price, category, avatar));
+      dispatch(removeTempImage())
+      dispatch(loadProducts())
       navigate("/owner/products");
     }
   };

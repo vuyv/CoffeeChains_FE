@@ -41,6 +41,9 @@ import ReportOfOwner from "./pages/Owner/report/Report";
 import ReportOfManager from "./pages/Manager/report/Report";
 import Bill from "./pages/Seller/order/Bill";
 import Category from "./pages/Owner/category/Category"
+import MaterialTable from "./pages/Manager/material/viewMaterial/MaterialTable";
+import CreateMaterial from "./pages/Manager/material/createMaterial/CreateMaterial";
+import DetailMaterial from './pages/Manager/material/detailMaterial/DetailMaterial';
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -118,6 +121,14 @@ const RouteManager = () => {
         {
           path: "report",
           element: <ReportOfManager />,
+        },
+        {
+          path: "materials",
+          children: [
+            { path: "", element: <MaterialTable /> },
+            { path: "detail", element: <DetailMaterial /> },
+            { path: "new", element: <CreateMaterial /> },
+          ],
         },
       ],
     },

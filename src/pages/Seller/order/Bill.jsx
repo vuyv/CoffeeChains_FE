@@ -58,6 +58,11 @@ const Bill = () => {
     return percent;
   };
 
+    let formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+
   return (
     <div className="single">
       <Sidebar />
@@ -192,7 +197,7 @@ const Bill = () => {
                       colSpan={4}
                       sx={{ paddingRight: 10 }}
                     >
-                      ${order.totalPrice}
+                      {formatter.format(order.totalPrice)}
                     </TableCell>
                   </TableRow>
                 </TableBody>

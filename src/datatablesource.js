@@ -227,3 +227,33 @@ export const orderDetailsColumns = [
     },
   },
 ];
+
+export const materialColumns = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 150,
+  },
+  {
+    field: "unit",
+    headerName: "Unit",
+    width: 150,
+  },
+
+  {
+    field: "quantityStock",
+    headerName: "Quantity In Stock",
+    width: 200,
+  },
+ 
+  {
+    field: "createdAt",
+    headerName: "Import Date",
+    width: 180,
+  },
+];

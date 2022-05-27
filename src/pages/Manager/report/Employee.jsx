@@ -38,9 +38,9 @@ const Employee = ({ timeRange, reportType, date }) => {
     <>
       <div className="listContainer" style={{ padding: 30 }}>
         <h4 style={{ textTransform: "uppercase", textAlign: "center" }}>
-          {timeRange} Revenue Report Per {reportType}
+          {timeRange} {reportType} Report
         </h4>
-        <Stack
+        {/* <Stack
           direction="row"
           justifyContent="space-evenly"
           marginTop={2}
@@ -54,7 +54,7 @@ const Employee = ({ timeRange, reportType, date }) => {
             <h6>Date of Report: {format(new Date(), "dd/MM/yyyy")}</h6>
             <h6 id="timeReport"></h6>
           </Stack>
-        </Stack>
+        </Stack> */}
         <TableContainer component={Paper} className="table">
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -69,8 +69,10 @@ const Employee = ({ timeRange, reportType, date }) => {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="tableCell">{index + 1}</TableCell>
+                  <TableRow key={index + 1 + page * rowsPerPage}>
+                    <TableCell className="tableCell">
+                      {index + 1 + page * rowsPerPage}
+                    </TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
                     <TableCell className="tableCell">

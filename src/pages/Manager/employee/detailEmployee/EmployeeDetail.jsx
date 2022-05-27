@@ -7,10 +7,15 @@ import { useNavigate } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadEmployeeById,
+  loadEmployees,
+  loadEmployeesInBranch,
   updateEmployee,
 } from "../../../../redux/actions/employeeAction";
 import { useState, useEffect, useRef } from "react";
@@ -144,6 +149,8 @@ const EmployeeDetail = () => {
         avatar
       )
     );
+    dispatch(removeTempImage());
+    dispatch(loadEmployeesInBranch())
     setIsEdit(!isEdit);
   };
 

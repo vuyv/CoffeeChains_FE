@@ -27,7 +27,7 @@ function Discount() {
           <div className="datatableTitle">Happening Discounts</div>
           <DataGrid
             className="datagrid"
-            sx={{ width: " 85%", margin: "auto" }}
+            sx={{ width: " 86%", margin: "auto" }}
             rows={happeningDiscounts}
             columns={discountColumns}
             pageSize={9}

@@ -7,7 +7,8 @@ const initialState = {
   order: {},
   cancel: false,
   newOrder: {},
-  orderId: ""
+  searchOrder: {},
+  orderId: "",
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -45,7 +46,7 @@ const orderReducer = (state = initialState, action) => {
     case "GET_ORDER_BY_ORDINAL_NUMBER":
       return {
         ...state,
-        order: action.payload,
+        searchOrder: action.payload,
       };
     case "GET_ORDERS_IN_A_DAY_IN_BRANCH":
       return {

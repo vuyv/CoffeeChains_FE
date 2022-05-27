@@ -13,7 +13,10 @@ import {
   createEmployeeInBranch,
   loadEmployeesInBranch,
 } from "../../../../redux/actions/employeeAction";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 
 import "./CreateEmployee.scss";
@@ -57,7 +60,6 @@ const CreateEmployeeInBranch = () => {
 
   const image = useSelector((state) => state.imageReducer.url);
 
-
   useEffect(() => {
     setAvatar(image);
   }, [image]);
@@ -82,6 +84,7 @@ const CreateEmployeeInBranch = () => {
           avatar
         )
       );
+      dispatch(removeTempImage());
       dispatch(loadEmployeesInBranch());
       navigate("/manager/employees");
     }

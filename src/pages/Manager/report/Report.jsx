@@ -21,11 +21,7 @@ import { loadCategories } from "./../../../redux/actions/categoryAction";
 import Product from "./Product";
 import { getReportEachBranch } from "./../../../redux/actions/managerReportAction";
 import { format } from "date-fns";
-import { useReactToPrint } from "react-to-print";
 import { useRef, forwardRef } from "react";
-import Pdf from "react-to-pdf";
-import ExportProduct from "./ExportProduct";
-import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { useNavigate } from "react-router-dom";
 
 const Report = () => {
@@ -227,24 +223,25 @@ const Report = () => {
               }}
             >
               {reportType === "Product" && (
-                <div>
+               
                   <Product
-                    timeRange={timeRange}
-                    reportType={reportType}
-                    date={date}
-                  />
+                  timeRange={timeRange}
+                  reportType={reportType}
+                  date={date}
+                />
 
-                  <div
-                    ref={(el) => (ref.current = el)}
-                    style={{ position: "absolute", left: "-1000px", top: 0 }}
-                  >
-                    <ExportProduct
-                      timeRange={timeRange}
-                      reportType={reportType}
-                      date={date}
-                    />
-                  </div>
-                </div>
+
+                //   <div
+                //     ref={(el) => (ref.current = el)}
+                //     style={{ position: "absolute", left: "-1000px", top: 0 }}
+                //   >
+                //     <ExportProduct
+                //       timeRange={timeRange}
+                //       reportType={reportType}
+                //       date={date}
+                //     />
+                //   </div>
+                // </div>
               )}
 
               {reportType === "Employee" && (

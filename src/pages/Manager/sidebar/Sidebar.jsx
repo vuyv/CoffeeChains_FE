@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../../redux/actions/authAction";
 import FeedIcon from "@mui/icons-material/Feed";
+import EventNoteIcon from "@mui/icons-material/EventNote";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -63,6 +64,12 @@ const Sidebar = () => {
             <li>
               <DiscountIcon className="icon" />
               <span>Discount</span>
+            </li>
+          </Link>
+          <Link to="/manager/materials" style={{ textDecoration: "none" }}>
+            <li>
+              <EventNoteIcon className="icon" />
+              <span>Material</span>
             </li>
           </Link>
           <p className="title">USER</p>
