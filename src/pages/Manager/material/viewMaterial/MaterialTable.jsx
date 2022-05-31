@@ -2,60 +2,37 @@ import React, { useState, useEffect, useRef } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
-import { DataGrid } from "@mui/x-data-grid";
-import { materialColumns } from "../../../../datatablesource";
-import Material from "../createMaterial/Material";
 import { useSelector, useDispatch } from "react-redux";
-import { addMaterials } from './../../../../redux/actions/materialAction';
+import { getMaterialsByBranch } from "./../../../../redux/actions/materialAction";
+import { format } from "date-fns";
 
 const MaterialTable = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
-   const materialList = useSelector((state) => state.materialReducer);
+  const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
+  const materialList = useSelector(
+    (state) => state.materialReducer.importMaterials
+  );
 
-  const [id, setId] = useState();
-  const handleClickOpen = (id) => {
-    setOpen(true);
-    setId(id);
+  useEffect(() => {
+    dispatch(getMaterialsByBranch());
+  }, []);
+
+  const formatDate = (createdDate) => {
+    const date = new Date(createdDate);
+    const afterFormat = format(date, "MM/dd/yyyy");
+    return afterFormat;
   };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleAgree = () => {
-    handleClose();
-  };
-
-  const actionColumn = [
-    {
-      field: "action",
-      headerName: "Action",
-      width: 180,
-      renderCell: (params) => {
-        return (
-          <div className="cellAction">
-            <div
-              className="viewButton"
-              // onClick={() => navigate(`/manager/employees/${params.row.id}`)}
-            >
-              View
-            </div>
-          </div>
-        );
-      },
-    },
-  ];
 
   return (
     <div className="list">
@@ -68,42 +45,57 @@ const MaterialTable = () => {
             <Button
               variant="outlined"
               onClick={() => navigate("/manager/materials/new")}
-             
             >
               Add Material
             </Button>
           </div>
 
-        
-          <DataGrid
-            className="datagrid"
-            sx={{ width: " 77%", margin: "auto" }}
-            rows={materialList.materials}
-            columns={materialColumns.concat(actionColumn)}
-            pageSize={9}
-            rowsPerPageOptions={[9]}
-          />
+          <div
+            style={{
+              margin: "20px 0px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <TableContainer component={Paper} sx={{ width: "80%" }}>
+              <Table
+                sx={{ minWidth: 650 }}
+                aria-label="simple table"
+                id="detailTable"
+              >
+                <TableHead>
+                  <TableRow>
+                    <TableCell style={{ paddingLeft: "60px" }}>No.</TableCell>
+                    <TableCell>Name</TableCell>
+                    <TableCell>Unit</TableCell>
+                    <TableCell>Quantity In Stock</TableCell>
+                    <TableCell>Import Date</TableCell>
+                    {/* <TableCell>Action</TableCell> */}
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {materialList.map((row, i) => (
+                    <TableRow key={row.inventoryId}>
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        style={{ paddingLeft: "60px" }}
+                      >
+                        {i + 1}
+                      </TableCell>
+                      <TableCell>{row.rawMaterial.name}</TableCell>
 
-          <div>
-            <Dialog
-              open={open}
-              onClose={handleClose}
-              aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
-              <DialogTitle id="alert-dialog-title">
-                {"Confirm disable?"}
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                  Are you sure you want to disable this employee?
-                </DialogContentText>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>Disagree</Button>
-                <Button onClick={handleAgree}>Agree</Button>
-              </DialogActions>
-            </Dialog>
+                      <TableCell id="myTd">{row.unit.unit}</TableCell>
+
+                      <TableCell>{row.quantity}</TableCell>
+
+                      <TableCell>{formatDate(row.createdAt)}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           </div>
         </div>
       </div>
