@@ -12,7 +12,7 @@ import Switch from "@mui/material/Switch";
 import { useDispatch, useSelector } from "react-redux";
 import { updateBranch, loadBranchs } from "../../redux/actions/branchAction";
 import { useNavigate } from "react-router-dom";
-
+import SettingsIcon from "@mui/icons-material/Settings";
 const CardBranch = (props) => {
   const { item } = props;
   const [backgroundColor, setBackgroundColor] = useState();
@@ -58,8 +58,12 @@ const CardBranch = (props) => {
     handleClose();
   };
   return (
-    <div className="widget col-3" onClick={handleClickOpen}>
-      <div className="left">
+    <div className="widget col-3">
+      <div
+        className="left"
+        style={{cursor: "pointer"}}
+        onClick={() => navigate(`/owner/branch/${item.id}`)}
+      >
         <span className="title">BRANCH</span>
         <span className="counter">{item.name}</span>
         <span className="link">{item.address}</span>
@@ -72,6 +76,11 @@ const CardBranch = (props) => {
             color: logoColor,
             backgroundColor: backgroundColor,
           }}
+        />
+        <SettingsIcon
+          style={{ color: "gray", cursor: "pointer" }}
+          onClick={handleClickOpen}
+          fontSize={"small"}
         />
       </div>
       <Dialog open={open} onClose={handleClose}>

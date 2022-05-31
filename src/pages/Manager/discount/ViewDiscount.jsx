@@ -23,7 +23,7 @@ function ViewDiscount() {
   const expiredDiscounts = useSelector(
     (state) => state.discountReducer.expiredDiscounts
   );
-
+    
   const dispatch = useDispatch();
 
   useEffect(() => {

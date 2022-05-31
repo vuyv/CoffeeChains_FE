@@ -11,12 +11,13 @@
     .charts {
       display: flex;
       flex-wrap: wrap;
-      padding: 40px;
+      padding: 20px;
       gap: 40px;
-      justify-content: space-between;
+      // justify-content: space-around;
     }
     .charts {
       padding: 5px 20px;
+
     }
   }
 }

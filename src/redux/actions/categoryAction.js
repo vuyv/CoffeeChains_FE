@@ -20,7 +20,8 @@ export const loadCategories = () => {
   };
 };
 
-export const createCategory = (name) => {
+export const createCategory = (name, image) => {
+  console.log(image);
   return function (dispatch) {
     const headers = setAuthHeaders();
     axios
@@ -28,6 +29,7 @@ export const createCategory = (name) => {
         `${process.env.REACT_APP_HOST}/category/new`,
         {
           name,
+          image,
         },
         headers
       )

@@ -69,8 +69,10 @@ const Employee = ({ timeRange, reportType, date }) => {
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
-                  <TableRow key={index}>
-                    <TableCell className="tableCell">{index + 1}</TableCell>
+                  <TableRow key={index + 1 + page * rowsPerPage}>
+                    <TableCell className="tableCell">
+                      {index + 1 + page * rowsPerPage}
+                    </TableCell>
                     <TableCell className="tableCell">{row[0]}</TableCell>
                     <TableCell className="tableCell">{row[1]}</TableCell>
                     <TableCell className="tableCell">

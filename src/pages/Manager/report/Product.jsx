@@ -94,7 +94,6 @@ const Product = ({ timeRange, reportType, date }) => {
                     <TableCell className="tableCell">
                       ${row[2].toFixed(2)}
                     </TableCell>
-                    {console.log(page)}
                   </TableRow>
                 ))}
             </TableBody>

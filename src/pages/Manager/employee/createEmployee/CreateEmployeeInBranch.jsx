@@ -161,12 +161,11 @@ const CreateEmployeeInBranch = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              <CheckButton style={{ display: "none" }} ref={checkBtn} />
-              <Button variant="outlined">Cancel</Button>
               <Button variant="contained" onClick={handleCreate}>
                 {" "}
                 Create{" "}
               </Button>
+              <CheckButton style={{ display: "none" }} ref={checkBtn} />
             </Form>
           </div>
           <div className="left">
