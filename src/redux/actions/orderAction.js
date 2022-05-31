@@ -110,11 +110,11 @@ export const loadOrderByOrdinalNumber = (ordinalNumber) => {
 
 export const createOrder = (order) => {
   return function (dispatch) {
-    // console.log({
-    //   discount_code: order.discountCode,
-    //   totalPrice: order.appliedDiscountTotal,
-    //   orderDetails: order.cartItems,
-    // });
+    console.log({
+      discount_code: order.discountCode,
+      totalPrice: order.appliedDiscountTotal,
+      orderDetails: order.cartItems,
+    });
     const headers = setAuthHeaders();
     axios
       .post(

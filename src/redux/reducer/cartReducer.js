@@ -9,15 +9,27 @@ const initialState = {
   discountCode: "",
 };
 
+function naiveRound(num, decimalPlaces = 0) {
+  var p = Math.pow(10, decimalPlaces);
+  return Math.round(num * p) / p;
+}
+
 const calculateDiscountSave = (total, percent) => {
-  return ((total * percent) / 100).toFixed(2);
+  return (total * percent) / 100;
+  // return ((total * percent) / 100).toFixed(2);
 };
 
 const calculateAppliedDiscountTotal = (total, discountSave) => {
   return (total - discountSave).toFixed(2);
+  // return (total - discountSave).toFixed(2);
 };
 
 const calculateTotal = (cartItems) => {
+  // return cartItems.reduce(
+  //   (acc, item) => acc + item.quantity * item.product.price,
+  //   0
+  // ).toFixed(2);
+
   return cartItems
     .reduce((acc, item) => acc + item.quantity * item.product.price, 0)
     .toFixed(2);

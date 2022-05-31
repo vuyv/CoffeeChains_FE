@@ -21,16 +21,13 @@ import { getReportByTime } from "../../../redux/actions/ownerReport";
 import { loadCategories } from "../../../redux/actions/categoryAction";
 import Product from "./Product";
 import Revenue from "./Revenue";
+import Stack from "@mui/material/Stack";
 function Report(props) {
   const dispatch = useDispatch();
   let formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
   });
-
-  useEffect(() => {
-    dispatch(loadCategories());
-  }, []);
 
   const categories = useSelector((state) => state.categoryReducer.categories);
 
@@ -55,6 +52,20 @@ function Report(props) {
     setCategory(e.target.value);
   };
 
+  useEffect(() => {
+    dispatch(loadCategories());
+    dispatch(
+      getReportByTime(
+        reportType,
+        timeRange,
+        category,
+        format(timeSelected, "yyyy-MM-dd")
+      )
+    );
+    setFilter(reportType);
+  }, []);
+  // }, [reportType, timeRange, category, timeSelected]);
+
   const handleApply = () => {
     dispatch(
       getReportByTime(
@@ -66,6 +77,28 @@ function Report(props) {
     );
     setFilter(reportType);
   };
+
+  const handleExport = () => {
+    let url = `${
+      process.env.REACT_APP_HOST
+    }/report/owner/export/?exportType=PDF&type=${reportType}&categoryId=${category}&date=${format(
+      timeSelected,
+      "yyyy-MM-dd"
+    )}&timeRange=${timeRange}`;
+    window.open(url);
+  };
+
+  const handlePrint = () => {
+    let url = `${
+      process.env.REACT_APP_HOST
+    }/report/owner/export/?exportType=HTML&type=${reportType}&categoryId=${category}&date=${format(
+      timeSelected,
+      "yyyy-MM-dd"
+    )}&timeRange=${timeRange}`;
+    let print = window.open(url);
+    print.print();
+  };
+
   return (
     <div className="home">
       <Sidebar />
@@ -168,12 +201,13 @@ function Report(props) {
                   </LocalizationProvider>
                 </div>
               </Grid>
-              <Grid item xs={2}>
+              <Grid item style={{ marginTop: 2 }}>
                 <Button variant="contained" onClick={handleApply}>
                   Apply
                 </Button>
               </Grid>
             </Grid>
+
             <div
               style={{
                 width: 800,
@@ -196,6 +230,30 @@ function Report(props) {
               )}
             </div>
           </div>
+          <Stack
+            direction="row"
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+            justifyContent="flex-end"
+            alignItems="flex-end"
+            marginRight={40}
+          >
+            <Button
+              variant="outlined"
+              style={{ marginLeft: 10, marginBottom: 10 }}
+              // disabled={disable}
+              onClick={handleExport}
+            >
+              Export
+            </Button>
+
+            <Button
+              variant="outlined"
+              style={{ marginLeft: 10, marginBottom: 10 }}
+              onClick={handlePrint}
+            >
+              Print
+            </Button>
+          </Stack>
         </div>
       </div>
     </div>

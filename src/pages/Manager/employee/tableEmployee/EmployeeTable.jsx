@@ -108,14 +108,20 @@ const EmployeeTable = () => {
         <div className="datatable">
           <div className="datatableTitle">
             Employee Management
-            <Link to="/manager/employees/new" className="link">
+            {/* <Link to="/manager/employees/new" className="link">
               Add New
-            </Link>
+            </Link> */}
+            <Button
+              variant="outlined"
+              onClick={() => navigate("/manager/employees/new")}
+            >
+              New Employee
+            </Button>
           </div>
 
           <DataGrid
             className="datagrid"
-            sx={{ width: " 90%", margin: "auto" }}
+            sx={{ width: " 92%", margin: "auto" }}
             rows={listEmployees}
             columns={userColumns.concat(actionColumn)}
             pageSize={9}
@@ -134,7 +140,7 @@ const EmployeeTable = () => {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Are you sure you want to disable this element?
+                  Are you sure you want to disable this employee?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>

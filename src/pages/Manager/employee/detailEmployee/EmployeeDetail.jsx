@@ -4,11 +4,18 @@ import "./single.scss";
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
 import { useNavigate } from "react-router-dom";
+import Avatar from "@mui/material/Avatar";
+import Stack from "@mui/material/Stack";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useDispatch, useSelector } from "react-redux";
 import {
   loadEmployeeById,
+  loadEmployees,
+  loadEmployeesInBranch,
   updateEmployee,
 } from "../../../../redux/actions/employeeAction";
 import { useState, useEffect, useRef } from "react";
@@ -60,10 +67,10 @@ const EmployeeDetail = () => {
   const navigate = useNavigate();
 
   const employee = useSelector((state) =>
-  state.employeeReducer.employees.find((employee) => {
-    return employee.id == employeeId;
-  })
-);
+    state.employeeReducer.employees.find((employee) => {
+      return employee.id == employeeId;
+    })
+  );
 
   const [birth, setBirth] = useState(new Date(employee.birth));
   const [username, setUsername] = useState(employee.username);
@@ -116,12 +123,15 @@ const EmployeeDetail = () => {
     }
   }, [roles, branchs]);
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+  useEffect(() => {
+    if (Object.keys(image).length != 0) {
+      setAvatar(image);
+    }
+  }, [image]);
 
   const handleUploadImage = (file) => {
-    // setFile(file);
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleUpdate = () => {
@@ -139,6 +149,8 @@ const EmployeeDetail = () => {
         avatar
       )
     );
+    dispatch(removeTempImage());
+    dispatch(loadEmployeesInBranch())
     setIsEdit(!isEdit);
   };
 
@@ -156,8 +168,13 @@ const EmployeeDetail = () => {
               <div class="bg-white shadow rounded-lg d-block d-sm-flex">
                 <div class="profile-tab-nav border-right">
                   <div class="p-4">
-                    <div class="img-circle text-center mb-3">
-                      <img src={avatar} alt="Image" class="shadow" />
+                    <Stack alignItems="center" justifyContent="center">
+                      <Avatar
+                        alt="Avatar"
+                        src={avatar}
+                        className="avatar"
+                        sx={{ height: "80px", width: "80px", marginBottom: 2 }}
+                      />
                       {isEdit && (
                         <div className="formInput">
                           <label htmlFor="file">
@@ -173,8 +190,8 @@ const EmployeeDetail = () => {
                           />
                         </div>
                       )}
-                    </div>
-                    <h4 class="text-center">{employee.name}</h4>
+                      <h4>{employee.name}</h4>
+                    </Stack>
                   </div>
                   <div
                     class="nav flex-column nav-pills"
@@ -301,6 +318,7 @@ const EmployeeDetail = () => {
                             class="btn btn-light"
                             type="button"
                             onClick={handleCancelForm}
+                            style={{ marginLeft: "15px" }}
                           >
                             Cancel
                           </button>

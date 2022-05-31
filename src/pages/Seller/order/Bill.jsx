@@ -46,7 +46,7 @@ const Bill = () => {
 
   const formatDate = (createdDate) => {
     const date = new Date(createdDate);
-    const afterFormat = format(date, "dd/MM/yyyy");
+    const afterFormat = format(date, "MM/dd/yyyy");
     return afterFormat;
   };
 
@@ -57,6 +57,11 @@ const Bill = () => {
     }
     return percent;
   };
+
+    let formatter = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
 
   return (
     <div className="single">
@@ -76,28 +81,32 @@ const Bill = () => {
                 fontSize: "1rem",
               }}
             >
-              <Table sx={{ marginTop: 3 }}>
-                <h5
-                  style={{
-                    position: "absolute",
-                    "justify-content": "center",
-                    marginLeft: 200,
-                    marginBottom: 100
-                  }}
-                >
-                  RECEIPT
-                </h5>
+              <h5
+                style={{
+                  position: "absolute",
+                  "justify-content": "center",
+                  marginLeft: 200,
+                  marginBottom: 200,
+                  marginTop: 20,
+                }}
+              >
+                RECEIPT
+              </h5>
+              <Table sx={{ marginTop: 5 }}>
                 <TableRow
                   xs={{
-                    "&:last-child td, &:last-child th": { border: "none", paddingTop: 30 },
+                    "&:last-child td, &:last-child th": {
+                      border: "none",
+                      paddingTop: 30,
+                    },
                   }}
                 >
                   <TableCell align="center" colSpan={2}>
-                    {/* Branch */}
+                    Branch: {"  "}
                     {currentUser.branch.name}
                   </TableCell>
                   <TableCell align="center">
-                    {currentUser.branch.address}
+                    Address: {"  "} {currentUser.branch.address}
                   </TableCell>
                 </TableRow>
 
@@ -188,7 +197,7 @@ const Bill = () => {
                       colSpan={4}
                       sx={{ paddingRight: 10 }}
                     >
-                      ${order.totalPrice}
+                      {formatter.format(order.totalPrice)}
                     </TableCell>
                   </TableRow>
                 </TableBody>

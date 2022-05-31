@@ -21,11 +21,7 @@ import { loadCategories } from "./../../../redux/actions/categoryAction";
 import Product from "./Product";
 import { getReportEachBranch } from "./../../../redux/actions/managerReportAction";
 import { format } from "date-fns";
-import { useReactToPrint } from "react-to-print";
 import { useRef, forwardRef } from "react";
-import Pdf from "react-to-pdf";
-import ExportProduct from "./ExportProduct";
-import ReactToPrint, { PrintContextConsumer } from "react-to-print";
 import { useNavigate } from "react-router-dom";
 
 const Report = () => {
@@ -46,6 +42,15 @@ const Report = () => {
 
   useEffect(() => {
     dispatch(loadCategories());
+    dispatch(
+      getReportEachBranch(
+        reportType,
+        currentUser.branch.id,
+        category,
+        timeRange,
+        format(date, "yyyy-MM-dd")
+      )
+    );
   }, []);
 
   // useEffect(() => {
@@ -91,18 +96,21 @@ const Report = () => {
   };
 
   const handlePrint = () => {
-    var printPage = window.open(
-      `${
-        process.env.REACT_APP_HOST
-      }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
-        currentUser.branch.id
-      }&categoryId=${category}&date=${format(
-        date,
-        "yyyy-MM-dd"
-      )}&timeRange=${timeRange}`,
-      "_blank"
-    );
-    setTimeout(printPage.print(), 5);
+    let url = `${
+      process.env.REACT_APP_HOST
+    }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
+      currentUser.branch.id
+    }&categoryId=${category}&date=${format(
+      date,
+      "yyyy-MM-dd"
+    )}&timeRange=${timeRange}`;
+    window.open(url);
+    // console.log(window.location);
+    // // console.log("Page: " + page.print());
+    // // console.log(window.location);
+    // document.addEventListener("visibilitychange", function () {
+    //   document.title = document.hidden ? "I'm away" : "I'm here";
+    // });
   };
 
   return (
@@ -215,24 +223,25 @@ const Report = () => {
               }}
             >
               {reportType === "Product" && (
-                <div>
+               
                   <Product
-                    timeRange={timeRange}
-                    reportType={reportType}
-                    date={date}
-                  />
+                  timeRange={timeRange}
+                  reportType={reportType}
+                  date={date}
+                />
 
-                  <div
-                    ref={(el) => (ref.current = el)}
-                    style={{ position: "absolute", left: "-1000px", top: 0 }}
-                  >
-                    <ExportProduct
-                      timeRange={timeRange}
-                      reportType={reportType}
-                      date={date}
-                    />
-                  </div>
-                </div>
+
+                //   <div
+                //     ref={(el) => (ref.current = el)}
+                //     style={{ position: "absolute", left: "-1000px", top: 0 }}
+                //   >
+                //     <ExportProduct
+                //       timeRange={timeRange}
+                //       reportType={reportType}
+                //       date={date}
+                //     />
+                //   </div>
+                // </div>
               )}
 
               {reportType === "Employee" && (
@@ -263,23 +272,7 @@ const Report = () => {
               <Button
                 variant="outlined"
                 style={{ marginLeft: 10, marginBottom: 10 }}
-                onClick={() => {
-                  let url = `${
-                    process.env.REACT_APP_HOST
-                  }/report/manager/export/?exportType=HTML&type=${reportType}&branchId=${
-                    currentUser.branch.id
-                  }&categoryId=${category}&date=${format(
-                    date,
-                    "yyyy-MM-dd"
-                  )}&timeRange=${timeRange}`;
-                  window.open(url);
-                  console.log(window.location);
-                  // console.log("Page: " + page.print());
-                  // console.log(window.location);
-                  document.addEventListener("visibilitychange", function () {
-                    document.title = document.hidden ? "I'm away" : "I'm here";
-                  });
-                }}
+                onClick={handlePrint}
               >
                 Print
               </Button>
@@ -287,7 +280,6 @@ const Report = () => {
           </div>
         </div>
       </div>
-      
     </div>
   );
 };

@@ -24,7 +24,7 @@ import HappeningDiscount from "./pages/Seller/discount/Discount";
 import ViewDiscount from "./pages/Manager/discount/ViewDiscount";
 import ViewOrder from "./pages/Manager/order/ViewOrder";
 import OrderDetail from "./pages/Manager/order/OrderDetail";
-import Report from "./pages/Owner/report/Report";
+import ProductDetail from "./pages/Owner/product/detailProduct/ProductDetail";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -41,7 +41,10 @@ import ResetPassword from "./pages/Forgot Password/ResetPassword";
 import ReportOfOwner from "./pages/Owner/report/Report";
 import ReportOfManager from "./pages/Manager/report/Report";
 import Bill from "./pages/Seller/order/Bill";
-import Category from "./pages/Owner/category/Category";
+import Category from "./pages/Owner/category/Category"
+import MaterialTable from "./pages/Manager/material/viewMaterial/MaterialTable";
+import CreateMaterial from "./pages/Manager/material/createMaterial/CreateMaterial";
+import DetailMaterial from './pages/Manager/material/detailMaterial/DetailMaterial';
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -73,7 +76,8 @@ const RouteOwner = () => {
           path: "products",
           children: [
             { path: "", element: <TableProduct /> },
-            { path: ":productId", element: <DetailProduct /> },
+            // { path: ":productId", element: <DetailProduct /> },
+            { path: ":productId", element: <ProductDetail /> },
             { path: "new", element: <CreateProduct /> },
           ],
         },
@@ -121,6 +125,14 @@ const RouteManager = () => {
         {
           path: "report",
           element: <ReportOfManager />,
+        },
+        {
+          path: "materials",
+          children: [
+            { path: "", element: <MaterialTable /> },
+            { path: "detail", element: <DetailMaterial /> },
+            { path: "new", element: <CreateMaterial /> },
+          ],
         },
       ],
     },

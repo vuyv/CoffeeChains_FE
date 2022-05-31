@@ -2,8 +2,8 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { Navigate, useNavigate } from 'react-router-dom';
-
+import { Navigate, useNavigate } from "react-router-dom";
+import { removeTempImage } from "./imageAction";
 
 toast.configure();
 
@@ -207,13 +207,15 @@ export const createEmployeeInBranch = (
       )
       .then((res) => {
         toast.success("Create Successfully");
+        
         dispatch({
           type: "CREATE_EMPLOYEE_IN_BRANCH",
           payload: res.data,
         });
+
         dispatch(loadEmployeesInBranch());
       })
-      .catch((error) => toast.error(error));
+      .catch((error) => toast.error("Create Fail"));
   };
 };
 

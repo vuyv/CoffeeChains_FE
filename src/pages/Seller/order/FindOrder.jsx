@@ -3,9 +3,6 @@ import React, { useEffect, useState, useRef } from "react";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
-import { Box } from "@material-ui/core";
-import ListItemText from "@mui/material/ListItemText";
-import Divider from "@mui/material/Divider";
 
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -36,7 +33,7 @@ const Order = () => {
   const { branchId } = useParams();
   const { value } = useParams();
 
-  const order = useSelector((state) => state.orderReducer.order);
+  const searchOrder = useSelector((state) => state.orderReducer.searchOrder);
   const currentUser = useSelector((state) => state.employeeReducer.currentUser);
 
   const componentRef = useRef();
@@ -55,7 +52,7 @@ const Order = () => {
   };
 
   const handleAgree = () => {
-    dispatch(cancelOrder(order.id));
+    dispatch(cancelOrder(searchOrder.id));
     handleClose();
   };
 
@@ -73,13 +70,14 @@ const Order = () => {
     return percent;
   };
 
+
   return (
     <div className="single">
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
 
-        {Object.keys(order).length !== 0 && (
+        {Object.keys(searchOrder).length !== 0 ? (
           <div>
             <TableContainer
               ref={componentRef}
@@ -100,27 +98,29 @@ const Order = () => {
                   <TableCell align="center" colSpan={2}>
                     No
                   </TableCell>
-                  <TableCell align="center">{order.id}</TableCell>
+                  <TableCell align="center">{searchOrder.id}</TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
                     Employee
                   </TableCell>
-                  <TableCell align="center">{order.createdBy.name}</TableCell>
+                  <TableCell align="center">
+                    {searchOrder.createdBy.name}
+                  </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
                     Date
                   </TableCell>
                   <TableCell align="center">
-                    {formatDate(order.createdAt)}
+                    {formatDate(searchOrder.createdAt)}
                   </TableCell>
                 </TableRow>
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
                     Status
                   </TableCell>
-                  <TableCell align="center">{order.status}</TableCell>
+                  <TableCell align="center">{searchOrder.status}</TableCell>
                 </TableRow>
               </Table>
               <Table>
@@ -138,7 +138,7 @@ const Order = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {order.orderDetails.map((orderDetail) => (
+                  {searchOrder.orderDetails.map((orderDetail) => (
                     <TableRow
                       key={orderDetail.id}
                       sx={{
@@ -161,7 +161,7 @@ const Order = () => {
                       Discount
                     </TableCell>
                     <TableCell align="center" colSpan={4}>
-                      {formatDiscount(order.discount)}
+                      {formatDiscount(searchOrder.discount)}
                     </TableCell>
                   </TableRow>
                   <TableRow>
@@ -169,7 +169,7 @@ const Order = () => {
                       Total Price
                     </TableCell>
                     <TableCell align="center" colSpan={4}>
-                      ${order.totalPrice}
+                      ${searchOrder.totalPrice}
                     </TableCell>
                   </TableRow>
                 </TableBody>
@@ -201,13 +201,13 @@ const Order = () => {
               </Button>
             </TableContainer>
           </div>
+        ) : (
+          <Alert severity="error" style={{ margin: "10px" }}>
+            <AlertTitle style={{ textAlign: "center" }}>
+              Order not found!
+            </AlertTitle>
+          </Alert>
         )}
-        {Object.keys(order).length === 0 ||
-          (order === null && (
-            <Alert severity="error">
-              <AlertTitle>Not Found</AlertTitle>
-            </Alert>
-          ))}
       </div>
       <Dialog
         open={open}

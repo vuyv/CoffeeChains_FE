@@ -13,7 +13,10 @@ import {
   createEmployee,
   loadEmployees,
 } from "../../../../redux/actions/employeeAction";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 import { Button, Alert } from "@mui/material";
 import Form from "react-validation/build/form";
@@ -45,12 +48,16 @@ const CreateEmployee = () => {
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState();
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+
+  useEffect(() => {
+    setAvatar(image);
+    
+  }, [image]);
 
   const handleUploadImage = (file) => {
     setFile(file);
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleCreate = (e) => {
@@ -70,6 +77,7 @@ const CreateEmployee = () => {
           avatar
         )
       );
+      dispatch(removeTempImage());
       dispatch(loadEmployees());
       navigate("/owner/employees");
     }
@@ -77,7 +85,7 @@ const CreateEmployee = () => {
 
   const handleCancel = () => {
     navigate("/owner/employees");
-  }
+  };
 
   const [role, setRole] = useState();
   const { roles } = useSelector((state) => state.roleReducer);
@@ -212,7 +220,9 @@ const CreateEmployee = () => {
               </div>
               {/* <button onClick={handleCreate}>Create</button> */}
               <CheckButton style={{ display: "none" }} ref={checkBtn} />
-              <Button variant="outlined" onClick={handleCancel}>Cancel</Button>
+              <Button variant="outlined" onClick={handleCancel}>
+                Cancel
+              </Button>
               <Button variant="contained" onClick={handleCreate}>
                 {" "}
                 Create{" "}
@@ -220,7 +230,7 @@ const CreateEmployee = () => {
             </Form>
           </div>
           <div className="left">
-          <label htmlFor="file" style={{ padding: 100 }}>
+            <label htmlFor="file" style={{ padding: 100 }}>
               <img
                 src={
                   file

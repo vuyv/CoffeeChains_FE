@@ -235,6 +235,7 @@ const TableEmployee = () => {
             columns={userColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
+            sx={{width: "92%", margin: "auto"}}
           />
           <div>
             <Dialog

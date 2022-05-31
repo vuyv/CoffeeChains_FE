@@ -1,4 +1,3 @@
-import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
 import TextField from "@mui/material/TextField";
@@ -14,12 +13,16 @@ import {
   createEmployeeInBranch,
   loadEmployeesInBranch,
 } from "../../../../redux/actions/employeeAction";
-import { uploadImage } from "../../../../redux/actions/imageAction";
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../../redux/actions/imageAction";
 import { useNavigate } from "react-router-dom";
 
 import "./CreateEmployee.scss";
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
+import { useEffect } from "react";
 
 const required = (value) => {
   if (!value) {
@@ -55,12 +58,15 @@ const CreateEmployeeInBranch = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
+
+  useEffect(() => {
+    setAvatar(image);
+  }, [image]);
 
   const handleUploadImage = (file) => {
     setFile(file);
     dispatch(uploadImage(file));
-    setAvatar(image.url);
   };
 
   const handleCreate = (e) => {
@@ -78,6 +84,7 @@ const CreateEmployeeInBranch = () => {
           avatar
         )
       );
+      dispatch(removeTempImage());
       dispatch(loadEmployeesInBranch());
       navigate("/manager/employees");
     }
@@ -97,7 +104,7 @@ const CreateEmployeeInBranch = () => {
         <div className="top">
           <h1>Add New Employee</h1>
         </div>
-        <div className="bottom">
+        <div className="bottom" style={{ width: "65%", margin: "auto" }}>
           <div className="right">
             <Form ref={form}>
               <div className="formInput">
@@ -161,15 +168,25 @@ const CreateEmployeeInBranch = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              <Button variant="contained" onClick={handleCreate}>
-                {" "}
-                Create{" "}
-              </Button>
               <CheckButton style={{ display: "none" }} ref={checkBtn} />
+              <div>
+                {/* <Button variant="outlined">Cancel</Button> */}
+                <Button
+                  variant="contained"
+                  style={{
+                    marginLeft: "-280px",
+                    marginBottom: "10px",
+                    marginTop: "-8px",
+                  }}
+                  onClick={handleCreate}
+                >
+                  Create
+                </Button>
+              </div>
             </Form>
           </div>
-          <div className="left">
-            <label htmlFor="file" style={{ padding: 100 }}>
+          <div className="left" style={{ "max-width": "180px" }}>
+            <label htmlFor="file" style={{ padding: 31 }}>
               <img
                 src={
                   file
