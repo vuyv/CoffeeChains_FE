@@ -20,7 +20,7 @@ import {
   addToMaterialArray,
   getMaterials,
   getMaterialById,
-  addMaterials,
+  addMaterialsToInventory,
   clearMaterials,
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
@@ -40,7 +40,11 @@ const CreateMaterial = () => {
   const [rows, setRows] = useState([]);
   const [selectedUnit, setSelectedUnit] = useState();
   const [formValues, setFormValues] = useState([
-    { id: uuidv4(), name: "", quantity: "", units: [] },
+    { id: "", name: "", quantity: 0, units: [] },
+  ]);
+
+  const [formSubmit, setFormSubmit] = useState([
+    { id: "", name: "", quantity: 0, units: {} },
   ]);
 
   useEffect(() => {
@@ -68,29 +72,37 @@ const CreateMaterial = () => {
 
   useEffect(() => {
     let result = [];
+    let formSubmit = [];
     materialItems.forEach((material) => {
       let listUnit = [];
       material.units.forEach((item) => {
-        listUnit.push({ value: item.id, label: item.unit });
+        listUnit.push({ id: item.id, label: item.unit });
       });
       result.push({
-        id: uuidv4(),
+        id: material.id,
         name: material.name,
         quantity: 1,
         units: listUnit,
       });
+      formSubmit.push({
+        id: material.id,
+        name: material.name,
+        quantity: 1,
+        units: material.units[0],
+      });
     });
     setFormValues(result);
+    setFormSubmit(formSubmit);
   }, [materialItems, selected]);
 
   const handleChangeInput = (id, event) => {
-    const newInputFields = formValues.map((i) => {
+    const newInputFields = formSubmit.map((i) => {
       if (id === i.id) {
         i[event.target.name] = event.target.value;
       }
       return i;
     });
-    setFormValues(newInputFields);
+    setFormSubmit(newInputFields);
   };
 
   const getElementByValue = (array, title) => {
@@ -109,39 +121,27 @@ const CreateMaterial = () => {
     setShow(true);
   };
 
-  const colourStyles = {
-    control: (styles) => ({
-      ...styles,
-      backgroundColor: "white",
-      height: "40px",
-    }),
-  };
-
   const handleRemove = (item) => {
     dispatch(removeFromMaterialArray(item));
   };
 
-  const handleSubmit = () => {
-    // dispatch(addMaterials(result));
-    // navigate("/manager/materials");
-    // dispatch(clearMaterials());
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("formSubmit", formSubmit);
+
+    dispatch(addMaterialsToInventory(formSubmit));
+    navigate("/manager/materials");
+    dispatch(clearMaterials());
   };
 
-  const UnitDropdown = (props) => {
-    const [selectedOption, setSelectedOption] = useState();
-    function handleSelectChange(value) {
-      setSelectedOption(value);
-    }
-
-    return (
-      <Select
-        name="filters"
-        placeholder="Unit"
-        options={props.units}
-        value={selectedOption}
-        onChange={handleSelectChange}
-      />
-    );
+  const handleChangeUnit = (id, event, actionMeta) => {
+    const unitSelected = formSubmit.map((i) => {
+      if (id === i.id) {
+        i[actionMeta.name] = event;
+      }
+      return i;
+    });
+    setFormSubmit(unitSelected);
   };
 
   return (
@@ -162,7 +162,6 @@ const CreateMaterial = () => {
                 options={materialList}
                 onChange={handleChangeMaterial}
                 isMulti
-                styles={colourStyles}
               />
             </div>
             <Button
@@ -174,7 +173,7 @@ const CreateMaterial = () => {
             </Button>
           </Stack>
 
-          <form style={{ margin: "10px" }}>
+          <form style={{ margin: "10px" }} onSubmit={handleSubmit}>
             <TableContainer
               component={Paper}
               sx={{ width: "80%", margin: "auto" }}
@@ -190,18 +189,13 @@ const CreateMaterial = () => {
                     <TableCell>Name</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Unit</TableCell>
-
                     <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
               </Table>
               <TableBody>
                 {formValues.map((element, i) => (
-                  <TableRow
-                    key={element.id}
-                    className="row"
-                    // style={{ margin: "10px" }}
-                  >
+                  <TableRow key={element.id} className="row">
                     <TableCell
                       component="th"
                       scope="row"
@@ -212,36 +206,35 @@ const CreateMaterial = () => {
                     <TableCell>
                       <TextField
                         name="name"
-                        // label="Material"
                         value={element.name}
                         type="text"
                         style={{ paddingLeft: "160px" }}
-                        // onChange={(event) => handleChangeInput(element.id, event)}
+                        disabled="true"
                       />
                     </TableCell>
                     <TableCell>
                       <TextField
                         name="quantity"
-                        // label="Quantity"
-                        value={element.quantity}
+                        defaultValue={element.quantity}
                         type="number"
-                        onChange={(event) =>
-                          handleChangeInput(element.id, event)
-                        }
+                        onChange={(event) => {
+                          handleChangeInput(element.id, event);
+                        }}
                         style={{ width: "80px" }}
                       />
                     </TableCell>
-                    {/* <div style={{ width: "150px", margin: "10px" }}> */}
                     <TableCell>
                       <div style={{ width: "180px", paddingLeft: "70px" }}>
-                        {/* <Select
-                          name="filters"
+                        <Select
+                          name="units"
                           placeholder="Unit"
                           options={element.units}
-                          // value={selectedUnit}
-                          // onChange={handleChangeUnit}
-                        /> */}
-                        <UnitDropdown key={element.id} {...element} />
+                          defaultValue={element.units[0]}
+                          // value={element.selectedUnit}
+                          onChange={(event, actionMeta) => {
+                            handleChangeUnit(element.id, event, actionMeta);
+                          }}
+                        />
                       </div>
                     </TableCell>
                     <TableCell>
@@ -260,11 +253,10 @@ const CreateMaterial = () => {
               style={{
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center",
                 margin: "20px",
               }}
             >
-              <Button variant="contained" onClick={handleSubmit}>
+              <Button variant="contained" type="submit" value="Submit">
                 Submit
               </Button>
             </div>

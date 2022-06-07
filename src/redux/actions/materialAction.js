@@ -70,13 +70,20 @@ export const getMaterialsByBranch = () => {
   };
 };
 
-export const addMaterials = (arr) => {
+export const addMaterialsToInventory = (arr) => {
+  const materialArr = [];
+  arr.forEach((material) => {
+    materialArr.push({
+      materialId: material.id,
+      quantity: material.quantity,
+      unitId: material.units.id,
+    });
+  });
   return function (dispatch) {
-
     axios
       .post(
-        `${process.env.REACT_APP_HOST}/material/addToInventory/`,
-        arr,
+        `${process.env.REACT_APP_HOST}/material/addToInventory`,
+        materialArr,
         headers
       )
       .then((res) => {
@@ -84,6 +91,7 @@ export const addMaterials = (arr) => {
           type: "ADD_MATERIALS",
           payload: res.data,
         });
+        toast.success("Add Materials Successfully");
         dispatch(getMaterialsByBranch());
       })
       .catch((error) => toast.error(error));
