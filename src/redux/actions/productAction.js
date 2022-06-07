@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { createRecipe, getRecipeByProduct, updateRecipe } from "./recipeAction";
 toast.configure();
 
 const getProducts = (products) => ({
@@ -34,7 +35,7 @@ export const loadProductById = (id) => {
   };
 };
 
-export const createProduct = (name, price, categoryId, image) => {
+export const createProduct = (name, price, categoryId, image, arr) => {
   return function (dispatch) {
     const headers = setAuthHeaders();
     axios
@@ -54,13 +55,25 @@ export const createProduct = (name, price, categoryId, image) => {
           type: "CREATE_PRODUCT",
           payload: res.data,
         });
-        dispatch(loadProducts());
+
+        const materialArr = [];
+        arr.forEach((material) => {
+          materialArr.push({
+            productId: res.data.id,
+            materialId: material.materialId,
+            amount: material.amount,
+          });
+        });
+
+        dispatch(createRecipe(materialArr));
+
+        // dispatch(loadProducts());
       })
       .catch((error) => toast.error(error));
   };
 };
 
-export const updateProduct = (id, name, price, categoryId, image) => {
+export const updateProduct = (id, name, price, categoryId, image, arr) => {
   return function (dispatch) {
     const headers = setAuthHeaders();
     axios
@@ -80,6 +93,16 @@ export const updateProduct = (id, name, price, categoryId, image) => {
           type: "UPDATE_PRODUCT",
           payload: res.data,
         });
+        const materialArr = [];
+        arr.forEach((material) => {
+          materialArr.push({
+            productId: res.data.id,
+            materialId: material.materialId,
+            amount: material.amount,
+          });
+        });
+        dispatch(updateRecipe(materialArr))
+        dispatch(getRecipeByProduct(res.data.id))
         dispatch(loadProducts());
       })
       .catch((error) => toast.error(error));

@@ -13,7 +13,10 @@ import managerStatisticsReducer from "./managerStatisticsReducer";
 import ownerStatisticsReducer from "./ownerStatisticsReducer";
 import ownerReportReducer from "./ownerReportReducer";
 import managerReportReducer from "./managerReportReducer";
-import materialReducer from './materialReducer';
+import materialReducer from "./materialReducer";
+import inventoryHistoryReducer from "./inventoryHistoryReducer";
+import recipeReducer from "./recipeReducer";
+
 const rootReducer = combineReducers({
   authReducer,
   employeeReducer,
@@ -29,7 +32,9 @@ const rootReducer = combineReducers({
   ownerStatisticsReducer,
   ownerReportReducer,
   managerReportReducer,
-  materialReducer
+  materialReducer,
+  inventoryHistoryReducer,
+  recipeReducer,
 });
 
 export default rootReducer;

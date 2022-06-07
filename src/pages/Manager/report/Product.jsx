@@ -100,7 +100,7 @@ const Product = ({ timeRange, reportType, date }) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={5}
+          rowsPerPageOptions={[5]}
           component="div"
           count={data.length}
           rowsPerPage={5}

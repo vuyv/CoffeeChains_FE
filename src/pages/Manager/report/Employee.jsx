@@ -40,21 +40,6 @@ const Employee = ({ timeRange, reportType, date }) => {
         <h4 style={{ textTransform: "uppercase", textAlign: "center" }}>
           {timeRange} {reportType} Report
         </h4>
-        {/* <Stack
-          direction="row"
-          justifyContent="space-evenly"
-          marginTop={2}
-          marginBottom={2}
-        >
-          <Stack direction="column">
-            <h6>Branch: {currentUser.branch.name}</h6>
-            <h6>Address: {currentUser.branch.address}</h6>
-          </Stack>
-          <Stack direction="column">
-            <h6>Date of Report: {format(new Date(), "dd/MM/yyyy")}</h6>
-            <h6 id="timeReport"></h6>
-          </Stack>
-        </Stack> */}
         <TableContainer component={Paper} className="table">
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
@@ -66,6 +51,9 @@ const Employee = ({ timeRange, reportType, date }) => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {data.length === 0 && (
+                <TableCell className="tableCell">No rows data</TableCell>
+              )}
               {data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => (
@@ -84,7 +72,7 @@ const Employee = ({ timeRange, reportType, date }) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={5}
+          rowsPerPageOptions={[5]}
           component="div"
           count={data.length}
           rowsPerPage={5}

@@ -28,17 +28,11 @@ import { useNavigate } from "react-router-dom";
 
 import Select from "react-select";
 import { removeFromMaterialArray } from "./../../../../redux/actions/materialAction";
-import { v4 as uuidv4 } from "uuid";
-import { useRef } from "react";
 
 const CreateMaterial = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const selectRef = useRef("");
 
-  const [show, setShow] = useState(false);
-  const [rows, setRows] = useState([]);
-  const [selectedUnit, setSelectedUnit] = useState();
   const [formValues, setFormValues] = useState([
     { id: "", name: "", quantity: 0, units: [] },
   ]);
@@ -73,17 +67,25 @@ const CreateMaterial = () => {
   useEffect(() => {
     let result = [];
     let formSubmit = [];
+
     materialItems.forEach((material) => {
-      let listUnit = [];
+      let tempList = [];
+
       material.units.forEach((item) => {
         listUnit.push({ id: item.id, label: item.unit });
       });
+
+      let listUnit = [
+        ...new Map(tempList.map((item) => [item["label"], item])).values(),
+      ];
+
       result.push({
         id: material.id,
         name: material.name,
         quantity: 1,
         units: listUnit,
       });
+
       formSubmit.push({
         id: material.id,
         name: material.name,
@@ -119,152 +121,159 @@ const CreateMaterial = () => {
 
   const handleAdd = () => {
     setShow(true);
-  };
+    const colourStyles = {
+      control: (styles) => ({
+        ...styles,
+        backgroundColor: "white",
+        height: "40px",
+      }),
+    };
 
-  const handleRemove = (item) => {
-    dispatch(removeFromMaterialArray(item));
-  };
+    const handleRemove = (item) => {
+      dispatch(removeFromMaterialArray(item));
+    };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log("formSubmit", formSubmit);
+    const handleSubmit = (event) => {
+      event.preventDefault();
+      console.log("formSubmit", formSubmit);
 
-    dispatch(addMaterialsToInventory(formSubmit));
-    navigate("/manager/materials");
-    dispatch(clearMaterials());
-  };
+      dispatch(addMaterialsToInventory(formSubmit));
+      navigate("/manager/materials");
+      dispatch(clearMaterials());
+    };
 
-  const handleChangeUnit = (id, event, actionMeta) => {
-    const unitSelected = formSubmit.map((i) => {
-      if (id === i.id) {
-        i[actionMeta.name] = event;
-      }
-      return i;
-    });
-    setFormSubmit(unitSelected);
-  };
+    const handleChangeUnit = (id, event, actionMeta) => {
+      const unitSelected = formSubmit.map((i) => {
+        if (id === i.id) {
+          i[actionMeta.name] = event;
+        }
+        return i;
+      });
+      setFormSubmit(unitSelected);
+    };
 
-  return (
-    <div className="new">
-      <Sidebar />
-      <div className="newContainer">
-        <Navbar />
-        <div className="top">
-          <h1>Add Material</h1>
-        </div>
-        <div>
-          <Stack direction="row">
-            <div style={{ width: "50%", margin: "10px 20px" }}>
-              <Select
-                name="filters"
-                placeholder="Materials"
-                value={selected}
-                options={materialList}
-                onChange={handleChangeMaterial}
-                isMulti
-              />
-            </div>
-            <Button
-              variant="contained"
-              style={{ margin: "10px" }}
-              onClick={handleAdd}
-            >
-              Add
-            </Button>
-          </Stack>
+    return (
+      <div className="new">
+        <Sidebar />
+        <div className="newContainer">
+          <Navbar />
+          <div className="top">
+            <h1>Add Material</h1>
+          </div>
+          <div>
+            <Stack direction="row">
+              <div style={{ width: "50%", margin: "10px 20px" }}>
+                <Select
+                  name="filters"
+                  placeholder="Materials"
+                  value={selected}
+                  options={materialList}
+                  onChange={handleChangeMaterial}
+                  isMulti
+                />
+              </div>
+            </Stack>
 
-          <form style={{ margin: "10px" }} onSubmit={handleSubmit}>
-            <TableContainer
-              component={Paper}
-              sx={{ width: "80%", margin: "auto" }}
-            >
-              <Table
-                sx={{ minWidth: 650 }}
-                aria-label="simple table"
-                id="detailTable"
+            <form style={{ margin: "10px" }} onSubmit={handleSubmit}>
+              <TableContainer
+                component={Paper}
+                sx={{ width: "80%", margin: "auto" }}
               >
-                <TableHead>
-                  <TableRow>
-                    <TableCell style={{ paddingLeft: "60px" }}>No.</TableCell>
-                    <TableCell>Name</TableCell>
-                    <TableCell>Quantity</TableCell>
-                    <TableCell>Unit</TableCell>
-                    <TableCell>Action</TableCell>
-                  </TableRow>
-                </TableHead>
-              </Table>
-              <TableBody>
-                {formValues.map((element, i) => (
-                  <TableRow key={element.id} className="row">
+                <Table
+                  sx={{ minWidth: 650 }}
+                  aria-label="simple table"
+                  id="detailTable"
+                >
+                  <TableHead>
+                    <TableRow>
+                      <TableCell style={{ paddingLeft: "60px" }}>No.</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Quantity</TableCell>
+                      <TableCell>Unit</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                </Table>
+                <TableBody>
+                  {formValues.length === 0 && (
                     <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ paddingLeft: "60px" }}
+                      className="tableCell"
+                      style={{ paddingLeft: "50px" }}
                     >
-                      {i + 1}
+                      No rows data
                     </TableCell>
-                    <TableCell>
-                      <TextField
-                        name="name"
-                        value={element.name}
-                        type="text"
-                        style={{ paddingLeft: "160px" }}
-                        disabled="true"
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <TextField
-                        name="quantity"
-                        defaultValue={element.quantity}
-                        type="number"
-                        onChange={(event) => {
-                          handleChangeInput(element.id, event);
-                        }}
-                        style={{ width: "80px" }}
-                      />
-                    </TableCell>
-                    <TableCell>
-                      <div style={{ width: "180px", paddingLeft: "70px" }}>
-                        <Select
-                          name="units"
-                          placeholder="Unit"
-                          options={element.units}
-                          defaultValue={element.units[0]}
-                          // value={element.selectedUnit}
-                          onChange={(event, actionMeta) => {
-                            handleChangeUnit(element.id, event, actionMeta);
+                  )}
+                  {formValues.map((element, i) => (
+                    <TableRow key={element.id} className="row">
+                      <TableCell
+                        component="th"
+                        scope="row"
+                        style={{ paddingLeft: "60px" }}
+                      >
+                        {i + 1}
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          name="name"
+                          value={element.name}
+                          type="text"
+                          style={{ paddingLeft: "160px" }}
+                          disabled="true"
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <TextField
+                          name="quantity"
+                          defaultValue={element.quantity}
+                          type="number"
+                          onChange={(event) => {
+                            handleChangeInput(element.id, event);
+                          }}
+                          style={{ width: "80px" }}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        <div style={{ width: "180px", paddingLeft: "70px" }}>
+                          <Select
+                            name="units"
+                            placeholder="Unit"
+                            options={element.units}
+                            defaultValue={element.units[0]}
+                            // value={element.selectedUnit}
+                            onChange={(event, actionMeta) => {
+                              handleChangeUnit(element.id, event, actionMeta);
+                            }}
+                          />
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <CloseIcon
+                          style={{ marginLeft: "70px" }}
+                          onClick={() => {
+                            handleRemove(element);
                           }}
                         />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <CloseIcon
-                        style={{ marginLeft: "70px" }}
-                        onClick={() => {
-                          handleRemove(element);
-                        }}
-                      />
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </TableContainer>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                margin: "20px",
-              }}
-            >
-              <Button variant="contained" type="submit" value="Submit">
-                Submit
-              </Button>
-            </div>
-          </form>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </TableContainer>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "20px",
+                }}
+              >
+                <Button variant="contained" type="submit" value="Submit">
+                  Submit
+                </Button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 };
-
 export default CreateMaterial;

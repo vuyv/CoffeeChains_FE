@@ -41,10 +41,13 @@ import ResetPassword from "./pages/Forgot Password/ResetPassword";
 import ReportOfOwner from "./pages/Owner/report/Report";
 import ReportOfManager from "./pages/Manager/report/Report";
 import Bill from "./pages/Seller/order/Bill";
-import Category from "./pages/Owner/category/Category"
+import Category from "./pages/Owner/category/Category";
 import MaterialTable from "./pages/Manager/material/viewMaterial/MaterialTable";
 import CreateMaterial from "./pages/Manager/material/createMaterial/CreateMaterial";
-import DetailMaterial from './pages/Manager/material/detailMaterial/DetailMaterial';
+import DetailMaterial from "./pages/Manager/material/detailMaterial/DetailMaterial";
+import ExportMaterial from "./pages/Manager/material/ExportMaterial/ExportMaterial";
+import ImportHistory from "./pages/Manager/material/history/ImportHistory";
+import ExportHistory from "./pages/Manager/material/history/ExportHistory";
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -130,8 +133,11 @@ const RouteManager = () => {
           path: "materials",
           children: [
             { path: "", element: <MaterialTable /> },
-            { path: "detail", element: <DetailMaterial /> },
+            { path: ":materialId/:unitId", element: <DetailMaterial /> },
             { path: "new", element: <CreateMaterial /> },
+            { path: "export", element: <ExportMaterial /> },
+            { path: "import_history", element: <ImportHistory /> },
+            { path: "export_history", element: <ExportHistory /> },
           ],
         },
       ],
