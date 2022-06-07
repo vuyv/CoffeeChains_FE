@@ -4,7 +4,6 @@ import "./category.scss";
 
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import Button from "@mui/material/Button";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,7 +16,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-
+import {
+  uploadImage,
+  removeTempImage,
+} from "../../../redux/actions/imageAction";
 import CardCategory from "./CardCategory";
 
 const Category = () => {
@@ -43,8 +45,23 @@ const Category = () => {
   const [categoryName, setCategoryName] = useState();
 
   const handleCreate = () => {
-    dispatch(createCategory(categoryName));
+    dispatch(createCategory(categoryName, avatar));
     handleClose();
+  };
+
+  const [file, setFile] = useState(null);
+  const [avatar, setAvatar] = useState();
+
+  const image = useSelector((state) => state.imageReducer);
+
+  useEffect(() => {
+    setAvatar(image.url);
+  }, image)
+
+  const handleUploadImage = (file) => {
+    setFile(file);
+    dispatch(removeTempImage());
+    dispatch(uploadImage(file));
   };
 
   return (
@@ -67,7 +84,7 @@ const Category = () => {
           </div>
         </div>
       </div>
-      <Dialog open={open} onClose={handleClose} fullWidth maxWidth="xs">
+      <Dialog open={open} onClose={handleClose} maxWidth="xs">
         <DialogTitle>Create New Category</DialogTitle>
         <DialogContent>
           <TextField
@@ -76,9 +93,26 @@ const Category = () => {
             id="name"
             label="Category name"
             type="name"
-            fullWidth
+            style={{ width: 200, marginRight: 20 }}
             variant="standard"
             onChange={(e) => setCategoryName(e.target.value)}
+          />
+          <label htmlFor="file">
+            <img
+              id="image"
+              src={
+                file
+                  ? URL.createObjectURL(file)
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
+              alt=""
+            />
+          </label>
+          <input
+            type="file"
+            id="file"
+            onChange={(e) => handleUploadImage(e.target.files[0])}
+            style={{ display: "none" }}
           />
         </DialogContent>
         <DialogActions>

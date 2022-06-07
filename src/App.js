@@ -16,6 +16,7 @@ import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/Crea
 import EmployeeDetail from "./pages/Manager/employee/detailEmployee/EmployeeDetail";
 import ProfileSeller from "./pages/Seller/profile/Profile";
 import ProfileManager from "./pages/Manager/profile/ProfileManager";
+import BranchDetail from "./pages/Owner/branch/detail/BranchDetail"
 import ProfileOwner from "./pages/Owner/profile/Profile";
 import Order from "./pages/Seller/order/Order";
 import FindOrder from "./pages/Seller/order/FindOrder";
@@ -65,7 +66,10 @@ const RouteOwner = () => {
         },
         {
           path: "branch",
-          element: <Branch />,
+          children: [
+            { path: "", element: <Branch /> },
+            { path: ":branchId", element: <BranchDetail /> },
+          ],
         },
         {
           path: "category",

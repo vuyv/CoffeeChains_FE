@@ -13,27 +13,22 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Table from "@mui/material/Table";
 import { useDispatch, useSelector } from "react-redux";
-
+import { useNavigate } from "react-router-dom";
+import "./cardCategory.scss";
 import { updateCategory } from "./../../../redux/actions/categoryAction";
 import { loadProductByCategory } from "./../../../redux/actions/productAction";
 import { TableContainer } from "@mui/material";
 
 const CardCategory = (props) => {
   const { item } = props;
+  const navigate = useNavigate();
 
-  const [backgroundColor, setBackgroundColor] = useState();
-  const [logoColor, setLogoColor] = useState();
   const [name, setName] = useState(item.name);
   const [open, setOpen] = useState(false);
   const [disable, setDisable] = useState(true);
   const products = useSelector(
     (state) => state.productReducer.productsByCategory
   );
-
-  useEffect(() => {
-    setBackgroundColor("#f5eee8");
-    setLogoColor("#5b7fbd");
-  });
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -56,20 +51,17 @@ const CardCategory = (props) => {
   };
 
   return (
-    <div className="widget col-3" onClick={handleClickOpen}>
+    <div
+      className="widget col-3"
+      id="cardCategory"
+      onClick={handleClickOpen}
+      style={{ backgroundImage: `url(${item.image})` }}
+    >
       <div className="left">
-        <span className="title">CATEGORY</span>
+        <span className="title">
+          <i>CATEGORY</i>
+        </span>
         <span className="counter">{item.name}</span>
-      </div>
-      <div className="right">
-        <CreditCardIcon
-          className="icon"
-          style={{
-            fontSize: "30px",
-            color: logoColor,
-            backgroundColor: backgroundColor,
-          }}
-        />
       </div>
       <Dialog open={open} onClose={handleClose} maxWidth="xs">
         <DialogTitle
@@ -78,6 +70,9 @@ const CardCategory = (props) => {
             "line-height": "2.0",
             "justify-content": "space-between",
             fontSize: "1.5rem",
+            // backgroundImage: `url(${item.image})`,
+            // backgroundSize: "cover",
+            // backgroundPosition: "center"
           }}
         >
           {disable == true && name}
@@ -141,6 +136,9 @@ const CardCategory = (props) => {
           </TableContainer>
         </DialogContent>
         <DialogActions>
+          <Button onClick={() => navigate("/owner/products/new")}>
+            Add new product
+          </Button>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
