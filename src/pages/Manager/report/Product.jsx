@@ -94,14 +94,13 @@ const Product = ({ timeRange, reportType, date }) => {
                     <TableCell className="tableCell">
                       ${row[2].toFixed(2)}
                     </TableCell>
-                   
                   </TableRow>
                 ))}
             </TableBody>
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={5}
+          rowsPerPageOptions={[5]}
           component="div"
           count={data.length}
           rowsPerPage={5}

@@ -97,3 +97,125 @@ export const clearMaterials = () => {
     });
   };
 };
+
+export const addToExportMaterialArray = (material) => {
+  return function (dispatch) {
+    dispatch({
+      type: "ADD_TO_EXPORT_MATERIAL_ARRAY",
+      payload: material,
+    });
+  };
+};
+
+export const removeFromExportMaterialArray = (material) => {
+  return function (dispatch) {
+    dispatch({
+      type: "REMOVE_FROM_EXPORT_MATERIAL_ARRAY",
+      payload: material,
+    });
+  };
+};
+
+export const exportMaterials = (arr) => {
+  return function (dispatch) {
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/material/exportInventory/`,
+        arr,
+        headers
+      )
+      .then((res) => {
+        toast.success("Export Successful!");
+        dispatch({
+          type: "EXPORT_MATERIALS",
+          payload: res.data,
+        });
+        dispatch(getMaterialsByBranch());
+      })
+      .catch((error) => {
+        // if (error.response.status === 404){
+        //   toast.error("Invalid Material!");
+        // } else 
+        if(error.response.status === 400){
+          toast.error("Invalid Quantity!")
+        }
+        // toast.error("Export Fail!")
+      });
+  };
+};
+
+export const clearExportMaterials = () => {
+  return function (dispatch) {
+    dispatch({
+      type: "CLEAR_EXPORT_MATERIAL_ARRAY",
+    });
+  };
+};
+
+export const countDailyQuantityByTime = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/dailyInventory/daily/countQuantity/`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COUNT_DAILY_QUANTITY_BY_TIME",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const getDailyInventoryByTime = ( time) => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/dailyInventory/${time}`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "GET_DAILY_INVENTORY_BY_TIME",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const countWeeklyQuantityByTime = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/dailyInventory/weekly/countQuantity/`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COUNT_WEEKLY_QUANTITY_BY_DATE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const countMonthlyQuantityByTime = () => {
+  return function (dispatch) {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/dailyInventory/monthly/countQuantity/`,
+        setAuthHeaders()
+      )
+      .then((res) => {
+        dispatch({
+          type: "COUNT_MONTHLY_QUANTITY_BY_DATE",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};

@@ -101,7 +101,6 @@ const CardBranch = (props) => {
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
-            autoFocus
             margin="dense"
             id="address"
             label="Address"

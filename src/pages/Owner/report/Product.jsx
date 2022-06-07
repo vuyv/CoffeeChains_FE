@@ -45,11 +45,6 @@ const Product = ({ timeRange, reportType, date }) => {
           marginTop={2}
           marginBottom={2}
         >
-          {/* <Stack direction="column">
-            <h6>
-              <b>Category:</b> <i>{category}</i>
-            </h6>
-          </Stack> */}
           <Stack direction="column">
             <h6>
               <b>Date:</b> <i>{format(date, "MM/dd/yyyy")}</i>
@@ -94,7 +89,7 @@ const Product = ({ timeRange, reportType, date }) => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={5}
+          rowsPerPageOptions={[5]}
           component="div"
           count={data.length}
           rowsPerPage={5}
@@ -102,7 +97,6 @@ const Product = ({ timeRange, reportType, date }) => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
-      
       </div>
     </>
   );

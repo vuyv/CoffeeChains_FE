@@ -34,7 +34,14 @@ body {
 			width:20px;
 		}
 	}
+		
 }
+
+.nav-pills .nav-link.active,
+.nav-pills .show>.nav-link{
+	background-color: rgb(100, 57, 255,0.9) !important;
+}
+
 
 // .img-circle {
 // 	img {

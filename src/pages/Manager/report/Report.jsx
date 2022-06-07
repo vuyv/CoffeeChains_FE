@@ -105,12 +105,6 @@ const Report = () => {
       "yyyy-MM-dd"
     )}&timeRange=${timeRange}`;
     window.open(url);
-    // console.log(window.location);
-    // // console.log("Page: " + page.print());
-    // // console.log(window.location);
-    // document.addEventListener("visibilitychange", function () {
-    //   document.title = document.hidden ? "I'm away" : "I'm here";
-    // });
   };
 
   return (
@@ -223,25 +217,11 @@ const Report = () => {
               }}
             >
               {reportType === "Product" && (
-               
-                  <Product
+                <Product
                   timeRange={timeRange}
                   reportType={reportType}
                   date={date}
                 />
-
-
-                //   <div
-                //     ref={(el) => (ref.current = el)}
-                //     style={{ position: "absolute", left: "-1000px", top: 0 }}
-                //   >
-                //     <ExportProduct
-                //       timeRange={timeRange}
-                //       reportType={reportType}
-                //       date={date}
-                //     />
-                //   </div>
-                // </div>
               )}
 
               {reportType === "Employee" && (

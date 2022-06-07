@@ -24,7 +24,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { loadRoles } from "../../../../redux/actions/roleAction";
 import { loadBranchs } from "../../../../redux/actions/branchAction";
-import { loadEmployees } from './../../../../redux/actions/employeeAction';
+import { loadEmployees } from "./../../../../redux/actions/employeeAction";
 
 const Detail = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -115,7 +115,7 @@ const Detail = () => {
       )
     );
     dispatch(removeTempImage());
-    dispatch(loadEmployees())
+    dispatch(loadEmployees());
     setIsEdit(!isEdit);
     navigate("/owner/employees");
   };
@@ -289,14 +289,22 @@ const Detail = () => {
                             class="btn btn-primary"
                             type="button"
                             onClick={handleUpdate}
-                            style={{marginRight: 10}}
+                            style={{
+                              marginRight: 10,
+                              "background-color": "rgb(100, 57, 255,0.9)",
+                              color: "#fff",
+                            }}
                           >
                             Save
                           </button>
                         ) : (
                           <button
-                            class="btn btn-primary"
+                            class="btn"
                             type="button"
+                            style={{
+                              "background-color": "rgb(100, 57, 255,0.9)",
+                              color: "#fff",
+                            }}
                             onClick={() => setIsEdit(!isEdit)}
                           >
                             Edit

@@ -136,7 +136,10 @@ const ProfileManager = () => {
         <div>
           <section class="py-5 my-5">
             <div class="container">
-              <div class="bg-white shadow rounded-lg d-block d-sm-flex">
+              <div
+                class="bg-white shadow rounded-lg d-block d-sm-flex"
+                style={{ width: "80%", margin: "auto", height: "80%" }}
+              >
                 <div class="profile-tab-nav border-right">
                   <div class="p-4">
                     <Stack className={classes.stack}>
@@ -285,9 +288,9 @@ const ProfileManager = () => {
                           <label>Branch</label>
                           <Select
                             // options={branchList}
-                            onChange={(value) => setBranchOption(value)}
+                            // onChange={(value) => setBranchOption(value)}
                             value={branchOption}
-                            isDisabled={!isEdit}
+                            isDisabled="true"
                           />
                         </div>
                       </div>
@@ -297,15 +300,15 @@ const ProfileManager = () => {
                           <Select
                             // options={roleList}
                             class="form-control"
-                            onChange={(value) => setRoleOption(value)}
+                            // onChange={(value) => setRoleOption(value)}
                             value={roleOption}
-                            isDisabled={!isEdit}
+                            isDisabled="true"
                           />
                         </div>
                       </div>
                     </div>
                     <div>
-                      <div>
+                      <div class="float-right">
                         {isEdit ? (
                           <button
                             class="btn btn-primary"
@@ -343,53 +346,62 @@ const ProfileManager = () => {
                     aria-labelledby="password-tab"
                   >
                     <h3 class="mb-4">Password Settings</h3>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Old password</label>
-                          <input
-                            type="password"
-                            class="form-control"
-                            value={oldPassword}
-                            onChange={(e) => setOldPassword(e.target.value)}
-                          />
-                        </div>
+
+                    <form class="form" role="form" autocomplete="off">
+                      <div class="form-group">
+                        <label for="inputPasswordOld">Current Password</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="inputPasswordOld"
+                          required=""
+                          autofocus
+                          value={oldPassword}
+                          onChange={(e) => setOldPassword(e.target.value)}
+                        />
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>New password</label>
-                          <input
-                            type="password"
-                            class="form-control"
-                            value={newPassword}
-                            onChange={(e) => setNewPassword(e.target.value)}
-                          />
-                        </div>
+                      <div class="form-group">
+                        <label for="inputPasswordNew">New Password</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="inputPasswordNew"
+                          required=""
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                        />
+                        {/* <span class="form-text small text-muted">
+                          The password must be 8-20 characters, and must{" "}
+                          <em>not</em> contain spaces.
+                        </span> */}
                       </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label>Confirm new password</label>
-                          <input
-                            type="password"
-                            class="form-control"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                          />
-                        </div>
+                      <div class="form-group">
+                        <label for="inputPasswordNewVerify">Verify</label>
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="inputPasswordNewVerify"
+                          required=""
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                        />
+                        <span class="form-text small text-muted">
+                          To confirm, type the new password again.
+                        </span>
                       </div>
-                    </div>
-                    <div>
-                      <button
-                        class="btn btn-primary"
-                        onClick={handleChangePassword}
-                        style={{ marginRight: 10 }}
-                      >
-                        Change
-                      </button>
-                      <button class="btn btn-light">Cancel</button>
-                    </div>
+                      <div class="form-group float-right">
+                        <button
+                          class="btn btn-primary"
+                          onClick={handleChangePassword}
+                          style={{ marginRight: 10 }}
+                        >
+                          Change
+                        </button>
+                        <button class="btn btn-light" float-right>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>

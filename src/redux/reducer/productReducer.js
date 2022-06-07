@@ -1,7 +1,7 @@
 const initialState = {
   productsByCategory: [],
   allProducts: [],
-  product: {},
+  newProduct: {},
   activeProductsByCategory: [],
   activeProducts: [],
 };
@@ -16,7 +16,7 @@ const productReducer = (state = initialState, action) => {
     case "CREATE_PRODUCT":
       return {
         ...state,
-        product: action.payload,
+        newProduct: action.payload,
       };
     case "GET_PRODUCT_BY_ID":
       return {

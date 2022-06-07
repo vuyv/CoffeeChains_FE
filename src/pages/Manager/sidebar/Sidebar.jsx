@@ -3,14 +3,16 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import DiscountIcon from "@mui/icons-material/Discount";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { logOut } from "../../../redux/actions/authAction";
 import FeedIcon from "@mui/icons-material/Feed";
 import EventNoteIcon from "@mui/icons-material/EventNote";
+import { useState } from "react";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import DensityMediumIcon from "@mui/icons-material/DensityMedium";
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -20,6 +22,13 @@ const Sidebar = () => {
     navigate("/login");
   };
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
+
+  const [currentBranch, setCurrentBranch] = useState("");
+
+  window.setTimeout(() => {
+    setCurrentBranch(currentUser.branch.name);
+  }, 5);
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -27,11 +36,20 @@ const Sidebar = () => {
           <span className="logo">Coffee</span>
         </Link>
       </div>
-      {/* <hr /> */}
+
+      <span
+        style={{
+          textTransform: "uppercase",
+          display: "flex",
+          justifyContent: "center",
+          fontSize: "15px",
+          color: "#7451f8"
+        }}
+      >
+        {currentBranch}
+      </span>
+
       <div className="center">
-        {/* <span style={{ textTransform: "uppercase", marginLeft: 20 }}>
-          {currentUser.branch.name}
-        </span>*/}
         <hr />
         <ul>
           <p className="title">MAIN</p>
@@ -68,8 +86,26 @@ const Sidebar = () => {
           </Link>
           <Link to="/manager/materials" style={{ textDecoration: "none" }}>
             <li>
+              <InventoryIcon className="icon" />
+              <span>Inventory</span>
+            </li>
+          </Link>
+          <Link
+            to="/manager/materials/import_history"
+            style={{ textDecoration: "none" }}
+          >
+            <li>
+              <DensityMediumIcon className="icon" />
+              <span>Import History</span>
+            </li>
+          </Link>
+          <Link
+            to="/manager/materials/export_history"
+            style={{ textDecoration: "none" }}
+          >
+            <li>
               <EventNoteIcon className="icon" />
-              <span>Material</span>
+              <span>Export History</span>
             </li>
           </Link>
           <p className="title">USER</p>

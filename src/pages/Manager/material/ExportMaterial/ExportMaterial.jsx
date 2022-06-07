@@ -17,41 +17,47 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  addToMaterialArray,
-  getMaterials,
-  getMaterialById,
-  addMaterials,
-  clearMaterials,
+  getMaterialsByBranch,
+  addToExportMaterialArray,
+  exportMaterials,
+  clearExportMaterials,
+  removeFromExportMaterialArray,
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Select from "react-select";
-import { removeFromMaterialArray } from "./../../../../redux/actions/materialAction";
 
-const CreateMaterial = () => {
+const ExportMaterial = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState([
-    { id: "", name: "", quantity: 0, units: [] },
-  ]);
+  const [formValues, setFormValues] = useState([]);
   const [formSubmit, setFormSubmit] = useState([
     { id: "", name: "", quantity: "", unit: {} },
   ]);
 
   useEffect(() => {
-    dispatch(getMaterials());
+    dispatch(getMaterialsByBranch());
   }, []);
 
-  const materials = useSelector((state) => state.materialReducer.materials);
-  const materialList = [];
-  materials.map((item) => {
-    materialList.push({ value: item.id, label: item.name });
+  const materials = useSelector(
+    (state) => state.materialReducer.materialsInStock
+  );
+  const tempMaterialList = [];
+  materials.map((material) => {
+    tempMaterialList.push({
+      value: material.rawMaterial.id,
+      label: material.rawMaterial.name,
+    });
   });
 
-  const materialItems = useSelector(
-    (state) => state.materialReducer.materialItems
+  const materialList = [
+    ...new Map(tempMaterialList.map((item) => [item["label"], item])).values(),
+  ];
+
+  const exportMaterialList = useSelector(
+    (state) => state.materialReducer.exportItems
   );
 
   const [selected, setSelected] = useState([]);
@@ -59,7 +65,7 @@ const CreateMaterial = () => {
   useEffect(() => {
     selected.forEach((item) => {
       let material = getElementByValue(materials, item.label);
-      dispatch(addToMaterialArray(material));
+      dispatch(addToExportMaterialArray(material));
     });
   }, [selected]);
 
@@ -67,11 +73,14 @@ const CreateMaterial = () => {
     let result = [];
     let formSubmit = [];
 
-    materialItems.forEach((material) => {
+    exportMaterialList.forEach((material) => {
       let tempList = [];
-
-      material.units.forEach((item) => {
-        tempList.push({ value: item.id, label: item.unit });
+      material.rawMaterial.units.forEach((item) => {
+        materials.forEach((i) => {
+          if (i.unit.id === item.id) {
+            tempList.push({ value: item.id, label: item.unit });
+          }
+        });
       });
 
       let listUnit = [
@@ -79,22 +88,24 @@ const CreateMaterial = () => {
       ];
 
       result.push({
-        id: material.id,
-        name: material.name,
+        id: material.rawMaterial.id,
+        name: material.rawMaterial.name,
         quantity: 1,
         units: listUnit,
+        quantityInStock: material.quantity,
       });
 
       formSubmit.push({
-        id: material.id,
-        name: material.name,
+        id: material.rawMaterial.id,
+        name: material.rawMaterial.name,
         quantity: 1,
-        units: material.units[0],
+        unit: material.rawMaterial.units[0],
       });
     });
+
     setFormValues(result);
     setFormSubmit(formSubmit);
-  }, [materialItems, selected]);
+  }, [exportMaterialList, selected]);
 
   const handleChangeInput = (id, event) => {
     const newInputFields = formSubmit.map((i) => {
@@ -108,7 +119,7 @@ const CreateMaterial = () => {
 
   const handleChangeUnit = (id, event, actionMeta) => {
     const unitSelected = formSubmit.map((i) => {
-      if (id == i.id) {
+      if (id === i.id) {
         i[actionMeta.name] = event;
       }
       return i;
@@ -118,7 +129,7 @@ const CreateMaterial = () => {
 
   const getElementByValue = (array, title) => {
     return array.find((element) => {
-      if (element.name === title) {
+      if (element.rawMaterial.name === title) {
         return element;
       }
     });
@@ -137,7 +148,7 @@ const CreateMaterial = () => {
   };
 
   const handleRemove = (item) => {
-    dispatch(removeFromMaterialArray(item));
+    dispatch(removeFromExportMaterialArray(item));
   };
 
   const handleSubmit = (event) => {
@@ -147,12 +158,12 @@ const CreateMaterial = () => {
       result.push({
         materialId: item.id,
         quantity: item.quantity,
-        unitId: item.units.value,
+        unitId: item.unit.id,
       });
     });
-    dispatch(addMaterials(result));
+    dispatch(exportMaterials(result));
     navigate("/manager/materials");
-    dispatch(clearMaterials());
+    dispatch(clearExportMaterials());
   };
 
   return (
@@ -161,22 +172,20 @@ const CreateMaterial = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add Material</h1>
+          <h1>Export Material</h1>
         </div>
         <div>
-          <Stack direction="row">
-            <div style={{ width: "50%", margin: "10px 20px" }}>
-              <Select
-                name="filters"
-                placeholder="Materials"
-                value={selected}
-                options={materialList}
-                onChange={handleChangeMaterial}
-                isMulti
-                styles={colourStyles}
-              />
-            </div>
-          </Stack>
+          <div style={{ width: "50%", margin: "20px" }}>
+            <Select
+              name="filters"
+              placeholder="Materials"
+              value={selected}
+              options={materialList}
+              onChange={handleChangeMaterial}
+              isMulti
+              styles={colourStyles}
+            />
+          </div>
 
           <form style={{ margin: "10px" }} onSubmit={handleSubmit}>
             <TableContainer
@@ -212,7 +221,7 @@ const CreateMaterial = () => {
                   <TableRow
                     key={element.id}
                     className="row"
-                    // sx={{ maxHeight: "150px", verticalAlign: "text-top" }}
+                    // style={{ margin: "10px" }}
                   >
                     <TableCell
                       component="th"
@@ -228,7 +237,6 @@ const CreateMaterial = () => {
                         value={element.name}
                         type="text"
                         style={{ paddingLeft: "160px" }}
-                        // onChange={(event) => handleChangeInput(element.id, event)}
                       />
                     </TableCell>
                     <TableCell>
@@ -242,16 +250,16 @@ const CreateMaterial = () => {
                         }
                         style={{ width: "80px" }}
                       />
+                      {/* / {element.quantityInStock} */}
                     </TableCell>
-                    {/* <div style={{ width: "150px", margin: "10px" }}> */}
+
                     <TableCell>
-                      <div style={{ width: "180px", paddingLeft: "70px" }}>
+                      <div style={{ width: "200px", paddingLeft: "70px" }}>
                         <Select
                           name="units"
                           placeholder="Unit"
                           options={element.units}
                           defaultValue={element.units[0]}
-                          value={element.selectedUnit}
                           onChange={(event, actionMeta) => {
                             handleChangeUnit(element.id, event, actionMeta);
                           }}
@@ -279,7 +287,7 @@ const CreateMaterial = () => {
               }}
             >
               <Button variant="contained" type="submit">
-                Submit
+                Export
               </Button>
             </div>
           </form>
@@ -289,4 +297,4 @@ const CreateMaterial = () => {
   );
 };
 
-export default CreateMaterial;
+export default ExportMaterial;
