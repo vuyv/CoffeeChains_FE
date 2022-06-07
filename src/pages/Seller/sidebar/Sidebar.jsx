@@ -51,14 +51,21 @@ const Sidebar = () => {
     dispatch(loadCategories());
   }, []);
 
+  const currentUser = JSON.parse(localStorage.getItem("current_user"));
+
+  const [currentBranch, setCurrentBranch] = useState("");
+
+  window.setTimeout(() => {
+    setCurrentBranch(currentUser.branch.name);
+  }, 5);
   return (
     <div className="sidebar">
       <div className="top">
         <Link to="/seller" style={{ textDecoration: "none" }}>
-          <span className="logo">Coffee</span>
+          <span className="logo">{currentBranch}</span>
         </Link>
       </div>
-      <hr />
+      <hr style={{ marginTop: "0em" }} />
       <div className="center">
         <ul>
           <Link to="/seller" style={{ textDecoration: "none" }}>

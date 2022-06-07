@@ -1,14 +1,26 @@
 import "./navbar.scss";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
-import { loadOrderById, loadOrderByIdInBranch } from "../../../redux/actions/orderAction";
+import {
+  loadOrderById,
+  loadOrderByIdInBranch,
+} from "../../../redux/actions/orderAction";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
-  const[searchTerm, setSearchTerm] = useState("")
+
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+  window.setTimeout(() => {
+    setAvatar(currentUser.avatar);
+    setName(currentUser.name);
+    console.log(avatar);
+  }, 5);
+
+  const [searchTerm, setSearchTerm] = useState("");
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -18,7 +30,7 @@ const Navbar = (props) => {
             placeholder="Search..."
             onChange={(e) => {
               props.search(e.target.value);
-              setSearchTerm(e.target.value)
+              setSearchTerm(e.target.value);
             }}
           />
           <SearchOutlinedIcon
@@ -31,17 +43,10 @@ const Navbar = (props) => {
           />
         </div>
         <div className="items">
-          <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            English
-          </div>
+          <div className="item">Welcome, {name}</div>
 
           <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
+            <img src={avatar} alt="" className="avatar" />
           </div>
         </div>
       </div>

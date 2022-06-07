@@ -102,11 +102,11 @@ const Bill = () => {
                   }}
                 >
                   <TableCell align="center" colSpan={2}>
-                    Branch: {"  "}
-                    {currentUser.branch.name}
+                    <b>Branch:</b> {"  "}
+                    <i>{currentUser.branch.name}</i>
                   </TableCell>
                   <TableCell align="center">
-                    Address: {"  "} {currentUser.branch.address}
+                    <b>Address:</b> {"  "} <i>{currentUser.branch.address}</i>
                   </TableCell>
                 </TableRow>
 
@@ -116,7 +116,7 @@ const Bill = () => {
                   }}
                 >
                   <TableCell align="center" colSpan={2}>
-                    No.
+                    <b>No.</b>
                   </TableCell>
                   <TableCell align="center">
                     {order.id.substr(order.id.length - 3)}
@@ -125,7 +125,7 @@ const Bill = () => {
 
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
-                    Date
+                    <b>Date</b>
                   </TableCell>
                   <TableCell align="center">
                     {formatDate(order.createdAt)}
@@ -134,7 +134,7 @@ const Bill = () => {
 
                 <TableRow>
                   <TableCell align="center" colSpan={2}>
-                    Employee
+                    <b>Employee</b>
                   </TableCell>
                   <TableCell align="center">{order.createdBy.name}</TableCell>
                 </TableRow>
@@ -178,7 +178,7 @@ const Bill = () => {
                   ))}
                   <TableRow>
                     <TableCell align="center" colSpan={4}>
-                      Discount
+                      <b>Discount</b>
                     </TableCell>
                     <TableCell
                       align="right"
@@ -190,7 +190,7 @@ const Bill = () => {
                   </TableRow>
                   <TableRow>
                     <TableCell align="center" colSpan={4}>
-                      Total Price
+                      <b>Total Price</b>
                     </TableCell>
                     <TableCell
                       align="right"

@@ -71,19 +71,11 @@ export const getMaterialsByBranch = () => {
 };
 
 export const addMaterialsToInventory = (arr) => {
-  const materialArr = [];
-  arr.forEach((material) => {
-    materialArr.push({
-      materialId: material.id,
-      quantity: material.quantity,
-      unitId: material.units.id,
-    });
-  });
   return function (dispatch) {
     axios
       .post(
         `${process.env.REACT_APP_HOST}/material/addToInventory`,
-        materialArr,
+        arr,
         headers
       )
       .then((res) => {

@@ -33,24 +33,12 @@ const Sidebar = () => {
     <div className="sidebar">
       <div className="top">
         <Link to="/manager" style={{ textDecoration: "none" }}>
-          <span className="logo">Coffee</span>
+          <span className="logo">{currentBranch}</span>
         </Link>
       </div>
 
-      <span
-        style={{
-          textTransform: "uppercase",
-          display: "flex",
-          justifyContent: "center",
-          fontSize: "15px",
-          color: "#7451f8"
-        }}
-      >
-        {currentBranch}
-      </span>
-
       <div className="center">
-        <hr />
+        <hr style={{"marginTop": "0em"}}/>
         <ul>
           <p className="title">MAIN</p>
           <Link to="/manager" style={{ textDecoration: "none" }}>

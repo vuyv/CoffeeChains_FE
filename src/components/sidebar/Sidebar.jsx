@@ -29,7 +29,7 @@ const Sidebar = () => {
           <span className="logo">Coffee</span>
         </Link>
       </div>
-      <hr />
+      <hr style={{ marginTop: "0em" }} />
       <div className="center">
         <ul>
           <p className="title">MAIN</p>

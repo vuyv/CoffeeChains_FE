@@ -28,6 +28,14 @@ const Navbar = (props) => {
     navigate(`/seller/orders/${value}`);
   };
 
+  const currentUser = JSON.parse(localStorage.getItem("current_user"));
+
+  const [avatar, setAvatar] = useState("");
+
+  window.setTimeout(() => {
+    setAvatar(currentUser.avatar);
+  }, 5);
+
   useEffect(() => {
     dispatch(loadProducts());
   }, []);
@@ -35,7 +43,7 @@ const Navbar = (props) => {
   const { totalQuantity } = useSelector((state) => state.cartReducer);
 
   return (
-    <div className="navbar">
+    <div className="navbar" style={{flexWrap: "none"}}>
       <div className="wrapper">
         <div className="search">
           <input
@@ -69,7 +77,7 @@ const Navbar = (props) => {
 
           <div className="item">
             <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
+              src={avatar}
               alt=""
               className="avatar"
             />
