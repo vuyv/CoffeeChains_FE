@@ -60,7 +60,7 @@ const MaterialTable = () => {
               <Stack direction="row" spacing={2}>
                 <Button
                   variant="outlined"
-                  onClick={() => navigate("/manager/materials/new")}
+                  onClick={() => navigate("/manager/materials/import")}
                 >
                   Add Material
                 </Button>

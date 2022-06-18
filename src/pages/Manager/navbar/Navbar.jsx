@@ -17,7 +17,6 @@ const Navbar = (props) => {
   window.setTimeout(() => {
     setAvatar(currentUser.avatar);
     setName(currentUser.name);
-    console.log(avatar);
   }, 5);
 
   const [searchTerm, setSearchTerm] = useState("");

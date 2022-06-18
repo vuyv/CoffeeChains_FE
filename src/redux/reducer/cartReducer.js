@@ -14,13 +14,19 @@ function naiveRound(num, decimalPlaces = 0) {
   return Math.round(num * p) / p;
 }
 
+function round(num) {
+  var m = Number((Math.abs(num) * 100).toPrecision(15));
+  return (Math.round(m) / 100) * Math.sign(num);
+}
+
 const calculateDiscountSave = (total, percent) => {
   return (total * percent) / 100;
   // return ((total * percent) / 100).toFixed(2);
 };
 
 const calculateAppliedDiscountTotal = (total, discountSave) => {
-  return (total - discountSave).toFixed(2);
+  let temp = (total - discountSave);
+  return round(temp);
   // return (total - discountSave).toFixed(2);
 };
 

@@ -16,6 +16,7 @@ import managerReportReducer from "./managerReportReducer";
 import materialReducer from "./materialReducer";
 import inventoryHistoryReducer from "./inventoryHistoryReducer";
 import recipeReducer from "./recipeReducer";
+import unitReducer from "./unitReducer";
 
 const rootReducer = combineReducers({
   authReducer,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   materialReducer,
   inventoryHistoryReducer,
   recipeReducer,
+  unitReducer
 });
 
 export default rootReducer;

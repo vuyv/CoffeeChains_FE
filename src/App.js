@@ -16,7 +16,7 @@ import CreateEmployeeInBranch from "./pages/Manager/employee/createEmployee/Crea
 import EmployeeDetail from "./pages/Manager/employee/detailEmployee/EmployeeDetail";
 import ProfileSeller from "./pages/Seller/profile/Profile";
 import ProfileManager from "./pages/Manager/profile/ProfileManager";
-import BranchDetail from "./pages/Owner/branch/detail/BranchDetail"
+import BranchDetail from "./pages/Owner/branch/detail/BranchDetail";
 import ProfileOwner from "./pages/Owner/profile/Profile";
 import Order from "./pages/Seller/order/Order";
 import FindOrder from "./pages/Seller/order/FindOrder";
@@ -44,10 +44,11 @@ import Bill from "./pages/Seller/order/Bill";
 import Category from "./pages/Owner/category/Category";
 import MaterialTable from "./pages/Manager/material/viewMaterial/MaterialTable";
 import CreateMaterial from "./pages/Manager/material/createMaterial/CreateMaterial";
-import DetailMaterial from "./pages/Manager/material/detailMaterial/DetailMaterial";
 import ExportMaterial from "./pages/Manager/material/ExportMaterial/ExportMaterial";
 import ImportHistory from "./pages/Manager/material/history/ImportHistory";
 import ExportHistory from "./pages/Manager/material/history/ExportHistory";
+import HomePage from "./pages/homepage/Homepage";
+import DetailMaterial from "./pages/Owner/detailMaterial/DetailMaterial";
 
 const RouteOwner = () => {
   let route = useRoutes([
@@ -96,6 +97,10 @@ const RouteOwner = () => {
           path: "report",
           element: <ReportOfOwner />,
         },
+        {
+          path: "materials",
+          children: [{ path: "", element: <DetailMaterial /> }],
+        },
       ],
     },
   ]);
@@ -132,9 +137,8 @@ const RouteManager = () => {
         {
           path: "materials",
           children: [
-            { path: "", element: <MaterialTable /> },
-            { path: ":materialId/:unitId", element: <DetailMaterial /> },
-            { path: "new", element: <CreateMaterial /> },
+            { path: "inventory", element: <MaterialTable /> },
+            { path: "import", element: <CreateMaterial /> },
             { path: "export", element: <ExportMaterial /> },
             { path: "import_history", element: <ImportHistory /> },
             { path: "export_history", element: <ExportHistory /> },
@@ -205,6 +209,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/">
+            <Route path="" element={<HomePage />} />
             <Route path="login" element={<Login />} />
             <Route path="forgot_password" element={<PhoneNumber />} />
             <Route path="verify_code" element={<VerifyCode />} />

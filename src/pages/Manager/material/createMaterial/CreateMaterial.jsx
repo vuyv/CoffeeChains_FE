@@ -1,10 +1,8 @@
 import Sidebar from "../../sidebar/Sidebar";
 import Navbar from "../../navbar/Navbar";
-import "react-datepicker/dist/react-datepicker.css";
 
 import { useSelector } from "react-redux";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import TextField from "@material-ui/core/TextField";
@@ -19,7 +17,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   addToMaterialArray,
   getMaterials,
-  getMaterialById,
   addMaterialsToInventory,
   clearMaterials,
 } from "../../../../redux/actions/materialAction";
@@ -28,6 +25,8 @@ import { useNavigate } from "react-router-dom";
 
 import Select from "react-select";
 import { removeFromMaterialArray } from "./../../../../redux/actions/materialAction";
+import { getAllUnits } from "../../../../redux/actions/unitAction";
+
 
 const CreateMaterial = () => {
   const navigate = useNavigate();
@@ -42,6 +41,7 @@ const CreateMaterial = () => {
 
   useEffect(() => {
     dispatch(getMaterials());
+    dispatch(getAllUnits());
   }, []);
 
   const materials = useSelector((state) => state.materialReducer.materials);
@@ -153,7 +153,6 @@ const CreateMaterial = () => {
     dispatch(addMaterialsToInventory(result));
     navigate("/manager/materials");
     dispatch(clearMaterials());
-    console.log(formSubmit);
   };
 
   return (
@@ -162,11 +161,11 @@ const CreateMaterial = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add Material</h1>
+          <h1>Import Material</h1>
         </div>
         <div>
-          <Stack direction="row">
-            <div style={{ width: "50%", margin: "10px 20px" }}>
+          <Stack direction="row" spacing={2}>
+            <div style={{ width: "50%", marginLeft: "20px" }}>
               <Select
                 name="filters"
                 placeholder="Materials"
@@ -179,7 +178,7 @@ const CreateMaterial = () => {
             </div>
           </Stack>
 
-          <form style={{ margin: "10px" }} onSubmit={handleSubmit}>
+          <form style={{ margin: "20px" }} onSubmit={handleSubmit}>
             <TableContainer
               component={Paper}
               sx={{ width: "80%", margin: "auto" }}

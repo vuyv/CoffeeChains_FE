@@ -1,5 +1,7 @@
 const initialState = {
   materials: [],
+  newMaterial: {},
+  updateMaterial: {},
   materialsInStock: [],
   material: {},
   materialItems: [],
@@ -19,6 +21,13 @@ const materialReducer = (state = initialState, action) => {
         ...state,
         materials: action.payload,
       };
+
+    case "CREATE_MATERIAl":
+      return {
+        ...state,
+        newMaterial: action.payload,
+      };
+
     case "ADD_TO_MATERIAL_ARRAY": {
       const itemIndex = state.materialItems.findIndex(
         (item) => item.id === action.payload.id
