@@ -36,7 +36,6 @@ const Navbar = (props) => {
   window.setTimeout(() => {
     setAvatar(currentUser.avatar);
     setName(currentUser.name);
-
   }, 5);
 
   useEffect(() => {

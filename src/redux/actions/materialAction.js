@@ -219,3 +219,23 @@ export const countMonthlyQuantityByTime = () => {
       .catch((error) => toast.error(error));
   };
 };
+
+export const createMaterial = (material) =>{
+  return function (dispatch) {
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/material/new`,
+        material,
+        headers
+      )
+      .then((res) => {
+        toast.success("Create Successfully");
+        dispatch({
+          type: "CREATE_MATERIAL",
+          payload: res.data,
+        });
+        dispatch(getMaterials());
+      })
+      .catch((error) => toast.error(error));
+  };
+}

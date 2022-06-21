@@ -54,7 +54,7 @@ const CardBranch = (props) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleUpdate = () => {
-    dispatch(updateBranch(name, address, branchStatus, item.id));
+    
     handleClose();
   };
   return (

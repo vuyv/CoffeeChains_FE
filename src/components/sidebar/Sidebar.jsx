@@ -15,6 +15,8 @@ import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/actions/authAction";
 import CategoryIcon from "@mui/icons-material/Category";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
+import InventoryIcon from "@mui/icons-material/Inventory";
+
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -76,6 +78,12 @@ const Sidebar = () => {
             <li>
               <DiscountIcon className="icon" />
               <span>Promotion</span>
+            </li>
+          </Link>
+          <Link to="/owner/materials" style={{ textDecoration: "none" }}>
+            <li>
+              <InventoryIcon className="icon" />
+              <span>Material</span>
             </li>
           </Link>
           <p className="title">USER</p>
