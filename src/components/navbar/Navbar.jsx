@@ -4,10 +4,20 @@ import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import { loadProducts } from "../../redux/actions/productAction";
 import { useDispatch } from "react-redux";
 import {useEffect } from "react";
+import { useState } from "react";
 
 const Navbar = (props) => {
   const dispatch = useDispatch();
   
+  const currentUser = JSON.parse(localStorage.getItem("current_user"));
+
+  const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
+  window.setTimeout(() => {
+    setAvatar(currentUser.avatar);
+    setName(currentUser.name);
+  }, 5);
+
   useEffect(() => {
     dispatch(loadProducts());
   }, []);
@@ -26,17 +36,10 @@ const Navbar = (props) => {
           <SearchOutlinedIcon />
         </div>
         <div className="items">
-          <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            English
-          </div>
+          <div className="item">Welcome, {name}</div>
 
           <div className="item">
-            <img
-              src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-              alt=""
-              className="avatar"
-            />
+            <img src={avatar} alt="" className="avatar" />
           </div>
         </div>
       </div>

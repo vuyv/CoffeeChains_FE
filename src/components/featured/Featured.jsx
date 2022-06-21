@@ -47,7 +47,7 @@ const Featured = (props) => {
         <div className="featuredChart">
           <CircularProgressbar value={70} text={"70%"} strokeWidth={5} />
         </div>
-        <p className="title">Total revenue made month</p>
+        <p className="title">Total revenue made this month</p>
         <p className="amount">
           {formatter.format(currentMonthRevenue.toFixed(2))}
         </p>

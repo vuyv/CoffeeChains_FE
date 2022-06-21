@@ -13,7 +13,8 @@ import EventNoteIcon from "@mui/icons-material/EventNote";
 import { useState } from "react";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import DensityMediumIcon from "@mui/icons-material/DensityMedium";
-
+import CallMadeIcon from "@mui/icons-material/CallMade";
+import CallReceivedIcon from "@mui/icons-material/CallReceived";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -38,7 +39,7 @@ const Sidebar = () => {
       </div>
 
       <div className="center">
-        <hr style={{"marginTop": "0em"}}/>
+        <hr style={{ marginTop: "0em" }} />
         <ul>
           <p className="title">MAIN</p>
           <Link to="/manager" style={{ textDecoration: "none" }}>
@@ -69,7 +70,7 @@ const Sidebar = () => {
           <Link to="/manager/discounts" style={{ textDecoration: "none" }}>
             <li>
               <DiscountIcon className="icon" />
-              <span>Discount</span>
+              <span>Promotion</span>
             </li>
           </Link>
           <Link to="/manager/materials" style={{ textDecoration: "none" }}>
@@ -83,7 +84,7 @@ const Sidebar = () => {
             style={{ textDecoration: "none" }}
           >
             <li>
-              <DensityMediumIcon className="icon" />
+              <CallMadeIcon className="icon" />
               <span>Import History</span>
             </li>
           </Link>
@@ -92,7 +93,7 @@ const Sidebar = () => {
             style={{ textDecoration: "none" }}
           >
             <li>
-              <EventNoteIcon className="icon" />
+              <CallReceivedIcon className="icon" />
               <span>Export History</span>
             </li>
           </Link>

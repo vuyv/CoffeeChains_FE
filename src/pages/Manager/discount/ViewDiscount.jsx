@@ -45,7 +45,7 @@ function ViewDiscount() {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">
-            Discount Management
+            Promotion List
           </div>
 
           <Tabs value={selectedTab} onChange={handleChangeTab}>

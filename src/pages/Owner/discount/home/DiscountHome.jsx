@@ -108,7 +108,7 @@ function DiscountHome(props) {
         <Navbar />
         <div className="datatable">
           <div className="datatableTitle">
-            Discount Management
+            Promotion Management
             <Button
               variant="outlined"
               onClick={() => navigate("/owner/discounts/new")}

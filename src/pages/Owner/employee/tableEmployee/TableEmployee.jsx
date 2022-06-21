@@ -186,6 +186,7 @@ const TableEmployee = () => {
                   value={branch}
                   label="branch"
                   onChange={(event) => setBranch(event.target.value)}
+                  size="small"
                 >
                   <MenuItem value={"All"}>All</MenuItem>
                   {branches.map((branch) => (
@@ -203,6 +204,7 @@ const TableEmployee = () => {
                   value={status}
                   label="status"
                   onChange={(event) => setStatus(event.target.value)}
+                  size="small"
                 >
                   <MenuItem value={"All"}>All</MenuItem>
                   <MenuItem value={"Active"}>Active</MenuItem>
@@ -221,6 +223,7 @@ const TableEmployee = () => {
                   onChange={(e) => {
                     setRole(e.target.value);
                   }}
+                  size="small"
                 >
                   <MenuItem value={"All"}>All</MenuItem>
                   <MenuItem value={"Manager"}>Manager</MenuItem>
@@ -235,7 +238,7 @@ const TableEmployee = () => {
             columns={userColumns.concat(actionColumn)}
             pageSize={9}
             rowsPerPageOptions={[9]}
-            sx={{width: "92%", margin: "auto"}}
+            sx={{ width: "92%", margin: "auto" }}
           />
           <div>
             <Dialog

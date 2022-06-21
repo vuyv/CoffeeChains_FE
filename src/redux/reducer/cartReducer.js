@@ -15,8 +15,8 @@ function naiveRound(num, decimalPlaces = 0) {
 }
 
 const calculateDiscountSave = (total, percent) => {
-  return (total * percent) / 100;
-  // return ((total * percent) / 100).toFixed(2);
+  // return (total * percent) / 100;
+  return ((total * percent) / 100).toFixed(2);
 };
 
 const calculateAppliedDiscountTotal = (total, discountSave) => {

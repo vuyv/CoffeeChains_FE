@@ -31,9 +31,12 @@ const Navbar = (props) => {
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
 
   const [avatar, setAvatar] = useState("");
+  const [name, setName] = useState("");
 
   window.setTimeout(() => {
     setAvatar(currentUser.avatar);
+    setName(currentUser.name);
+
   }, 5);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ const Navbar = (props) => {
   const { totalQuantity } = useSelector((state) => state.cartReducer);
 
   return (
-    <div className="navbar" style={{flexWrap: "none"}}>
+    <div className="navbar" style={{ flexWrap: "none" }}>
       <div className="wrapper">
         <div className="search">
           <input
@@ -71,16 +74,11 @@ const Navbar = (props) => {
             </IconButton>
           </div>
           <div className="item">
-            <LanguageOutlinedIcon className="icon" />
-            English
-          </div>
+            <div className="item">Welcome, {name}</div>
 
-          <div className="item">
-            <img
-              src={avatar}
-              alt=""
-              className="avatar"
-            />
+            <div className="item">
+              <img src={avatar} alt="" className="avatar" />
+            </div>
           </div>
         </div>
       </div>
