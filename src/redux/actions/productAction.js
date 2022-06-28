@@ -101,8 +101,8 @@ export const updateProduct = (id, name, price, categoryId, image, arr) => {
             amount: material.amount,
           });
         });
-        dispatch(updateRecipe(materialArr))
-        dispatch(getRecipeByProduct(res.data.id))
+        dispatch(updateRecipe(materialArr));
+        dispatch(getRecipeByProduct(res.data.id));
         dispatch(loadProducts());
       })
       .catch((error) => toast.error(error));
@@ -171,6 +171,20 @@ export const loadActiveProducts = () => {
       .then((res) => {
         dispatch({
           type: "GET_ACTIVE_PRODUCTS",
+          payload: res.data,
+        });
+      })
+      .catch((error) => toast.error(error));
+  };
+};
+
+export const estimateProducts = () => {
+  return function (dispatch) {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/estimate`, setAuthHeaders())
+      .then((res) => {
+        dispatch({
+          type: "ESTIMATE_PRODUCTS",
           payload: res.data,
         });
       })

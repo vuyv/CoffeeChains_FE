@@ -28,35 +28,6 @@ const materialReducer = (state = initialState, action) => {
         newMaterial: action.payload,
       };
 
-    case "ADD_TO_MATERIAL_ARRAY": {
-      const itemIndex = state.materialItems.findIndex(
-        (item) => item.id === action.payload.id
-      );
-      const updatedState = { ...state };
-      if (itemIndex >= 0) {
-        return updatedState;
-      }
-
-      const newMaterial = action.payload;
-      updatedState.materialItems.push(newMaterial);
-      return updatedState;
-    }
-
-    case "REMOVE_FROM_MATERIAL_ARRAY": {
-      const updatedState = { ...state };
-
-      const nextItems = updatedState.materialItems.filter(
-        (item) => item.name !== action.payload.name
-      );
-
-      updatedState.materialItems = nextItems;
-      return updatedState;
-    }
-    case "CLEAR_MATERIAL_ARRAY": {
-      const updatedState = { ...state };
-      updatedState.materialItems = [];
-      return updatedState;
-    }
     case "GET_MATERIAL_BY_ID":
       return {
         ...state,
@@ -73,34 +44,7 @@ const materialReducer = (state = initialState, action) => {
         ...state,
         newMaterials: action.payload,
       };
-    case "ADD_TO_EXPORT_MATERIAL_ARRAY": {
-      const itemIndex = state.exportItems.findIndex(
-        (item) => item.rawMaterial.id === action.payload.rawMaterial.id
-      );
-      const updatedState = { ...state };
-      if (itemIndex >= 0) {
-        return updatedState;
-      }
 
-      const newMaterial = action.payload;
-      updatedState.exportItems.push(newMaterial);
-      return updatedState;
-    }
-    case "REMOVE_FROM_EXPORT_MATERIAL_ARRAY": {
-      const updatedState = { ...state };
-
-      const nextItems = updatedState.exportItems.filter(
-        (item) => item.rawMaterial.name !== action.payload.name
-      );
-
-      updatedState.exportItems = nextItems;
-      return updatedState;
-    }
-    case "CLEAR_EXPORT_MATERIAL_ARRAY": {
-      const updatedState = { ...state };
-      updatedState.exportItems = [];
-      return updatedState;
-    }
     case "EXPORT_MATERIALS": {
       return {
         ...state,

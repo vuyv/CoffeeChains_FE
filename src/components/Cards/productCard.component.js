@@ -34,7 +34,7 @@ const ProductCard = (props) => {
         <CardMedia
           className={classes.media}
           image={item.image}
-          title={item.name}
+          title={item.available}
           onClick={() => {
             handleAddToCart2(item);
           }}
@@ -49,7 +49,7 @@ const ProductCard = (props) => {
       <CardActions className={classes.actions}>
         <Tooltip title={"Price per unit"}>
           <Button color="primary">
-            <i style={{marginRight: "6px"}}>Price:</i>
+            <i style={{ marginRight: "6px" }}>Price:</i>
             <Typography gutterBottom variant="h6" component="h2">
               {"$" + item.price.toFixed(2)}
             </Typography>

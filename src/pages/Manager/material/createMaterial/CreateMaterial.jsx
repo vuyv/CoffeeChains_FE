@@ -15,7 +15,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
 import {
-  addToMaterialArray,
   getMaterials,
   addMaterialsToInventory,
   clearMaterials,
@@ -24,9 +23,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import Select from "react-select";
-import { removeFromMaterialArray } from "./../../../../redux/actions/materialAction";
 import { getAllUnits } from "../../../../redux/actions/unitAction";
-
 
 const CreateMaterial = () => {
   const navigate = useNavigate();
@@ -50,17 +47,16 @@ const CreateMaterial = () => {
     materialList.push({ value: item.id, label: item.name });
   });
 
-  const materialItems = useSelector(
-    (state) => state.materialReducer.materialItems
-  );
-
+  const [materialItems, setMaterialItems] = useState([]);
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
+    let arr = [];
     selected.forEach((item) => {
       let material = getElementByValue(materials, item.label);
-      dispatch(addToMaterialArray(material));
+      arr.push(material);
     });
+    setMaterialItems(arr);
   }, [selected]);
 
   useEffect(() => {
@@ -89,7 +85,7 @@ const CreateMaterial = () => {
         id: material.id,
         name: material.name,
         quantity: 1,
-        units: material.units[0],
+        unit: material.listUnit[0],
       });
     });
     setFormValues(result);
@@ -103,6 +99,7 @@ const CreateMaterial = () => {
       }
       return i;
     });
+
     setFormSubmit(newInputFields);
   };
 
@@ -136,8 +133,14 @@ const CreateMaterial = () => {
     }),
   };
 
-  const handleRemove = (item) => {
-    dispatch(removeFromMaterialArray(item));
+  const removeItem = (arr, item) => {
+    return arr.filter((f) => f.value !== item.id);
+  };
+
+  const handleRemove = (element) => {
+    let arr = [...selected];
+    let temp = removeItem(arr, element);
+    setSelected(temp);
   };
 
   const handleSubmit = (event) => {
@@ -147,12 +150,13 @@ const CreateMaterial = () => {
       result.push({
         materialId: item.id,
         quantity: item.quantity,
-        unitId: item.units.id,
+        unitId: item.unit.value,
       });
     });
+
     dispatch(addMaterialsToInventory(result));
-    navigate("/manager/materials");
-    dispatch(clearMaterials());
+    navigate("/manager/materials/inventory");
+    setMaterialItems([]);
   };
 
   return (
@@ -246,6 +250,7 @@ const CreateMaterial = () => {
                     <TableCell>
                       <div style={{ width: "180px", paddingLeft: "70px" }}>
                         <Select
+                          menuPortalTarget={document.querySelector("body")}
                           name="units"
                           placeholder="Unit"
                           options={element.units}
