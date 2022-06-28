@@ -4,6 +4,7 @@ const initialState = {
   newProduct: {},
   activeProductsByCategory: [],
   activeProducts: [],
+  estimateProducts: [],
 };
 
 const productReducer = (state = initialState, action) => {
@@ -48,6 +49,11 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         activeProducts: action.payload,
+      };
+    case "ESTIMATE_PRODUCTS":
+      return {
+        ...state,
+        estimateProducts: action.payload,
       };
     default:
       return state;

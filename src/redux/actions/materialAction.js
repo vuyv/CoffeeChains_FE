@@ -21,24 +21,6 @@ export const getMaterials = () => {
   };
 };
 
-export const addToMaterialArray = (material) => {
-  return function (dispatch) {
-    dispatch({
-      type: "ADD_TO_MATERIAL_ARRAY",
-      payload: material,
-    });
-  };
-};
-
-export const removeFromMaterialArray = (material) => {
-  return function (dispatch) {
-    dispatch({
-      type: "REMOVE_FROM_MATERIAL_ARRAY",
-      payload: material,
-    });
-  };
-};
-
 export const getMaterialById = (materialId) => {
   return function (dispatch) {
     axios
@@ -98,24 +80,6 @@ export const clearMaterials = () => {
   };
 };
 
-export const addToExportMaterialArray = (material) => {
-  return function (dispatch) {
-    dispatch({
-      type: "ADD_TO_EXPORT_MATERIAL_ARRAY",
-      payload: material,
-    });
-  };
-};
-
-export const removeFromExportMaterialArray = (material) => {
-  return function (dispatch) {
-    dispatch({
-      type: "REMOVE_FROM_EXPORT_MATERIAL_ARRAY",
-      payload: material,
-    });
-  };
-};
-
 export const exportMaterials = (arr) => {
   return function (dispatch) {
     axios
@@ -131,13 +95,14 @@ export const exportMaterials = (arr) => {
           payload: res.data,
         });
         dispatch(getMaterialsByBranch());
+        dispatch(estimateProducts());
       })
       .catch((error) => {
         // if (error.response.status === 404){
         //   toast.error("Invalid Material!");
-        // } else 
-        if(error.response.status === 400){
-          toast.error("Invalid Quantity!")
+        // } else
+        if (error.response.status === 400) {
+          toast.error("Invalid Quantity!");
         }
         // toast.error("Export Fail!")
       });
@@ -169,7 +134,7 @@ export const countDailyQuantityByTime = () => {
   };
 };
 
-export const getDailyInventoryByTime = ( time) => {
+export const getDailyInventoryByTime = (time) => {
   return function (dispatch) {
     axios
       .get(
@@ -220,14 +185,10 @@ export const countMonthlyQuantityByTime = () => {
   };
 };
 
-export const createMaterial = (material) =>{
+export const createMaterial = (material) => {
   return function (dispatch) {
     axios
-      .post(
-        `${process.env.REACT_APP_HOST}/material/new`,
-        material,
-        headers
-      )
+      .post(`${process.env.REACT_APP_HOST}/material/new`, material, headers)
       .then((res) => {
         toast.success("Create Successfully");
         dispatch({
@@ -238,4 +199,4 @@ export const createMaterial = (material) =>{
       })
       .catch((error) => toast.error(error));
   };
-}
+};

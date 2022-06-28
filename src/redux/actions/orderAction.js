@@ -2,6 +2,7 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { estimateProducts } from "./productAction";
 
 toast.configure();
 
@@ -133,6 +134,7 @@ export const createOrder = (order) => {
           payload: res.data,
         });
         dispatch(loadOrderById(res.data.id));
+        dispatch(estimateProducts());
       })
       .catch((error) => toast.error(error));
   };

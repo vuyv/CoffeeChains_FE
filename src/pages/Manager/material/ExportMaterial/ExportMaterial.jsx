@@ -18,13 +18,12 @@ import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   getMaterialsByBranch,
-  addToExportMaterialArray,
   exportMaterials,
   clearExportMaterials,
-  removeFromExportMaterialArray,
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { estimateProducts } from "./productAction";
 
 import Select from "react-select";
 
@@ -32,7 +31,9 @@ const ExportMaterial = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [formValues, setFormValues] = useState([]);
+  const [formValues, setFormValues] = useState([
+    { id: "", name: "", quantity: "", units: [] },
+  ]);
   const [formSubmit, setFormSubmit] = useState([
     { id: "", name: "", quantity: "", unit: {} },
   ]);
@@ -46,27 +47,29 @@ const ExportMaterial = () => {
   );
   const tempMaterialList = [];
   materials.map((material) => {
-    tempMaterialList.push({
-      value: material.rawMaterial.id,
-      label: material.rawMaterial.name,
-    });
+    if (material.quantity > 0) {
+      tempMaterialList.push({
+        value: material.rawMaterial.id,
+        label: material.rawMaterial.name,
+      });
+    }
   });
 
   const materialList = [
     ...new Map(tempMaterialList.map((item) => [item["label"], item])).values(),
   ];
 
-  const exportMaterialList = useSelector(
-    (state) => state.materialReducer.exportItems
-  );
+  const [exportMaterialList, setExportMaterialList] = useState([]);
 
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
+    let arr = [];
     selected.forEach((item) => {
       let material = getElementByValue(materials, item.label);
-      dispatch(addToExportMaterialArray(material));
+      arr.push(material);
     });
+    setExportMaterialList(arr);
   }, [selected]);
 
   useEffect(() => {
@@ -99,7 +102,7 @@ const ExportMaterial = () => {
         id: material.rawMaterial.id,
         name: material.rawMaterial.name,
         quantity: 1,
-        unit: material.rawMaterial.units[0],
+        unit: listUnit[0],
       });
     });
 
@@ -117,6 +120,14 @@ const ExportMaterial = () => {
     setFormSubmit(newInputFields);
   };
 
+  const getElementByValue = (array, title) => {
+    return array.find((element) => {
+      if (element.rawMaterial.name === title) {
+        return element;
+      }
+    });
+  };
+
   const handleChangeUnit = (id, event, actionMeta) => {
     const unitSelected = formSubmit.map((i) => {
       if (id === i.id) {
@@ -125,14 +136,6 @@ const ExportMaterial = () => {
       return i;
     });
     setFormSubmit(unitSelected);
-  };
-
-  const getElementByValue = (array, title) => {
-    return array.find((element) => {
-      if (element.rawMaterial.name === title) {
-        return element;
-      }
-    });
   };
 
   const handleChangeMaterial = (value) => {
@@ -147,8 +150,14 @@ const ExportMaterial = () => {
     }),
   };
 
-  const handleRemove = (item) => {
-    dispatch(removeFromExportMaterialArray(item));
+  const removeItem = (arr, item) => {
+    return arr.filter((f) => f.value !== item.id);
+  };
+
+  const handleRemove = (element) => {
+    let arr = [...selected];
+    let temp = removeItem(arr, element);
+    setSelected(temp);
   };
 
   const handleSubmit = (event) => {
@@ -158,12 +167,13 @@ const ExportMaterial = () => {
       result.push({
         materialId: item.id,
         quantity: item.quantity,
-        unitId: item.unit.id,
+        unitId: item.unit.value,
       });
     });
+
     dispatch(exportMaterials(result));
-    navigate("/manager/materials");
-    dispatch(clearExportMaterials());
+    navigate("/manager/materials/inventory");
+    setExportMaterialList([]);
   };
 
   return (
@@ -256,10 +266,12 @@ const ExportMaterial = () => {
                     <TableCell>
                       <div style={{ width: "200px", paddingLeft: "70px" }}>
                         <Select
-                          name="units"
+                          menuPortalTarget={document.querySelector("body")}
+                          name="unit"
                           placeholder="Unit"
                           options={element.units}
                           defaultValue={element.units[0]}
+                          value={element.selectedUnit}
                           onChange={(event, actionMeta) => {
                             handleChangeUnit(element.id, event, actionMeta);
                           }}

@@ -10,6 +10,7 @@ import { productPageStyles } from "./productPage.styles";
 import Cart from "../../../components/cart/Cart";
 import Drawer from "@mui/material/Drawer";
 import {
+  estimateProducts,
   loadActiveProductByCategory,
   loadActiveProducts,
 } from "./../../../redux/actions/productAction";
@@ -35,12 +36,21 @@ const Order = () => {
   useEffect(() => {
     dispatch(loadActiveProducts());
     dispatch(loadActiveProductByCategory(1));
+    dispatch(estimateProducts());
   }, [dispatch]);
 
   useEffect(() => {
     if (productListRedux) {
       let result = [];
+
       productListRedux.activeProductsByCategory.forEach((product) => {
+        for (const [key, val] of Object.entries(
+          productListRedux.estimateProducts
+        )) {
+          if (product.name === key) {
+            product.available = val;
+          }
+        }
         result.push(product);
       });
       setProductList(result);
@@ -71,7 +81,6 @@ const Order = () => {
     }, 300);
   };
 
-  
   return (
     <div className="single">
       <Sidebar />
