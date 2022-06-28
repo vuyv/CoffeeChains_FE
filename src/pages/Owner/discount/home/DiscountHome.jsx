@@ -21,7 +21,7 @@ import { discountColumns } from "../../../../datatablesource";
 import { Tabs, Tab } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-
+import NewDiscount from "../create/NewDiscount";
 function DiscountHome(props) {
   const navigate = useNavigate();
   const upcomingDiscounts = useSelector(
@@ -45,6 +45,7 @@ function DiscountHome(props) {
 
   const [value, setValue] = useState(0);
   const [code, setCode] = useState();
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -111,7 +112,10 @@ function DiscountHome(props) {
             Promotion Management
             <Button
               variant="outlined"
-              onClick={() => navigate("/owner/discounts/new")}
+              onClick={() => {
+                setOpenDialog(true);
+                // navigate("/owner/discounts/new")
+              }}
             >
               {/* <AddCircleOutlineIcon /> */}
               New Discount
@@ -175,34 +179,7 @@ function DiscountHome(props) {
             </DialogActions>
           </Dialog>
 
-          {/* <Dialog open={openAdd} onClose={handleCloseAdd}>
-            <DialogTitle>Create New Branch</DialogTitle>
-            <DialogContent>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="name"
-                label="Branch name"
-                type="name"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setBranchName(e.target.value)}
-              />
-              <TextField
-                margin="dense"
-                id="address"
-                label="Address"
-                type="address"
-                fullWidth
-                variant="standard"
-                onChange={(e) => setBranchAddress(e.target.value)}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button onClick={handleCreate}>Create</Button>
-            </DialogActions>
-          </Dialog> */}
+          <NewDiscount openDialog={openDialog} setOpenDialog={setOpenDialog} />
         </div>
       </div>
     </div>

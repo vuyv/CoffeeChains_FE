@@ -28,6 +28,7 @@ import {
 import { useRef } from "react";
 import { loadCategories } from "./../../../../redux/actions/categoryAction";
 import { Stack } from "@mui/material";
+import NewProduct from "../createProduct/NewProduct";
 
 const TableProduct = () => {
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ const TableProduct = () => {
   const [content, setContent] = useState();
   const [category, setCategory] = useState("All");
   const [status, setStatus] = useState("All");
+  const [openDialog, setOpenDialog] = useState(false);
 
   const products = useSelector((state) => state.productReducer);
   const product = useSelector((state) => state.productReducer.product);
@@ -142,6 +144,7 @@ const TableProduct = () => {
       },
     },
   ];
+
   return (
     <div className="list">
       <Sidebar />
@@ -152,7 +155,10 @@ const TableProduct = () => {
             Product Management
             <Button
               variant="outlined"
-              onClick={() => navigate("/owner/products/new")}
+              onClick={() => {
+                setOpenDialog(true);
+                // navigate("/owner/products/new");
+              }}
             >
               New Product
             </Button>
@@ -160,6 +166,7 @@ const TableProduct = () => {
           <Stack
             direction="row"
             justifyContent="center"
+            // style={{marginRight: "125px"}}
             alignItems="center"
             spacing={5}
             m={2}
@@ -237,6 +244,7 @@ const TableProduct = () => {
           </div>
         </div>
       </div>
+      <NewProduct openDialog={openDialog} setOpenDialog={setOpenDialog} />
     </div>
   );
 };

@@ -1,26 +1,16 @@
-import "react-datepicker/dist/react-datepicker.css";
-import * as React from "react";
-
-import { useSelector } from "react-redux";
-import { useState, useEffect } from "react";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import TextField from "@material-ui/core/TextField";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { createMaterial } from "../../../redux/actions/materialAction";
+import React from "react";
 import { useDispatch } from "react-redux";
 
 import Select from "react-select";
 import {
   uploadImage,
   removeTempImage,
-} from "../../../redux/actions/imageAction";
+} from "../../../../redux/actions/imageAction";
+import { useSelector } from "react-redux";
+import { useState, useEffect } from "react";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
+import TextField from "@material-ui/core/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -30,20 +20,31 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { getMaterials } from "../../../../redux/actions/materialAction";
+import {createProduct, loadProducts} from "../../../../redux/actions/productAction"
+import { useNavigate } from "react-router-dom";
 
-const steps = ["Input material name",  "Create unit"];
+const steps = ["Input product infor", "Create recipe"];
 
-const NewMaterial = (props) => {
+function NewProduct(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleDialogClose = () => {
     props.setOpenDialog(false);
   };
 
   const [name, setName] = useState("");
-  const [rate, setRate] = useState(0);
-  const [unit, setUnit] = useState("");
-  const [weight, setWeight] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [category, setCategory] = useState(0);
+
   const [file, setFile] = useState(null);
   const [avatar, setAvatar] = useState();
 
@@ -53,22 +54,34 @@ const NewMaterial = (props) => {
     setAvatar(image.url);
   }, image);
 
+  useEffect(() => {
+    dispatch(getMaterials());
+  }, []);
+
   const handleUploadImage = (file) => {
     setFile(file);
     dispatch(removeTempImage());
     dispatch(uploadImage(file));
   };
 
-  // const unitRedux = useSelector((state) => state.unitReducer.allUnits);
-  // unitRedux.map((unit) => listUnit.push({ value: unit.id, label: unit.unit }));
+  const { categories } = useSelector((state) => state.categoryReducer);
 
-  const listUnit = [];
+  const categoryList = categories.map((item) => {
+    return {
+      label: item.name,
+      value: item.id,
+    };
+  });
 
+  const materials = useSelector((state) => state.materialReducer.materials);
+
+  const materialList = materials.map((item) => {
+    return { value: item.id, label: item.name };
+  });
+
+  const [rows, setRows] = useState([{ material: {}, amount: 0 }]);
+  const [selectedMaterial, setSelectedMaterial] = useState([]);
   const [activeStep, setActiveStep] = useState(0);
-
-  const isStepOptional = (step) => {
-    return step === 1;
-  };
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -78,82 +91,75 @@ const NewMaterial = (props) => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
-
-  // const getElementByValue = (array, id) => {
-  //   return array.find((element) => {
-  //     if (element.id === id) {
-  //       return element;
-  //     }
-  //   });
-  // };
-
   const initialState = () => {
-    setName("");
-    setUnit("");
-    setRate(1);
-    setWeight(1);
+    // setName("");
+    // setUnit("");
+    // setRate(1);
+    // setWeight(1);
     setActiveStep(0);
   };
 
-  // useEffect(() => {
-  //   let units = [];
-  //   if (selectedUnit.length === 0) {
-  //     setRows([]);
-  //   }
-
-  //   selectedUnit.forEach((item) => {
-  //     let unit = getElementByValue(unitRedux, item.value);
-  //     units.push(unit);
-  //     setRows(units);
-  //   });
-  // }, [selectedUnit]);
-
   const handleCreate = () => {
-    let units = [];
+    let result = [];
+    rows.map((i) => {
+      result.push({ materialId: i.material.id, amount: i.amount });
+    });
 
-    // rows.forEach((item) => {
-    //   units.push(item);
-    // });
+    dispatch(createProduct(name, price, category, avatar, result));
+    dispatch(removeTempImage());
+    dispatch(loadProducts());
+    navigate("/owner/products");
 
-    if (unit != "" && weight != 0 && rate != 0) {
-      units.push({
-        id: "",
-        unit: unit,
-        netWeight: weight,
-        rate: rate,
-      });
-    }
-
-    const material = {
-      name: name,
-      image: avatar,
-      units: units,
-    };
-
-    dispatch(createMaterial(material));
     initialState();
     handleDialogClose();
+  };
+
+  const getElementByValue = (array, id) => {
+    return array.find((element) => {
+      if (element.id === id) {
+        return element;
+      }
+    });
+  };
+
+  useEffect(() => {
+    let units = [];
+    if (selectedMaterial.length === 0) {
+      setRows([]);
+    }
+
+    selectedMaterial.forEach((item) => {
+      let material = getElementByValue(materials, item.value);
+      units.push({material, amount: 0});
+      setRows(units);
+    });
+  }, [selectedMaterial]);
+
+  const handleChangAmount = (id, event) => {
+    const newInputFields = rows.map((i) => {
+      if (id === i.material.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+    setRows(newInputFields);
   };
 
   return (
     <Dialog
       fullWidth
-      minWidth="450px"
+      maxWidth="md"
       open={props.openDialog}
       onClose={handleDialogClose}
+      PaperProps={{ style: { overflowY: "visible" } }}
     >
-      <DialogTitle>New Material</DialogTitle>
-      <DialogContent>
+      <DialogTitle>New Product</DialogTitle>
+      <DialogContent style={{ overflowY: "visible" }}>
         <Box sx={{ width: "100%" }}>
           <Stepper activeStep={activeStep}>
             {steps.map((label, index) => {
               const stepProps = {};
               const labelProps = {};
-              if (isStepOptional(index)) {
-                labelProps.optional = (
-                  <Typography variant="caption">Optional</Typography>
-                );
-              }
               return (
                 <Step key={label} {...stepProps}>
                   <StepLabel {...labelProps}>{label}</StepLabel>
@@ -182,6 +188,23 @@ const NewMaterial = (props) => {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                     />
+                    <TextField
+                      id="outlined-basic"
+                      label="Price"
+                      variant="outlined"
+                      size="small"
+                      fullWidth
+                      type="number"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                    <div style={{ width: "100%" }}>
+                      <Select
+                        placeholder="Category"
+                        options={categoryList}
+                        onChange={(value) => setCategory(value.value)}
+                      />
+                    </div>
                     <label htmlFor="file" style={{ paddingLeft: "30px" }}>
                       <img
                         id="image"
@@ -201,7 +224,7 @@ const NewMaterial = (props) => {
                     />
                   </Stack>
                 )}
-                {/* {activeStep === 1 && (
+                {activeStep === 1 && (
                   <Stack
                     direction="row"
                     justifyContent="center"
@@ -209,20 +232,21 @@ const NewMaterial = (props) => {
                     spacing={2}
                   >
                     <div style={{ width: "50%" }}>
+                      <b>Select materials</b>
                       <Select
-                        options={listUnit}
-                        onChange={(value) => setSelectedUnit(value)}
-                        value={selectedUnit}
+                        options={materialList}
+                        onChange={(value) => setSelectedMaterial(value)}
+                        value={selectedMaterial}
                         isMulti
                       />
                     </div>
-                    <TableContainer component={Paper} style={{ width: "50%" }}>
-                      <Table aria-label="simple table">
+                    <TableContainer component={Paper}  style={{ width: "50%", maxHeight: "260px" }}>
+                      <Table aria-label="simple table" stickyHeader>
                         <TableHead>
                           <TableRow>
-                            <TableCell>Unit</TableCell>
-                            <TableCell align="right">Net Weight</TableCell>
-                            <TableCell align="right">Rate</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell align="left">Material</TableCell>
+                            <TableCell align="right">Amount</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
@@ -238,56 +262,40 @@ const NewMaterial = (props) => {
                                 },
                               }}
                             >
-                              <TableCell>{row.unit}</TableCell>
-                              <TableCell align="right">
-                                {row.netWeight}
+                              <TableCell>
+                                <img
+                                  src={row.material.image}
+                                  style={{ width: "45px", height: "45px" }}
+                                />
                               </TableCell>
-                              <TableCell align="right">{row.rate}</TableCell>
+                              <TableCell style={{ marginRight: "10px" }}>
+                                {row.material.name}
+                              </TableCell>
+                              <TableCell align="right">
+                                <TextField
+                                  id="outlined-basic"
+                                  variant="outlined"
+                                  name="amount"
+                                  size="small"
+                                  style={{ width: "100px" }}
+                                  type="number"
+                                  onChange={(event) =>
+                                    handleChangAmount(row.material.id, event)
+                                  }
+                                />
+                              </TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
                       </Table>
                     </TableContainer>
                   </Stack>
-                )} */}
-
-                {activeStep === 1 && (
-                  <Stack direction="row" spacing={2}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Unit"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="text"
-                      value={unit}
-                      onChange={(e) => setUnit(e.target.value)}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      label="Rate"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="number"
-                      value={rate}
-                      onChange={(e) => setRate(e.target.value)}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      label="Net Weight"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="number"
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                    />
-                  </Stack>
                 )}
               </div>
 
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+                <Button onClick={handleDialogClose}>Cancel</Button>
                 <Button
                   color="inherit"
                   disabled={activeStep === 0}
@@ -296,10 +304,6 @@ const NewMaterial = (props) => {
                 >
                   Back
                 </Button>
-
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleDialogClose}>Cancel</Button>
-
                 {activeStep === steps.length - 1 ? (
                   <Button onClick={handleCreate}>Create</Button>
                 ) : (
@@ -313,6 +317,6 @@ const NewMaterial = (props) => {
       <DialogActions></DialogActions>
     </Dialog>
   );
-};
+}
 
-export default NewMaterial;
+export default NewProduct;
