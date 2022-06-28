@@ -13,6 +13,8 @@ import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../redux/actions/authAction";
+import CategoryIcon from "@mui/icons-material/Category";
+import FastfoodIcon from "@mui/icons-material/Fastfood";
 import InventoryIcon from "@mui/icons-material/Inventory";
 
 const Sidebar = () => {
@@ -62,20 +64,20 @@ const Sidebar = () => {
           </Link>
           <Link to="/owner/category" style={{ textDecoration: "none" }}>
             <li>
-              <CreditCardIcon className="icon" />
+              <CategoryIcon className="icon" />
               <span>Category</span>
             </li>
           </Link>
           <Link to="/owner/products" style={{ textDecoration: "none" }}>
             <li>
-              <SettingsSystemDaydreamOutlinedIcon className="icon" />
+              <FastfoodIcon className="icon" />
               <span>Product</span>
             </li>
           </Link>
           <Link to="/owner/discounts" style={{ textDecoration: "none" }}>
             <li>
               <DiscountIcon className="icon" />
-              <span>Discount</span>
+              <span>Promotion</span>
             </li>
           </Link>
           <Link to="/owner/materials" style={{ textDecoration: "none" }}>

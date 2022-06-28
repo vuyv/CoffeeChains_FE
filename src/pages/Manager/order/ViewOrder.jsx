@@ -159,7 +159,7 @@ function ViewOrder() {
           maxWidth="md"
         >
           <DialogTitle id="alert-dialog-title">
-            {"Order: "} {order.id}
+            {"Order ID: "} {order.id}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">

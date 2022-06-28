@@ -72,10 +72,12 @@ const Navbar = (props) => {
               </span>
             </IconButton>
           </div>
-          <div className="item">Welcome, {name}</div>
-
           <div className="item">
-            <img src={avatar} alt="" className="avatar" />
+            <div className="item">Welcome, {name}</div>
+
+            <div className="item">
+              <img src={avatar} alt="" className="avatar" />
+            </div>
           </div>
         </div>
       </div>
