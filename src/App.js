@@ -80,9 +80,9 @@ const RouteOwner = () => {
           path: "products",
           children: [
             { path: "", element: <TableProduct /> },
-            // { path: ":productId", element: <DetailProduct /> },
-            { path: ":productId", element: <ProductDetail /> },
-            { path: "new", element: <CreateProduct /> },
+            { path: ":productId", element: <DetailProduct /> },
+            // { path: ":productId", element: <ProductDetail /> },
+            // { path: "new", element: <CreateProduct /> },
           ],
         },
         {

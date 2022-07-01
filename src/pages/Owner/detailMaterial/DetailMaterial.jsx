@@ -7,6 +7,7 @@ import NewMaterial from "./NewMaterial";
 import { getMaterials } from "../../../redux/actions/materialAction";
 import CardMaterial from "./CardMaterial";
 import { getAllUnits } from "../../../redux/actions/unitAction";
+import TablePagination from "@mui/material/TablePagination";
 
 const DetailMaterial = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,13 @@ const DetailMaterial = () => {
 
   const materials = useSelector((state) => state.materialReducer.materials);
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(12);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
   return (
     <div className="category">
       <Sidebar />
@@ -35,11 +43,24 @@ const DetailMaterial = () => {
               New Material
             </Button>
           </div>
-          <div className="widgets">
-            {materials.map((item, index) => (
-              <CardMaterial key={index} item={item} />
-            ))}
+          <div
+            className="widgets"
+            style={{ paddingTop: "10px", paddingBottom: "10px" }}
+          >
+            {materials
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((item, index) => (
+                <CardMaterial key={index} item={item} />
+              ))}
           </div>
+          <TablePagination
+            rowsPerPageOptions={[12]}
+            component="div"
+            count={materials.length}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+          />
         </div>
       </div>
       <NewMaterial openDialog={openDialog} setOpenDialog={setOpenDialog} />

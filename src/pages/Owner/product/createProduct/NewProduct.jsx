@@ -28,7 +28,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { getMaterials } from "../../../../redux/actions/materialAction";
-import {createProduct, loadProducts} from "../../../../redux/actions/productAction"
+import {
+  createProduct,
+  loadProducts,
+} from "../../../../redux/actions/productAction";
 import { useNavigate } from "react-router-dom";
 
 const steps = ["Input product infor", "Create recipe"];
@@ -46,13 +49,13 @@ function NewProduct(props) {
   const [category, setCategory] = useState(0);
 
   const [file, setFile] = useState(null);
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState("");
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
 
   useEffect(() => {
-    setAvatar(image.url);
-  }, image);
+    setAvatar(image);
+  }, [image]);
 
   useEffect(() => {
     dispatch(getMaterials());
@@ -92,10 +95,11 @@ function NewProduct(props) {
   };
 
   const initialState = () => {
-    // setName("");
-    // setUnit("");
-    // setRate(1);
-    // setWeight(1);
+    setName("");
+    setPrice(0);
+    setAvatar("");
+    setFile(null);
+    setSelectedMaterial([]);
     setActiveStep(0);
   };
 
@@ -130,7 +134,7 @@ function NewProduct(props) {
 
     selectedMaterial.forEach((item) => {
       let material = getElementByValue(materials, item.value);
-      units.push({material, amount: 0});
+      units.push({ material, amount: 0 });
       setRows(units);
     });
   }, [selectedMaterial]);
@@ -240,7 +244,10 @@ function NewProduct(props) {
                         isMulti
                       />
                     </div>
-                    <TableContainer component={Paper}  style={{ width: "50%", maxHeight: "260px" }}>
+                    <TableContainer
+                      component={Paper}
+                      style={{ width: "50%", maxHeight: "260px" }}
+                    >
                       <Table aria-label="simple table" stickyHeader>
                         <TableHead>
                           <TableRow>

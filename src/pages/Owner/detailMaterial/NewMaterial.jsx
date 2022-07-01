@@ -30,8 +30,9 @@ import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
+import { getMaterials } from "./../../../redux/actions/materialAction";
 
-const steps = ["Input material name",  "Create unit"];
+const steps = ["Input material name", "Create unit"];
 
 const NewMaterial = (props) => {
   const dispatch = useDispatch();
@@ -45,13 +46,13 @@ const NewMaterial = (props) => {
   const [unit, setUnit] = useState("");
   const [weight, setWeight] = useState(0);
   const [file, setFile] = useState(null);
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState("");
 
-  const image = useSelector((state) => state.imageReducer);
+  const image = useSelector((state) => state.imageReducer.url);
 
   useEffect(() => {
-    setAvatar(image.url);
-  }, image);
+    setAvatar(image);
+  }, [image]);
 
   const handleUploadImage = (file) => {
     setFile(file);
@@ -77,7 +78,6 @@ const NewMaterial = (props) => {
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
 
   // const getElementByValue = (array, id) => {
   //   return array.find((element) => {
@@ -131,6 +131,8 @@ const NewMaterial = (props) => {
     };
 
     dispatch(createMaterial(material));
+    dispatch(getMaterials());
+    dispatch(removeTempImage());
     initialState();
     handleDialogClose();
   };

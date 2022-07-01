@@ -16,6 +16,7 @@ import {
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { addToCart } from "../../redux/actions/cartAction";
+import { useState } from "react";
 
 const useStyles = makeStyles(productCardStyles);
 
@@ -28,17 +29,46 @@ const ProductCard = (props) => {
     dispatch(addToCart(item));
   };
 
+  const [isShown, setIsShown] = useState(false);
+
   return (
     <Card>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           image={item.image}
-          title={item.available}
+          // title={item.available}
+          onMouseEnter={() => setIsShown(true)}
+          onMouseLeave={() => setIsShown(false)}
           onClick={() => {
             handleAddToCart2(item);
           }}
-        />
+        >
+          {isShown && (
+            <div
+              style={{
+                color: "#fff",
+                background: "rgba(128, 128, 128, 0.7)",
+                height: 250,
+                width: 287,
+                fontSize: 22,
+                lineHeight: "250px",
+                textAlign: "center",
+                position: "absolute",
+              }}
+            >
+              <b
+                style={{
+                  zIndex: "1",
+                  opacity: "inherited",
+                  position: "relative",
+                }}
+              >
+                AVAILABLE: {item.available}
+              </b>
+            </div>
+          )}
+        </CardMedia>
         <CardContent className={classes.productName}>
           <Typography gutterBottom variant="h6" component="h2">
             {item.name}

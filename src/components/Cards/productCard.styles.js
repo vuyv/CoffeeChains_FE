@@ -1,26 +1,26 @@
 import { TextareaAutosize } from "@material-ui/core";
 import { fontSize, textTransform } from "@mui/system";
 
-export const productCardStyles = theme => ({
+export const productCardStyles = (theme) => ({
   root: {
     maxWidth: 350,
     backgroundColor: theme.palette.background.card,
-    position: "relative"
+    position: "relative",
   },
   media: {
-    height: 250
+    height: 250,
   },
   productName: {
     height: 70,
-    textTransform: "uppercase"
+    textTransform: "uppercase",
   },
   actions: {
     height: 70,
     display: "flex",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
   },
   quantity: {
-   size: 100
+    size: 100,
   },
   ribbon: {
     position: "absolute",
@@ -57,7 +57,7 @@ export const productCardStyles = theme => ({
         borderLeft: "3px solid transparent",
         borderRight: "3px solid #8f5408",
         borderBottom: "3px solid transparent",
-        borderTop: "3px solid #8f5408"
+        borderTop: "3px solid #8f5408",
       },
 
       "&::before": {
@@ -69,8 +69,8 @@ export const productCardStyles = theme => ({
         borderLeft: "3px solid #8f5408",
         borderBottom: "3px solid transparent",
         borderRottom: "3px solid transparent",
-        borderTop: "3px solid #8f5408"
-      }
-    }
-  }
+        borderTop: "3px solid #8f5408",
+      },
+    },
+  },
 });

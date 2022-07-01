@@ -2,7 +2,7 @@ import axios from "axios";
 import { setAuthHeaders } from "../../utils/index";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-
+import { estimateProducts } from "./productAction";
 toast.configure();
 
 const headers = setAuthHeaders();
@@ -98,12 +98,7 @@ export const exportMaterials = (arr) => {
         dispatch(estimateProducts());
       })
       .catch((error) => {
-        // if (error.response.status === 404){
-        //   toast.error("Invalid Material!");
-        // } else
-        if (error.response.status === 400) {
-          toast.error("Invalid Quantity!");
-        }
+       
         // toast.error("Export Fail!")
       });
   };
