@@ -17,7 +17,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   getMaterials,
   addMaterialsToInventory,
-  clearMaterials,
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -77,6 +76,7 @@ const CreateMaterial = () => {
       result.push({
         id: material.id,
         name: material.name,
+        image: material.image,
         quantity: 1,
         units: listUnit,
       });
@@ -129,7 +129,7 @@ const CreateMaterial = () => {
     control: (styles) => ({
       ...styles,
       backgroundColor: "white",
-      height: "40px",
+      height: "45px",
     }),
   };
 
@@ -153,7 +153,6 @@ const CreateMaterial = () => {
         unitId: item.unit.value,
       });
     });
-
     dispatch(addMaterialsToInventory(result));
     navigate("/manager/materials/inventory");
     setMaterialItems([]);
@@ -194,7 +193,8 @@ const CreateMaterial = () => {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ paddingLeft: "60px" }}>No.</TableCell>
+                    <TableCell>No.</TableCell>
+                    <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Unit</TableCell>
@@ -205,50 +205,38 @@ const CreateMaterial = () => {
               </Table>
               <TableBody>
                 {formValues.length === 0 && (
-                  <TableCell
-                    className="tableCell"
-                    style={{ paddingLeft: "50px" }}
-                  >
-                    No rows data
-                  </TableCell>
+                  <TableCell className="tableCell">No rows data</TableCell>
                 )}
                 {formValues.map((element, i) => (
-                  <TableRow
-                    key={element.id}
-                    className="row"
-                    // sx={{ maxHeight: "150px", verticalAlign: "text-top" }}
-                  >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ paddingLeft: "60px" }}
-                    >
+                  <TableRow key={element.id} className="row">
+                    <TableCell component="th" scope="row">
                       {i + 1}
                     </TableCell>
-                    <TableCell>
-                      <TextField
-                        name="name"
-                        // label="Material"
-                        value={element.name}
-                        type="text"
-                        style={{ paddingLeft: "160px" }}
-                        // onChange={(event) => handleChangeInput(element.id, event)}
+                    <TableCell style={{ paddingLeft: "110px" }}>
+                      <img
+                        src={element.image}
+                        style={{ width: "45px", height: "45px" }}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ paddingLeft: "105px" }}>
+                      {element.name}
+                    </TableCell>
+                    <TableCell style={{ paddingLeft: "85px" }}>
                       <TextField
                         name="quantity"
-                        // label="Quantity"
                         defaultValue={element.quantity}
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        style={{ width: "100px" }}
                         type="number"
                         onChange={(event) =>
                           handleChangeInput(element.id, event)
                         }
-                        style={{ width: "80px" }}
                       />
                     </TableCell>
                     <TableCell>
-                      <div style={{ width: "180px", paddingLeft: "70px" }}>
+                      <div style={{ width: "170px", paddingLeft: "50px" }}>
                         <Select
                           menuPortalTarget={document.querySelector("body")}
                           name="unit"
@@ -264,7 +252,7 @@ const CreateMaterial = () => {
                     </TableCell>
                     <TableCell>
                       <CloseIcon
-                        style={{ marginLeft: "70px" }}
+                        style={{ marginLeft: "50px" }}
                         onClick={() => {
                           handleRemove(element);
                         }}

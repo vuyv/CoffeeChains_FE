@@ -19,7 +19,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import {
   getMaterialsByBranch,
   exportMaterials,
-  clearExportMaterials,
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -93,6 +92,7 @@ const ExportMaterial = () => {
       result.push({
         id: material.rawMaterial.id,
         name: material.rawMaterial.name,
+        image: material.rawMaterial.image,
         quantity: 1,
         units: listUnit,
         quantityInStock: material.quantity,
@@ -209,7 +209,8 @@ const ExportMaterial = () => {
               >
                 <TableHead>
                   <TableRow>
-                    <TableCell style={{ paddingLeft: "60px" }}>No.</TableCell>
+                    <TableCell>No.</TableCell>
+                    <TableCell>Image</TableCell>
                     <TableCell>Name</TableCell>
                     <TableCell>Quantity</TableCell>
                     <TableCell>Unit</TableCell>
@@ -220,12 +221,7 @@ const ExportMaterial = () => {
               </Table>
               <TableBody>
                 {formValues.length === 0 && (
-                  <TableCell
-                    className="tableCell"
-                    style={{ paddingLeft: "50px" }}
-                  >
-                    No rows data
-                  </TableCell>
+                  <TableCell className="tableCell">No rows data</TableCell>
                 )}
                 {formValues.map((element, i) => (
                   <TableRow
@@ -233,38 +229,35 @@ const ExportMaterial = () => {
                     className="row"
                     // style={{ margin: "10px" }}
                   >
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      style={{ paddingLeft: "60px" }}
-                    >
+                    <TableCell component="th" scope="row">
                       {i + 1}
                     </TableCell>
-                    <TableCell>
-                      <TextField
-                        name="name"
-                        // label="Material"
-                        value={element.name}
-                        type="text"
-                        style={{ paddingLeft: "160px" }}
+                    <TableCell style={{ paddingLeft: "110px" }}>
+                      <img
+                        src={element.image}
+                        style={{ width: "45px", height: "45px" }}
                       />
                     </TableCell>
-                    <TableCell>
+                    <TableCell style={{ paddingLeft: "120px" }}>
+                      {element.name}
+                    </TableCell>
+                    <TableCell style={{ paddingLeft: "90px" }}>
                       <TextField
                         name="quantity"
-                        // label="Quantity"
                         defaultValue={element.quantity}
+                        id="outlined-basic"
+                        variant="outlined"
+                        size="small"
+                        style={{ width: "100px" }}
                         type="number"
                         onChange={(event) =>
                           handleChangeInput(element.id, event)
                         }
-                        style={{ width: "80px" }}
                       />
-                      {/* / {element.quantityInStock} */}
                     </TableCell>
 
                     <TableCell>
-                      <div style={{ width: "200px", paddingLeft: "70px" }}>
+                      <div style={{ width: "170px", paddingLeft: "50px" }}>
                         <Select
                           menuPortalTarget={document.querySelector("body")}
                           name="unit"

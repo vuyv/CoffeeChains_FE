@@ -283,7 +283,7 @@ const Detail = () => {
                       </div>
                     </div>
                     <div>
-                      <div>
+                      <div class="float-right">
                         {isEdit ? (
                           <button
                             class="btn btn-primary"

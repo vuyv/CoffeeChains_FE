@@ -30,7 +30,7 @@ const Sidebar = () => {
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
 
   const [currentBranch, setCurrentBranch] = useState("");
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
 
   window.setTimeout(() => {
     setCurrentBranch(currentUser.branch.name);
@@ -121,33 +121,32 @@ const Sidebar = () => {
                 )}
               </li>
 
-                <ul
-                  id="collapseOne"
-                  class="collapse show"
-                  aria-labelledby="headingOne"
-                  data-parent="#accordion"
-                  style={{ marginLeft: "15px", backgroundColor: "#f9f9f9" }}
+              <ul
+                id="collapseOne"
+                className="collapse show"
+                aria-labelledby="headingOne"
+                data-parent="#accordion"
+                style={{ marginLeft: "15px", backgroundColor: "#f9f9f9" }}
+              >
+                <Link
+                  to="/manager/materials/import_history"
+                  style={{ textDecoration: "none" }}
                 >
-                  <Link
-                    to="/manager/materials/import_history"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <li>
-                      <DensityMediumIcon className="icon" />
-                      <span>Import History</span>
-                    </li>
-                  </Link>
-                  <Link
-                    to="/manager/materials/export_history"
-                    style={{ textDecoration: "none" }}
-                  >
-                    <li>
-                      <EventNoteIcon className="icon" />
-                      <span>Export History</span>
-                    </li>
-                  </Link>
-                </ul>
-
+                  <li>
+                    <DensityMediumIcon className="icon" />
+                    <span>Import History</span>
+                  </li>
+                </Link>
+                <Link
+                  to="/manager/materials/export_history"
+                  style={{ textDecoration: "none" }}
+                >
+                  <li>
+                    <EventNoteIcon className="icon" />
+                    <span>Export History</span>
+                  </li>
+                </Link>
+              </ul>
             </Link>
 
             <p className="title">USER</p>
