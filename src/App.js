@@ -43,7 +43,7 @@ import ReportOfManager from "./pages/Manager/report/Report";
 import Bill from "./pages/Seller/order/Bill";
 import Category from "./pages/Owner/category/Category";
 import MaterialTable from "./pages/Manager/material/viewMaterial/MaterialTable";
-import CreateMaterial from "./pages/Manager/material/createMaterial/CreateMaterial";
+import ImportMaterial from "./pages/Manager/material/importMaterial/ImportMaterial";
 import ExportMaterial from "./pages/Manager/material/ExportMaterial/ExportMaterial";
 import ImportHistory from "./pages/Manager/material/history/ImportHistory";
 import ExportHistory from "./pages/Manager/material/history/ExportHistory";
@@ -138,7 +138,7 @@ const RouteManager = () => {
           path: "materials",
           children: [
             { path: "inventory", element: <MaterialTable /> },
-            { path: "import", element: <CreateMaterial /> },
+            { path: "import", element: <ImportMaterial /> },
             { path: "export", element: <ExportMaterial /> },
             { path: "import_history", element: <ImportHistory /> },
             { path: "export_history", element: <ExportHistory /> },

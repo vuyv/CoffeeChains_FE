@@ -31,6 +31,10 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Typography from "@mui/material/Typography";
 import { getMaterials } from "./../../../redux/actions/materialAction";
+import IconButton from "@material-ui/core/IconButton";
+import RemoveIcon from "@material-ui/icons/Remove";
+import AddIcon from "@material-ui/icons/Add";
+import { v4 as uuidv4 } from "uuid";
 
 const steps = ["Input material name", "Create unit"];
 
@@ -56,12 +60,9 @@ const NewMaterial = (props) => {
 
   const handleUploadImage = (file) => {
     setFile(file);
-    dispatch(removeTempImage());
     dispatch(uploadImage(file));
+    dispatch(removeTempImage());
   };
-
-  // const unitRedux = useSelector((state) => state.unitReducer.allUnits);
-  // unitRedux.map((unit) => listUnit.push({ value: unit.id, label: unit.unit }));
 
   const listUnit = [];
 
@@ -95,34 +96,16 @@ const NewMaterial = (props) => {
     setActiveStep(0);
   };
 
-  // useEffect(() => {
-  //   let units = [];
-  //   if (selectedUnit.length === 0) {
-  //     setRows([]);
-  //   }
-
-  //   selectedUnit.forEach((item) => {
-  //     let unit = getElementByValue(unitRedux, item.value);
-  //     units.push(unit);
-  //     setRows(units);
-  //   });
-  // }, [selectedUnit]);
-
   const handleCreate = () => {
     let units = [];
 
-    // rows.forEach((item) => {
-    //   units.push(item);
-    // });
-
-    if (unit != "" && weight != 0 && rate != 0) {
+    formSubmit.map((element) => {
       units.push({
-        id: "",
-        unit: unit,
-        netWeight: weight,
-        rate: rate,
+        unit: element.unit,
+        netWeight: element.weight,
+        rate: element.rate,
       });
-    }
+    });
 
     const material = {
       name: name,
@@ -135,6 +118,37 @@ const NewMaterial = (props) => {
     dispatch(removeTempImage());
     initialState();
     handleDialogClose();
+  };
+
+  const [formSubmit, setFormSubmit] = useState([
+    { id: uuidv4(), unit: "", rate: 0, weight: 0 },
+  ]);
+
+  const handleAddFields = () => {
+    setFormSubmit([
+      ...formSubmit,
+      { id: uuidv4(), unit: "", rate: 0, weight: 0 },
+    ]);
+  };
+
+  const handleRemoveFields = (id) => {
+    const values = [...formSubmit];
+    values.splice(
+      values.findIndex((value) => value.id === id),
+      1
+    );
+    setFormSubmit(values);
+    console.log(formSubmit);
+  };
+
+  const handleChangeTextField = (id, event) => {
+    const newInputFields = formSubmit.map((i) => {
+      if (id === i.id) {
+        i[event.target.name] = event.target.value;
+      }
+      return i;
+    });
+    setFormSubmit(newInputFields);
   };
 
   return (
@@ -204,38 +218,60 @@ const NewMaterial = (props) => {
                   </Stack>
                 )}
                 {activeStep === 1 && (
-                  <Stack direction="row" spacing={2}>
-                    <TextField
-                      id="outlined-basic"
-                      label="Unit"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="text"
-                      value={unit}
-                      onChange={(e) => setUnit(e.target.value)}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      label="Rate"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="number"
-                      value={rate}
-                      onChange={(e) => setRate(e.target.value)}
-                    />
-                    <TextField
-                      id="outlined-basic"
-                      label="Net Weight"
-                      variant="outlined"
-                      fullWidth
-                      size="small"
-                      type="number"
-                      value={weight}
-                      onChange={(e) => setWeight(e.target.value)}
-                    />
-                  </Stack>
+                  <>
+                    {formSubmit.map((element) => (
+                      <Stack direction="row" spacing={2}>
+                        <>
+                          <TextField
+                            id="outlined-basic"
+                            label="Unit"
+                            variant="outlined"
+                            fullWidth
+                            name="unit"
+                            size="small"
+                            type="text"
+                            onChange={(event) =>
+                              handleChangeTextField(element.id, event)
+                            }
+                          />
+                          <TextField
+                            id="outlined-basic"
+                            label="Net Weight"
+                            variant="outlined"
+                            fullWidth
+                            name="weight"
+                            size="small"
+                            type="number"
+                            onChange={(event) =>
+                              handleChangeTextField(element.id, event)
+                            }
+                          />
+                          <TextField
+                            id="outlined-basic"
+                            label="Rate"
+                            variant="outlined"
+                            fullWidth
+                            size="small"
+                            type="number"
+                            name="rate"
+                            onChange={(event) =>
+                              handleChangeTextField(element.id, event)
+                            }
+                          />
+                          <Stack direction="row">
+                            <IconButton
+                              onClick={() => handleRemoveFields(element.id)}
+                            >
+                              <RemoveIcon />
+                            </IconButton>
+                            <IconButton onClick={handleAddFields}>
+                              <AddIcon />
+                            </IconButton>
+                          </Stack>
+                        </>
+                      </Stack>
+                    ))}
+                  </>
                 )}
               </div>
 

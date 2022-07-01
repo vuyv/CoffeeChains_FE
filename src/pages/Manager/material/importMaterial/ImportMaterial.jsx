@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { getAllUnits } from "../../../../redux/actions/unitAction";
 
-const CreateMaterial = () => {
+const ImportMaterial = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -284,4 +284,4 @@ const CreateMaterial = () => {
   );
 };
 
-export default CreateMaterial;
+export default ImportMaterial;

@@ -29,6 +29,15 @@ function ExportHistory() {
   const [selectedTab, setSelectedTab] = useState(0);
   const handleChangeTab = (e, newValue) => {
     setSelectedTab(newValue);
+    if (newValue === 0) {
+      setListExportHistory(mapToArray(dailyQuantityByDate));
+    }
+    if (newValue === 1) {
+      setListExportHistory(mapToArray(weeklyQuantityByDate));
+    }
+    if (newValue === 2) {
+      setListExportHistory(mapToArray(monthlyQuantityByDate));
+    }
   };
 
   const formatDate = (createdDate) => {
@@ -57,37 +66,13 @@ function ExportHistory() {
     (state) => state.materialReducer.dailyQuantityByDate
   );
 
-  const dailyExportList = [];
-  dailyQuantityByDate.map((i) => {
-    dailyExportList.push({
-      time: i[0],
-      sumQuantity: i[1],
-    });
-  });
-
   const weeklyQuantityByDate = useSelector(
     (state) => state.materialReducer.weeklyQuantityByDate
   );
 
-  const weeklyExportList = [];
-  weeklyQuantityByDate.map((i) => {
-    weeklyExportList.push({
-      time: i[0],
-      sumQuantity: i[1],
-    });
-  });
-
   const monthlyQuantityByDate = useSelector(
     (state) => state.materialReducer.monthlyQuantityByDate
   );
-
-  const monthlyExportList = [];
-  monthlyQuantityByDate.map((i) => {
-    monthlyExportList.push({
-      time: i[0],
-      sumQuantity: i[1],
-    });
-  });
 
   const dailyInventories = useSelector(
     (state) => state.materialReducer.dailyInventories
@@ -104,6 +89,23 @@ function ExportHistory() {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const [listExportHistory, setListExportHistory] = useState([]);
+
+  const mapToArray = (arr) => {
+    let result = [];
+    arr.forEach((item) => {
+      result.push({
+        time: item[0],
+        sumQuantity: item[1],
+      });
+    });
+    return result;
+  };
+
+  useEffect(() => {
+    setListExportHistory(mapToArray(dailyQuantityByDate));
+  }, []);
 
   return (
     <>
@@ -129,234 +131,86 @@ function ExportHistory() {
               </Tabs>
             </div>
 
-            {selectedTab === 0 && (
-              <div
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <TableContainer component={Paper} sx={{ width: "100%" }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell style={{ paddingLeft: "60px" }}>
-                            No.
-                          </TableCell>
-                          <TableCell>Time</TableCell>
-                          <TableCell>Quantity</TableCell>
-                          <TableCell>Action</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {dailyExportList.length === 0 && (
-                          <TableCell className="tableCell">
-                            No rows data
-                          </TableCell>
-                        )}
-                        {dailyExportList
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .map((element, i) => (
-                            <TableRow key={i + 1 + page * rowsPerPage}>
-                              <TableCell style={{ paddingLeft: "60px" }}>
-                                {i + 1 + page * rowsPerPage}
-                              </TableCell>
-                              <TableCell>{formatDate(element.time)}</TableCell>
-                              <TableCell
-                                align="right"
-                                style={{ paddingRight: "0px" }}
-                              >
-                                {element.sumQuantity}
-                              </TableCell>
-                              <TableCell>
-                                <div className="cellAction">
-                                  <div
-                                    className="viewButton"
-                                    onClick={() => {
-                                      const date = new Date(element.time);
-                                      const afterFormat = format(
-                                        date,
-                                        "yyyy-MM-dd HH:mm:ss"
-                                      );
-                                      dispatch(
-                                        getDailyInventoryByTime(afterFormat)
-                                      );
-                                      handleClickOpen();
-                                    }}
-                                  >
-                                    View
-                                  </div>
+            <div
+              style={{
+                margin: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div>
+                <TableContainer component={Paper} sx={{ width: "100%" }}>
+                  <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ paddingLeft: "60px" }}>
+                          No.
+                        </TableCell>
+                        <TableCell>Time</TableCell>
+                        <TableCell>Quantity</TableCell>
+                        <TableCell>Action</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {listExportHistory.length === 0 && (
+                        <TableCell className="tableCell">
+                          No rows data
+                        </TableCell>
+                      )}
+                      {listExportHistory
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map((element, i) => (
+                          <TableRow key={i + 1 + page * rowsPerPage}>
+                            <TableCell style={{ paddingLeft: "60px" }}>
+                              {i + 1 + page * rowsPerPage}
+                            </TableCell>
+                            <TableCell>{formatDate(element.time)}</TableCell>
+                            <TableCell
+                              align="right"
+                              style={{ paddingRight: "70px" }}
+                            >
+                              {element.sumQuantity}
+                            </TableCell>
+                            <TableCell>
+                              <div className="cellAction">
+                                <div
+                                  className="viewButton"
+                                  onClick={() => {
+                                    const date = new Date(element.time);
+                                    const afterFormat = format(
+                                      date,
+                                      "yyyy-MM-dd HH:mm:ss"
+                                    );
+                                    dispatch(
+                                      getDailyInventoryByTime(afterFormat)
+                                    );
+                                    handleClickOpen();
+                                  }}
+                                >
+                                  View
                                 </div>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[8]}
-                    component="div"
-                    count={dailyExportList.length}
-                    rowsPerPage={8}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </div>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination
+                  rowsPerPageOptions={[8]}
+                  component="div"
+                  count={listExportHistory.length}
+                  rowsPerPage={8}
+                  page={page}
+                  onPageChange={handleChangePage}
+                  onRowsPerPageChange={handleChangeRowsPerPage}
+                />
               </div>
-            )}
-
-            {selectedTab === 1 && (
-              <div
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <TableContainer component={Paper} sx={{ width: "100%" }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell style={{ paddingLeft: "60px" }}>
-                            No.
-                          </TableCell>
-                          <TableCell>Time</TableCell>
-                          <TableCell>Quantity</TableCell>
-                          <TableCell>Action</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {weeklyExportList
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .map((element, i) => (
-                            <TableRow key={i + 1 + page * rowsPerPage}>
-                              <TableCell style={{ paddingLeft: "60px" }}>
-                                {i + 1 + page * rowsPerPage}
-                              </TableCell>
-                              <TableCell>{formatDate(element.time)}</TableCell>
-                              <TableCell>{element.sumQuantity}</TableCell>
-                              <TableCell>
-                                <div className="cellAction">
-                                  <div
-                                    className="viewButton"
-                                    onClick={() => {
-                                      const date = new Date(element.time);
-                                      const afterFormat = format(
-                                        date,
-                                        "yyyy-MM-dd HH:mm:ss"
-                                      );
-                                      dispatch(
-                                        getDailyInventoryByTime(afterFormat)
-                                      );
-                                      handleClickOpen();
-                                    }}
-                                  >
-                                    View
-                                  </div>
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5]}
-                    component="div"
-                    count={weeklyExportList.length}
-                    rowsPerPage={5}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </div>
-              </div>
-            )}
-
-            {selectedTab === 2 && (
-              <div
-                style={{
-                  margin: "auto",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <div>
-                  <TableContainer component={Paper} sx={{ width: "100%" }}>
-                    <Table sx={{ minWidth: 650 }} aria-label="simple table">
-                      <TableHead>
-                        <TableRow>
-                          <TableCell style={{ paddingLeft: "60px" }}>
-                            No.
-                          </TableCell>
-                          <TableCell>Time</TableCell>
-                          <TableCell>Quantity</TableCell>
-                          <TableCell>Action</TableCell>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {monthlyExportList
-                          .slice(
-                            page * rowsPerPage,
-                            page * rowsPerPage + rowsPerPage
-                          )
-                          .map((element, i) => (
-                            <TableRow key={i + 1 + page * rowsPerPage}>
-                              <TableCell style={{ paddingLeft: "60px" }}>
-                                {i + 1 + page * rowsPerPage}
-                              </TableCell>
-                              <TableCell>{formatDate(element.time)}</TableCell>
-                              <TableCell>{element.sumQuantity}</TableCell>
-                              <TableCell>
-                                <div className="cellAction">
-                                  <div
-                                    className="viewButton"
-                                    onClick={() => {
-                                      const date = new Date(element.time);
-                                      const afterFormat = format(
-                                        date,
-                                        "yyyy-MM-dd HH:mm:ss"
-                                      );
-                                      dispatch(
-                                        getDailyInventoryByTime(afterFormat)
-                                      );
-                                      handleClickOpen();
-                                    }}
-                                  >
-                                    View
-                                  </div>
-                                </div>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[5]}
-                    component="div"
-                    count={monthlyExportList.length}
-                    rowsPerPage={5}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                  />
-                </div>
-              </div>
-            )}
+            </div>
 
             {dailyInventories.length != 0 && (
               <Dialog
