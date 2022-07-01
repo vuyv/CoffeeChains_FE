@@ -94,7 +94,7 @@ function ExportHistory() {
   );
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -200,10 +200,10 @@ function ExportHistory() {
                     </Table>
                   </TableContainer>
                   <TablePagination
-                    rowsPerPageOptions={[5]}
+                    rowsPerPageOptions={[8]}
                     component="div"
                     count={dailyExportList.length}
-                    rowsPerPage={5}
+                    rowsPerPage={8}
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}

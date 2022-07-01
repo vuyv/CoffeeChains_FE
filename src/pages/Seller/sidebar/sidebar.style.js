@@ -14,8 +14,8 @@ export const panelStyle = (theme) => ({
     // background: theme.palette.background.default,
     display: "block",
     // marginRight: "10px",
-    width: "250px",
+    width: "200px",
     "box-shadow": "none",
     padding: "none",
-  }
+  },
 });

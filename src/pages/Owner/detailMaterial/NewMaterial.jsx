@@ -201,56 +201,6 @@ const NewMaterial = (props) => {
                     />
                   </Stack>
                 )}
-                {/* {activeStep === 1 && (
-                  <Stack
-                    direction="row"
-                    justifyContent="center"
-                    alignItems="center"
-                    spacing={2}
-                  >
-                    <div style={{ width: "50%" }}>
-                      <Select
-                        options={listUnit}
-                        onChange={(value) => setSelectedUnit(value)}
-                        value={selectedUnit}
-                        isMulti
-                      />
-                    </div>
-                    <TableContainer component={Paper} style={{ width: "50%" }}>
-                      <Table aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Unit</TableCell>
-                            <TableCell align="right">Net Weight</TableCell>
-                            <TableCell align="right">Rate</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {rows.length === 0 && (
-                            <TableCell>No row data</TableCell>
-                          )}
-                          {rows.map((row) => (
-                            <TableRow
-                              key={row.id}
-                              sx={{
-                                "&:last-child td, &:last-child th": {
-                                  border: 0,
-                                },
-                              }}
-                            >
-                              <TableCell>{row.unit}</TableCell>
-                              <TableCell align="right">
-                                {row.netWeight}
-                              </TableCell>
-                              <TableCell align="right">{row.rate}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </Stack>
-                )} */}
-
                 {activeStep === 1 && (
                   <Stack direction="row" spacing={2}>
                     <TextField
@@ -288,6 +238,8 @@ const NewMaterial = (props) => {
               </div>
 
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                <Box sx={{ flex: "1 1 auto" }} />
+                <Button onClick={handleDialogClose}>Cancel</Button>
                 <Button
                   color="inherit"
                   disabled={activeStep === 0}
@@ -296,10 +248,6 @@ const NewMaterial = (props) => {
                 >
                   Back
                 </Button>
-
-                <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleDialogClose}>Cancel</Button>
-
                 {activeStep === steps.length - 1 ? (
                   <Button onClick={handleCreate}>Create</Button>
                 ) : (

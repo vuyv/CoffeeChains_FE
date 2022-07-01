@@ -34,6 +34,7 @@ function OrderDetail() {
                 row.orderDetailId.orderId + row.orderDetailId.productId
               }
             />
+           
           </div>
         </div>
       </div>

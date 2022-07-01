@@ -85,7 +85,7 @@ const CreateMaterial = () => {
         id: material.id,
         name: material.name,
         quantity: 1,
-        unit: material.listUnit[0],
+        unit: listUnit[0],
       });
     });
     setFormValues(result);
@@ -251,7 +251,7 @@ const CreateMaterial = () => {
                       <div style={{ width: "180px", paddingLeft: "70px" }}>
                         <Select
                           menuPortalTarget={document.querySelector("body")}
-                          name="units"
+                          name="unit"
                           placeholder="Unit"
                           options={element.units}
                           defaultValue={element.units[0]}
@@ -282,8 +282,11 @@ const CreateMaterial = () => {
                 margin: "20px",
               }}
             >
-              <Button variant="contained" type="submit">
-                Submit
+              <Button
+                style={{ color: "white", background: "#1976d2" }}
+                type="submit"
+              >
+                Import
               </Button>
             </div>
           </form>

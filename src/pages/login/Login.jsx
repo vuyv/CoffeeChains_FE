@@ -24,26 +24,6 @@ function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const formik = useFormik({
-    initialValues: {
-      phone: "",
-      password: "",
-    },
-    validationSchema: yup.object({
-      phone: yup
-        .string()
-        .required("Required")
-        .matches(/^[0-9]{10}$/, "Please enter a valid phone number"),
-      password: yup
-        .string()
-        .required("Required")
-        .length(8, "Must be 8 characters"),
-    }),
-    onSubmit: () => {
-      navigate("/owner");
-    },
-  });
-
   const auth = useSelector((state) => state.authReducer);
 
   const [username, setUsername] = useState("");
@@ -71,87 +51,70 @@ function Login() {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            padding: 5,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            borderRadius: "2rem ",
-            border: "2px solid #f1f3f4",
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box
-            component="form"
-            // onSubmit={formik.handleSubmit}
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          padding: 5,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          borderRadius: "2rem ",
+          border: "2px solid #f1f3f4",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="username"
+            label="Username"
+            name="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+            autoFocus
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            label="Password"
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            style={{ marginBottom: "8px" }}
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            style={{ marginTop: "20px", width: "315px", background: "#1976d2", marginBottom: "15px" }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              // value={formik.values.phone}
-              // onChange={formik.handleChange}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-              autoFocus
-            />
-            {formik.errors.phone}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              // value={formik.values.password}
-              // onChange={formik.handleChange}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              autoComplete="current-password"
-            />
-            {formik.errors.password}
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs></Grid>
-              <Grid item>
-                <Link href="/forgot_password" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
+            Sign In
+          </Button>
+          <Grid container>
+            <Grid item xs></Grid>
+            <Grid item>
+              <Link href="/forgot_password" variant="body2">
+                Forgot password?
+              </Link>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   );
 }
 

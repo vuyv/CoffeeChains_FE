@@ -27,7 +27,7 @@ export const logIn = (username, password) => {
           type: "LOG_IN_FAILED",
           payload: error,
         });
-        toast.error("LOGIN FAIL");
+        toast.error("Username or password is incorrect");
       });
   };
 };

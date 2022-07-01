@@ -53,21 +53,18 @@ const Product = ({ timeRange, reportType, date }) => {
         <h4 style={{ textTransform: "uppercase", textAlign: "center" }}>
           {timeRange} {reportType} Report
         </h4>
-        {/* <Stack
+        <Stack
           direction="row"
           justifyContent="space-evenly"
           marginTop={2}
           marginBottom={2}
         >
           <Stack direction="column">
-            <h6>Branch: {currentUser.branch.name}</h6>
-            <h6>Address: {currentUser.branch.address}</h6>
+            <h6>
+              <b>Date:</b> <i>{format(date, "MM/dd/yyyy")}</i>
+            </h6>
           </Stack>
-          <Stack direction="column">
-            <h6>Date of Report: {format(new Date(), "dd/MM/yyyy")}</h6>
-            <h6 id="timeReport"></h6>
-          </Stack>
-        </Stack> */}
+        </Stack>
         <TableContainer component={Paper} className="table">
           <Table sx={{ minWidth: 650 }} aria-label="simple table" pagin>
             <TableHead>

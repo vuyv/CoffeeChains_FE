@@ -23,7 +23,7 @@ import {
 } from "../../../../redux/actions/materialAction";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { estimateProducts } from "./productAction";
+import { estimateProducts } from "../../../../redux/actions/productAction";
 
 import Select from "react-select";
 
@@ -298,7 +298,10 @@ const ExportMaterial = () => {
                 margin: "20px",
               }}
             >
-              <Button variant="contained" type="submit">
+              <Button
+                style={{ color: "white", background: "#1976d2" }}
+                type="submit"
+              >
                 Export
               </Button>
             </div>

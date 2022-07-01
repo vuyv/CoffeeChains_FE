@@ -29,6 +29,9 @@ function Report(props) {
     currency: "USD",
   });
 
+  const [timeRangeSendViaButton, setTimeRangeSendViaButton] = useState("");
+  const [timeSelectedSendViaButton, setTimeSelectedSendViaButton] = useState(new Date());
+
   const categories = useSelector((state) => state.categoryReducer.categories);
 
   //datepicker
@@ -67,6 +70,8 @@ function Report(props) {
   // }, [reportType, timeRange, category, timeSelected]);
 
   const handleApply = () => {
+     setTimeRangeSendViaButton(timeRange);
+     setTimeSelectedSendViaButton(timeSelected);
     dispatch(
       getReportByTime(
         reportType,
@@ -216,16 +221,16 @@ function Report(props) {
             >
               {filter === "Product" && (
                 <Product
-                  timeRange={timeRange}
+                  timeRange={timeRangeSendViaButton}
                   reportType={reportType}
-                  date={timeSelected}
+                  date={timeSelectedSendViaButton}
                 />
               )}
               {filter === "Revenue" && (
                 <Revenue
-                  timeRange={timeRange}
+                  timeRange={timeRangeSendViaButton}
                   reportType={reportType}
-                  date={timeSelected}
+                  date={timeSelectedSendViaButton}
                 />
               )}
             </div>
@@ -238,17 +243,22 @@ function Report(props) {
             marginRight={40}
           >
             <Button
-              variant="outlined"
-              style={{ marginLeft: 10, marginBottom: 10 }}
-              // disabled={disable}
+              style={{
+                marginLeft: 10,
+                marginBottom: 10,
+                border: "1px solid",
+              }}
               onClick={handleExport}
             >
               Export
             </Button>
 
             <Button
-              variant="outlined"
-              style={{ marginLeft: 10, marginBottom: 10 }}
+              style={{
+                marginLeft: 10,
+                marginBottom: 10,
+                border: "1px solid",
+              }}
               onClick={handlePrint}
             >
               Print

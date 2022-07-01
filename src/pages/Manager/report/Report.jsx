@@ -29,7 +29,10 @@ const Report = () => {
   const ref = useRef(null);
   // const ref = createRef();
   const navigate = useNavigate();
-
+  const [timeRangeSendViaButton, setTimeRangeSendViaButton] = useState("");
+  const [timeSelectedSendViaButton, setTimeSelectedSendViaButton] = useState(
+    new Date()
+  );
   const currentUser = JSON.parse(localStorage.getItem("current_user"));
   const categories = useSelector((state) => state.categoryReducer.categories);
 
@@ -71,6 +74,8 @@ const Report = () => {
   };
 
   const handleApply = () => {
+    setTimeRangeSendViaButton(timeRange);
+    setTimeSelectedSendViaButton(date);
     dispatch(
       getReportEachBranch(
         reportType,
@@ -205,7 +210,22 @@ const Report = () => {
                 </LocalizationProvider>
               </Grid>
               <Grid item style={{ marginTop: 2 }}>
-                <Button variant="contained" onClick={handleApply}>
+                <Button
+                  style={{
+                    color: "white",
+                    background: "#1976d2",
+                    fontFamily: "Roboto",
+                    fontWeight: "500",
+                    fontSize: "0.875rem",
+                    lineHeight: "1.75",
+                    letterSpacing: "0.02857em",
+                    textTransform: "uppercase",
+                    minWidth: "64px",
+                    padding: "6px 8px",
+                    borderRadius: "4px",
+                  }}
+                  onClick={handleApply}
+                >
                   Apply
                 </Button>
               </Grid>
@@ -218,17 +238,17 @@ const Report = () => {
             >
               {reportType === "Product" && (
                 <Product
-                  timeRange={timeRange}
+                  timeRange={timeRangeSendViaButton}
                   reportType={reportType}
-                  date={date}
+                  date={timeSelectedSendViaButton}
                 />
               )}
 
               {reportType === "Employee" && (
                 <Employee
-                  timeRange={timeRange}
+                  timeRange={timeRangeSendViaButton}
                   reportType={reportType}
-                  date={date}
+                  date={timeSelectedSendViaButton}
                 />
               )}
             </div>
@@ -241,17 +261,40 @@ const Report = () => {
               marginRight={40}
             >
               <Button
-                variant="outlined"
-                style={{ marginLeft: 10, marginBottom: 10 }}
-                // disabled={disable}
+                style={{
+                  marginLeft: 10,
+                  marginBottom: 10,
+                  border: "1px solid",
+                  fontFamily: "Roboto",
+                  fontWeight: "500",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.75",
+                  letterSpacing: "0.02857em",
+                  textTransform: "uppercase",
+                  minWidth: "64px",
+                  padding: "6px 8px",
+                  borderRadius: "4px",
+                }}
                 onClick={handleExport}
               >
                 Export
               </Button>
 
               <Button
-                variant="outlined"
-                style={{ marginLeft: 10, marginBottom: 10 }}
+                style={{
+                  marginLeft: 10,
+                  marginBottom: 10,
+                  border: "1px solid",
+                  fontFamily: "Roboto",
+                  fontWeight: "500",
+                  fontSize: "0.875rem",
+                  lineHeight: "1.75",
+                  letterSpacing: "0.02857em",
+                  textTransform: "uppercase",
+                  minWidth: "64px",
+                  padding: "6px 8px",
+                  borderRadius: "4px",
+                }}
                 onClick={handlePrint}
               >
                 Print

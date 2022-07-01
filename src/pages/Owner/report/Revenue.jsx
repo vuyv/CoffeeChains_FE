@@ -50,14 +50,6 @@ const Revenue = ({ timeRange, reportType, date }) => {
           marginTop={2}
           marginBottom={2}
         >
-          {/* <Stack direction="column">
-            <h6>
-              <b>Branch:</b> <i>{currentUser.branch.name}</i>
-            </h6>
-            <h6>
-              <b>Address:</b> <i>{currentUser.branch.address}</i>
-            </h6>
-          </Stack> */}
           <Stack direction="column">
             <h6>
               <b>Date:</b> <i>{format(date, "MM/dd/yyyy")}</i>

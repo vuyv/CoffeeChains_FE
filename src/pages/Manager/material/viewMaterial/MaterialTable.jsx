@@ -37,7 +37,7 @@ const MaterialTable = () => {
   };
 
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(9);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -59,13 +59,37 @@ const MaterialTable = () => {
               Inventory Management
               <Stack direction="row" spacing={2}>
                 <Button
-                  variant="outlined"
+                  style={{
+                    color: "white",
+                    background: "#1976d2",
+                    fontFamily: "Roboto",
+                    fontWeight: "500",
+                    fontSize: "0.875rem",
+                    lineHeight: "1.75",
+                    letterSpacing: "0.02857em",
+                    textTransform: "uppercase",
+                    minWidth: "64px",
+                    padding: "6px 8px",
+                    borderRadius: "4px",
+                  }}
                   onClick={() => navigate("/manager/materials/import")}
                 >
-                  Add Material
+                  Import Material
                 </Button>
                 <Button
-                  variant="outlined"
+                  style={{
+                    color: "white",
+                    background: "#1976d2",
+                    fontFamily: "Roboto",
+                    fontWeight: "500",
+                    fontSize: "0.875rem",
+                    lineHeight: "1.75",
+                    letterSpacing: "0.02857em",
+                    textTransform: "uppercase",
+                    minWidth: "64px",
+                    padding: "6px 8px",
+                    borderRadius: "4px",
+                  }}
                   onClick={() => navigate("/manager/materials/export")}
                 >
                   Export Material
@@ -118,7 +142,12 @@ const MaterialTable = () => {
 
                             <TableCell id="myTd">{row.unit.unit}</TableCell>
 
-                            <TableCell align="right" style={{paddingRight: "50px"}}>{row.quantity}</TableCell>
+                            <TableCell
+                              align="right"
+                              style={{ paddingRight: "50px" }}
+                            >
+                              {row.quantity}
+                            </TableCell>
 
                             <TableCell>{formatDate(row.createdAt)}</TableCell>
                           </TableRow>
@@ -127,10 +156,10 @@ const MaterialTable = () => {
                   </Table>
                 </TableContainer>
                 <TablePagination
-                  rowsPerPageOptions={[5]}
+                  rowsPerPageOptions={[9]}
                   component="div"
                   count={materialList.length}
-                  rowsPerPage={5}
+                  rowsPerPage={9}
                   page={page}
                   onPageChange={handleChangePage}
                   onRowsPerPageChange={handleChangeRowsPerPage}

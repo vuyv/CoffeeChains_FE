@@ -16,7 +16,7 @@ import { logOut } from "../../redux/actions/authAction";
 import CategoryIcon from "@mui/icons-material/Category";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import InventoryIcon from "@mui/icons-material/Inventory";
-
+import KitchenIcon from "@mui/icons-material/Kitchen";
 const Sidebar = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -82,7 +82,7 @@ const Sidebar = () => {
           </Link>
           <Link to="/owner/materials" style={{ textDecoration: "none" }}>
             <li>
-              <InventoryIcon className="icon" />
+              <KitchenIcon className="icon" />
               <span>Material</span>
             </li>
           </Link>

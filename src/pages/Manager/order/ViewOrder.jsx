@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
@@ -29,18 +29,25 @@ import Paper from "@mui/material/Paper";
 
 function ViewOrder() {
   const currentDay = format(new Date(), "yyyy-MM-dd");
+  const typingTimeOutRef = useRef(null);
+  const [content, setContent] = useState([]);
 
   const dispatch = useDispatch();
 
+  const ordersInADay = useSelector(
+    (state) => state.orderReducer.ordersInADayInBranch
+  );
   useEffect(() => {
     dispatch(loadOrdersInADayInBranch(currentDay));
     dispatch(loadOrdersInAWeekInBranch(currentDay));
     dispatch(loadOrdersInAMonthInBranch(currentDay));
   }, []);
 
-  const ordersInADay = useSelector(
-    (state) => state.orderReducer.ordersInADayInBranch
-  );
+  useEffect(() => {
+    setListOrders(ordersInADay);
+  }, [ordersInADay]);
+
+  
   const ordersInAWeek = useSelector(
     (state) => state.orderReducer.ordersInAWeekInBranch
   );
@@ -50,9 +57,30 @@ function ViewOrder() {
 
   const order = useSelector((state) => state.orderReducer.order);
 
+  const mapToArray = (arr) => {
+    let result = [];
+    arr.forEach((item) => {
+      result.push(item);
+    });
+    return result;
+  };
+
+  const [listOrders, setListOrders] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
   const handleChangeTab = (e, newValue) => {
     setSelectedTab(newValue);
+    if (newValue === 0) {
+      setListOrders(mapToArray(ordersInADay));
+      setContent(mapToArray(ordersInADay));
+    }
+    if (newValue === 1) {
+      setListOrders(mapToArray(ordersInAWeek));
+      setContent(mapToArray(ordersInAWeek));
+    }
+    if (newValue === 2) {
+      setListOrders(mapToArray(ordersInAMonth));
+      setContent(mapToArray(ordersInAMonth));
+    }
   };
 
   const actionColumn = [
@@ -79,10 +107,22 @@ function ViewOrder() {
     },
   ];
 
-  const handleSearchOrder = (searchValue) => {
-    return ordersInAMonth.filter((order) => order.id.includes(searchValue));
-  };
+  // const handleSearchOrder = (searchValue) => {
+  //   setListOrders(ordersInAMonth.filter((order) => order.id.includes(searchValue)));
+  // };
 
+  const handleSearchOrder = (searchValue) => {
+    if (typingTimeOutRef.current) {
+      clearTimeout(typingTimeOutRef.current);
+    }
+    typingTimeOutRef.current = setTimeout(() => {
+      setListOrders(
+        content.filter((order) =>
+          order.id.toLowerCase().includes(searchValue.toLowerCase())
+        )
+      );
+    }, 300);
+  };
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -116,8 +156,15 @@ function ViewOrder() {
               <Tab label="week"></Tab>
               <Tab label="month"></Tab>
             </Tabs>
-
-            {selectedTab === 0 && (
+            <DataGrid
+              className="datagrid"
+              rows={listOrders}
+              columns={orderColumns.concat(actionColumn)}
+              pageSize={9}
+              rowsPerPageOptions={[9]}
+              getRowId={(row) => row.id}
+            />
+            {/* {selectedTab === 0 && (
               <DataGrid
                 className="datagrid"
                 rows={ordersInADay}
@@ -146,7 +193,7 @@ function ViewOrder() {
                 rowsPerPageOptions={[9]}
                 getRowId={(row) => row.id}
               />
-            )}
+            )} */}
           </div>
         </div>
       </div>
@@ -193,6 +240,24 @@ function ViewOrder() {
                         </TableCell>
                       </TableRow>
                     ))}
+                    <TableRow>
+                      <TableCell rowSpan={3} />
+                      <TableCell colSpan={2}>
+                        <b>Discount</b>
+                      </TableCell>
+                      <TableCell align="right">
+                        {formatter.format(order.discount)}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell>
+                        <b>Total</b>
+                      </TableCell>
+                      <TableCell align="right"></TableCell>
+                      <TableCell align="right">
+                        {formatter.format(order.totalPrice)}
+                      </TableCell>
+                    </TableRow>
                   </TableBody>
                 </Table>
               </TableContainer>

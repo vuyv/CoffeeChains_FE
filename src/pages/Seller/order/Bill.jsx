@@ -29,8 +29,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { textTransform } from "@mui/system";
 import { useReactToPrint } from "react-to-print";
+import { useNavigate } from "react-router-dom";
 
 const Bill = () => {
+  const navigate = useNavigate();
+
   const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
 
@@ -58,10 +61,10 @@ const Bill = () => {
     return percent;
   };
 
-    let formatter = new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
+  let formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
 
   return (
     <div className="single">
@@ -77,7 +80,7 @@ const Bill = () => {
               sx={{
                 width: 500,
                 margin: "auto",
-                marginTop: 10,
+                marginTop: 5,
                 fontSize: "1rem",
               }}
             >
@@ -208,17 +211,38 @@ const Bill = () => {
               sx={{
                 width: 500,
                 margin: "auto",
+
                 // marginTop: 10,
                 fontSize: "1rem",
               }}
             >
-              <Button
-                variant="outlined"
-                onClick={handlePrint}
-                style={{ margin: 20, marginLeft: 350, width: 100 }}
-              >
-                Print
-              </Button>
+              <TableRow>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    onClick={handlePrint}
+                    style={{
+                      marginLeft: 230,
+                      width: 100,
+                      color: "white",
+                      background: "rgb(63, 81, 181)",
+                    }}
+                  >
+                    Print
+                  </Button>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    variant="outlined"
+                    onClick={() => navigate("/seller")}
+                    style={{
+                      width: 100,
+                    }}
+                  >
+                    Back
+                  </Button>
+                </TableCell>
+              </TableRow>
             </TableContainer>
           </div>
         )}

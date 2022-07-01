@@ -112,7 +112,19 @@ const EmployeeTable = () => {
               Add New
             </Link> */}
             <Button
-              variant="outlined"
+              style={{
+                color: "white",
+                background: "#1976d2",
+                fontFamily: "Roboto",
+                fontWeight: "500",
+                fontSize: "0.875rem",
+                lineHeight: "1.75",
+                letterSpacing: "0.02857em",
+                textTransform: "uppercase",
+                minWidth: "64px",
+                padding: "6px 8px",
+                borderRadius: "4px",
+              }}
               onClick={() => navigate("/manager/employees/new")}
             >
               New Employee

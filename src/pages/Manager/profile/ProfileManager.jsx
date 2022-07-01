@@ -120,7 +120,7 @@ const ProfileManager = () => {
   };
 
   const handleCancelForm = () => {
-    navigate("/manager");
+    window.location.reload();
   };
 
   const handleChangePassword = () => {
