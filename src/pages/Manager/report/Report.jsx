@@ -198,7 +198,7 @@ const Report = () => {
               <Grid item xs={2}>
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    label="Basic example"
+                    label="Date"
                     value={date}
                     onChange={(newDate) => {
                       setDate(newDate);

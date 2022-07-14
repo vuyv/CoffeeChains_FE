@@ -13,7 +13,7 @@ const HomePage = () => {
             <h2 class="welcome">Welcome to</h2>
             <h1 class="home__name">
               {/* <span class="logo-first">Drip</span> */}
-              <span class="logo-last">Cafe</span>
+              <span class="logo-last">Coffee Chains Management System</span>
             </h1>
             <h3 class="home__name">Where coffee and comfort come together</h3>
 

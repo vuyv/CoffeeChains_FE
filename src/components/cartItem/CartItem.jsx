@@ -6,6 +6,8 @@ import {
   removeFromCart,
   addToCart,
   decreaseQuantity,
+  inputQuantity,
+  increaseQuantity
 } from "../../redux/actions/cartAction";
 
 function CartItem(props) {
@@ -31,7 +33,15 @@ function CartItem(props) {
           >
             -
           </a>
-          <span class="quantity">{item.quantity}</span>
+          {/* <span class="quantity">{item.quantity}</span> */}
+          <input
+            style={{ width: "35px", textAlign: "center" }}
+            class="quantity"
+            value={item.quantity}
+            onChange={(e) =>
+              dispatch(inputQuantity(item.product, e.target.value))
+            }
+          />
           <a
             href="#"
             class="increment"

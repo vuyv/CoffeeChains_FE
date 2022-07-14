@@ -113,8 +113,8 @@ function DiscountHome(props) {
             <Button
               variant="outlined"
               onClick={() => {
-                setOpenDialog(true);
-                // navigate("/owner/discounts/new")
+                // setOpenDialog(true);
+                navigate("/owner/discounts/new");
               }}
             >
               {/* <AddCircleOutlineIcon /> */}

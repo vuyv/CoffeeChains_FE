@@ -17,7 +17,6 @@ import { authentication } from "../../firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { loadEmployeeByPhone } from "../../redux/actions/employeeAction";
 
-
 const theme = createTheme();
 
 const PhoneNumber = () => {
@@ -76,7 +75,7 @@ const PhoneNumber = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Forgot Your Password
+            Forgot Password
           </Typography>
           <Box component="form" onSubmit={getOtp} noValidate sx={{ mt: 3 }}>
             <TextField
@@ -102,7 +101,7 @@ const PhoneNumber = () => {
             <div id="recaptcha-container"></div>
             <Grid container>
               <Grid item>
-                <Link href="#" onClick={() => navigate(-1)}>
+                <Link href="#" onClick={() => navigate("/login")}>
                   Back
                 </Link>
               </Grid>

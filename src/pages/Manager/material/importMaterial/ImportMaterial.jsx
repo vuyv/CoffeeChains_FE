@@ -129,7 +129,7 @@ const ImportMaterial = () => {
     control: (styles) => ({
       ...styles,
       backgroundColor: "white",
-      height: "45px",
+      height: "auto",
     }),
   };
 
@@ -190,6 +190,7 @@ const ImportMaterial = () => {
                 sx={{ minWidth: 650 }}
                 aria-label="simple table"
                 id="detailTable"
+                
               >
                 <TableHead>
                   <TableRow>
@@ -221,14 +222,14 @@ const ImportMaterial = () => {
                     <TableCell style={{ paddingLeft: "105px" }}>
                       {element.name}
                     </TableCell>
-                    <TableCell style={{ paddingLeft: "85px" }}>
+                    <TableCell style={{ paddingLeft: "95px" }}>
                       <TextField
                         name="quantity"
                         defaultValue={element.quantity}
                         id="outlined-basic"
                         variant="outlined"
                         size="small"
-                        style={{ width: "100px" }}
+                        style={{ width: "80px", textAlign: "right" }}
                         type="number"
                         onChange={(event) =>
                           handleChangeInput(element.id, event)
@@ -236,7 +237,7 @@ const ImportMaterial = () => {
                       />
                     </TableCell>
                     <TableCell>
-                      <div style={{ width: "170px", paddingLeft: "50px" }}>
+                      <div style={{ width: "170px", paddingLeft: "55px", marginLeft: "10px" }}>
                         <Select
                           menuPortalTarget={document.querySelector("body")}
                           name="unit"
@@ -252,7 +253,7 @@ const ImportMaterial = () => {
                     </TableCell>
                     <TableCell>
                       <CloseIcon
-                        style={{ marginLeft: "50px" }}
+                        style={{ marginLeft: "45px" }}
                         onClick={() => {
                           handleRemove(element);
                         }}

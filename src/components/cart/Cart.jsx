@@ -94,14 +94,14 @@ function Cart(props) {
             disableElevation
             variant="contained"
             onClick={() => {
-              // for (let i = 1; i < 10; i++) {
+              // for (let i = 1; i < 100; i++) {
               //   const cart = {
               //     discountCode: "",
               //     // discountCode[
               //     //   Math.floor(Math.random() * discountCode.length)
               //     // ],
-              //     date: "2022-05-21",
-              //     employeeId: getRandom(24, 103),
+              //     date: "2022-07-14",
+              //     employeeId: 86,
               //     cartItems: [
               //       {
               //         quantity: getRandom(1, 4),

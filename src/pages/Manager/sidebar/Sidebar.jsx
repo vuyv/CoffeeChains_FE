@@ -81,7 +81,7 @@ const Sidebar = () => {
             <Link to="/manager/discounts" style={{ textDecoration: "none" }}>
               <li>
                 <DiscountIcon className="icon" />
-                <span>Discount</span>
+                <span>Promotion</span>
               </li>
             </Link>
             <Link

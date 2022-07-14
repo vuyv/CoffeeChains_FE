@@ -25,7 +25,7 @@ const calculateDiscountSave = (total, percent) => {
 };
 
 const calculateAppliedDiscountTotal = (total, discountSave) => {
-  let temp = (total - discountSave);
+  let temp = total - discountSave;
   return round(temp);
   // return (total - discountSave).toFixed(2);
 };
@@ -55,7 +55,9 @@ const cartReducer = (state = initialState, action) => {
 
         const updatedState = { ...state };
         if (itemIndex >= 0) {
+          console.log(updatedState.cartItems[itemIndex].quantity);
           updatedState.cartItems[itemIndex].quantity += 1;
+          console.log(updatedState.cartItems[itemIndex].quantity);
 
           updatedState.total = calculateTotal(updatedState.cartItems);
           updatedState.totalQuantity = calculateQuantity(
@@ -201,6 +203,30 @@ const cartReducer = (state = initialState, action) => {
         updatedState.discountSave
       );
 
+      return updatedState;
+    }
+    case "INPUT_QUANTITY": {
+      const reducerItemIndex = state.cartItems.findIndex(
+        (item) => item.product.id === action.payload.item.id
+      );
+
+      const updatedState = { ...state };
+      updatedState.cartItems[reducerItemIndex].quantity = action.payload.quantity;
+
+      updatedState.total = calculateTotal(updatedState.cartItems);
+      updatedState.totalQuantity = calculateQuantity(updatedState.cartItems);
+      updatedState.appliedDiscountTotal = updatedState.total;
+
+      if (updatedState.hasDiscount) {
+        updatedState.discountSave = calculateDiscountSave(
+          updatedState.total,
+          updatedState.discountPercent
+        );
+        updatedState.appliedDiscountTotal = calculateAppliedDiscountTotal(
+          updatedState.total,
+          updatedState.discountSave
+        );
+      }
       return updatedState;
     }
 

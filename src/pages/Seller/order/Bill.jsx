@@ -30,7 +30,7 @@ import Paper from "@mui/material/Paper";
 import { textTransform } from "@mui/system";
 import { useReactToPrint } from "react-to-print";
 import { useNavigate } from "react-router-dom";
-
+import { clearCart } from "../../../redux/actions/cartAction";
 const Bill = () => {
   const navigate = useNavigate();
 
@@ -154,6 +154,9 @@ const Bill = () => {
                     <TableCell align="center" colSpan={2}>
                       Price
                     </TableCell>
+                    <TableCell align="center" colSpan={2}>
+                      Subtotal
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -173,9 +176,14 @@ const Bill = () => {
                       <TableCell
                         align="right"
                         colSpan={2}
-                        sx={{ paddingRight: 10 }}
+                        // sx={{ paddingRight: 10 }}
                       >
-                        ${orderDetail.product.price}
+                        {formatter.format(orderDetail.product.price)}
+                      </TableCell>
+                      <TableCell align="right" sx={{ paddingRight: 8 }}>
+                        {formatter.format(
+                          orderDetail.product.price * orderDetail.quantity
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -183,13 +191,30 @@ const Bill = () => {
                     <TableCell align="center" colSpan={4}>
                       <b>Discount</b>
                     </TableCell>
-                    <TableCell
+                    {order.discount !== null ? (
+                      <TableCell
+                        align="right"
+                        colSpan={4}
+                        sx={{ paddingRight: 8 }}
+                      >
+                        {order.discount.percent}%
+                      </TableCell>
+                    ) : (
+                      <TableCell
+                        align="right"
+                        colSpan={4}
+                        sx={{ paddingRight: 8 }}
+                      >
+                        None
+                      </TableCell>
+                    )}
+                    {/* <TableCell
                       align="right"
                       colSpan={4}
-                      sx={{ paddingRight: 10 }}
+                      sx={{ paddingRight: 8 }}
                     >
-                      {formatDiscount(order.discount)}
-                    </TableCell>
+                      {order.discount.percent}%
+                    </TableCell> */}
                   </TableRow>
                   <TableRow>
                     <TableCell align="center" colSpan={4}>
@@ -198,7 +223,7 @@ const Bill = () => {
                     <TableCell
                       align="right"
                       colSpan={4}
-                      sx={{ paddingRight: 10 }}
+                      sx={{ paddingRight: 8 }}
                     >
                       {formatter.format(order.totalPrice)}
                     </TableCell>
@@ -220,7 +245,9 @@ const Bill = () => {
                 <TableCell>
                   <Button
                     variant="outlined"
-                    onClick={handlePrint}
+                    onClick={() => {
+                      handlePrint();
+                    }}
                     style={{
                       marginLeft: 230,
                       width: 100,
@@ -234,7 +261,10 @@ const Bill = () => {
                 <TableCell>
                   <Button
                     variant="outlined"
-                    onClick={() => navigate("/seller")}
+                    onClick={() => {
+                      dispatch(clearCart());
+                      navigate("/seller");
+                    }}
                     style={{
                       width: 100,
                     }}

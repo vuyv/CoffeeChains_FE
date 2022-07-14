@@ -4,7 +4,6 @@ import { logIn } from "../../redux/actions/authAction";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
-
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -96,18 +95,33 @@ function Login() {
             autoComplete="current-password"
             style={{ marginBottom: "8px" }}
           />
-          <Button
+          <button
             type="submit"
             fullWidth
             variant="contained"
-            style={{ marginTop: "20px", width: "315px", background: "#1976d2", marginBottom: "15px" }}
+            style={{
+              marginTop: "20px",
+              width: "315px",
+              background: "#1976d2",
+              marginBottom: "15px",
+              color: "white",
+              padding: "6px 16px",
+              border: "none",
+              borderRadius: "4px",
+              fontFamily: "Roboto",
+              fontWeight: "430",
+            }}
           >
-            Sign In
-          </Button>
+            SIGN IN
+          </button>
           <Grid container>
             <Grid item xs></Grid>
             <Grid item>
-              <Link href="/forgot_password" variant="body2">
+              <Link
+                href="#"
+                onClick={() => navigate("/forgot_password")}
+                variant="body2"
+              >
                 Forgot password?
               </Link>
             </Grid>

@@ -35,7 +35,7 @@ const CardMaterial = (props) => {
     >
       <div className="left">
         <span className="title">
-          <i>MATERIAL</i>
+          {/* <i>MATERIAL</i> */}
         </span>
         <span className="counter">{item.name}</span>
       </div>

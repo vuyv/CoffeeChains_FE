@@ -134,7 +134,7 @@ const Home = () => {
                 horizontal={quantities}
                 type="bestSeller"
               />
-              Best Selling Products Last 3 Months
+              Best Selling Products Last Months
             </div>
           </div>
         </div>
@@ -177,7 +177,7 @@ const Home = () => {
                 </TableBody>
               </Table>
             </TableContainer>
-            Monthly Orders Status
+            Monthly Total Orders By Status
           </div>
           <div style={{ textAlign: "center", margin: "auto" }}>
             <ColumnChart dates={dates} totals={totals} />

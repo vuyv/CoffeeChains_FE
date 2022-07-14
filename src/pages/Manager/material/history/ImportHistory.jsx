@@ -79,7 +79,7 @@ function ImportHistory() {
   );
   useEffect(() => {
     setListImportHistory(mapToArray(dailyImport));
-  }, []);
+  }, [dailyImport]);
 
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);

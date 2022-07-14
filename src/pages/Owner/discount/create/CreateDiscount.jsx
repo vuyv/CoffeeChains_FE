@@ -57,7 +57,7 @@ const CreateDiscount = () => {
         <div className="top">
           <h1>Create Discount</h1>
         </div>
-        <div className="bottom" style={{ width: "70%", margin: "auto" }}>
+        <div className="bottom" style={{ width: "45%", margin: "auto" }}>
           <div className="right">
             <Form ref={form}>
               <div className="formInput">
@@ -121,16 +121,16 @@ const CreateDiscount = () => {
               </div>
               <CheckButton style={{ display: "none" }} ref={checkBtn} />
             </Form>
-            {/* <div style={{ margin: "30px", alignItems: "center" }}> */}
+            <div style={{ margin: "30px", textAlign: "center" }}> 
             <Button
               variant="contained"
               size="medium"
-              sx={{ margin: "30px", marginLeft: "400px" }}
+              sx={{ margin: "14px", }}
               onClick={handleCreate}
             >
               Create
             </Button>
-            {/* </div> */}
+             </div> 
 
             {/* <button
               onClick={handleCreate}

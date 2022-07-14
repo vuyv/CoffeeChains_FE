@@ -138,7 +138,7 @@ export const deleteDiscount = (code) => {
           type: "DELETE_DISCOUNT",
           payload: res.data,
         });
-        dispatch(loadAllDiscounts());
+        dispatch(loadUpcomingDiscounts());
       })
       .catch((error) => toast.error(error));
   };

@@ -37,14 +37,14 @@ const ProductCard = (props) => {
         <CardMedia
           className={classes.media}
           image={item.image}
-          // title={item.available}
+          title={item.name}
           onMouseEnter={() => setIsShown(true)}
           onMouseLeave={() => setIsShown(false)}
           onClick={() => {
             handleAddToCart2(item);
           }}
         >
-          {isShown && (
+          {/* {isShown && (
             <div
               style={{
                 color: "#fff",
@@ -67,11 +67,16 @@ const ProductCard = (props) => {
                 AVAILABLE: {item.available}
               </b>
             </div>
-          )}
+          )} */}
         </CardMedia>
         <CardContent className={classes.productName}>
           <Typography gutterBottom variant="h6" component="h2">
             {item.name}
+          </Typography>
+          <Typography
+            style={{ fontSize: "15px", marginTop: "-7px", marginLeft: "148px" }}
+          >
+            Available: <b style={{ color: "#3f51b5" }}>{item.available}</b>
           </Typography>
         </CardContent>
       </CardActionArea>

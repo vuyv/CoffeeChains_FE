@@ -105,7 +105,7 @@ function ExportHistory() {
 
   useEffect(() => {
     setListExportHistory(mapToArray(dailyQuantityByDate));
-  }, []);
+  }, [dailyQuantityByDate]);
 
   return (
     <>

@@ -42,6 +42,15 @@ export const decreaseQuantity = (item) => {
   };
 };
 
+export const inputQuantity = (item, quantity) => {
+  return function (dispatch) {
+    dispatch({
+      type: "INPUT_QUANTITY",
+      payload: { item: item, quantity: parseInt(quantity) },
+    });
+  };
+};
+
 export const applyDiscount = (discount) => {
   return function (dispatch) {
     dispatch({
